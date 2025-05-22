@@ -619,10 +619,9 @@ function SearchPlayer() {
         </div>
       )}
 
-      <footer style={{position : "fixed" , bottom : "0" , left : "0" , right : "0" , height : "30px", backgroundColor : "#6266f1" , color : "white" , padding : "10px 0" , textAlign : "center"}}>     
+      <footer style={{position : "fixed" , bottom : "0" , left : "0" , right : "0" , height : "35px", backgroundColor : "#6266f1" , color : "white" , padding : "10px 0" , textAlign : "center"}}>     
         <a style={{color :"black"}}  href="/terms">이용약관</a> | <a style={{color :"black"}} href="/privacy">개인정보처리방침</a>
       </footer>
-
     </div>
   );
 
