@@ -53,7 +53,7 @@ router.get('/:puuid', async (req, res) => {
     });
   } catch (error) {
     console.error('분석 API 오류:', error.message);
-    res.status(500).json({ error: '분석 실패' });
+    res.status(500).json({ error: '분석 실패..' });
   }
 });
 
