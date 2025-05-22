@@ -9,7 +9,7 @@ const tierScoreTable = {
 };
 
 
-const BASE_URL = "https://api.example.com"; // Replace with your actual API URL
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const roleOrder = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'];
 
@@ -618,6 +618,11 @@ function SearchPlayer() {
           <p style={{ color: "#6366f1", fontWeight: 700, fontSize: "1.2rem", marginTop: "12px" }}>분석 중입니다... 잠시만 기다려주세요!</p>
         </div>
       )}
+
+      <footer style={{position : "fixed" , bottom : "0" , left : "0" , right : "0" , height : "30px", backgroundColor : "#6266f1" , color : "white" , padding : "10px 0" , textAlign : "center"}}>     
+        <a style={{color :"black"}}  href="/terms">이용약관</a> | <a style={{color :"black"}} href="/privacy">개인정보처리방침</a>
+      </footer>
+
     </div>
   );
 
