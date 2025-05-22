@@ -85,6 +85,7 @@ function SearchPlayer() {
       setTeamResult(data);
     } catch (error) {
       console.error('팀 구성 실패:', error);
+      alert('서버 에러 - 조금 이따 다시 시도해 주세요!');
     }
   };
 
@@ -602,14 +603,18 @@ function SearchPlayer() {
         <div style={{
           position: "fixed",
           top: 0, left: 0, right: 0, bottom: 0,
-          background: "rgba(99,102,241,0.12)",
+          background: "rgba(99, 101, 241, 0.18)",
           zIndex: 1000,
           display: "flex",
           flexDirection: "column",
           alignItems: "center",
           justifyContent: "center"
         }}>
-          <img src="https://media.tenor.com/0r1a2g3b4eMAAAAC/loading.gif" alt="Loading..." style={{ width: "80px" }} />
+         <img
+        src="https://i.gifer.com/ZZ5H.gif"
+        alt="Loading..."
+        style={{ width: "80px" }}
+        />
           <p style={{ color: "#6366f1", fontWeight: 700, fontSize: "1.2rem", marginTop: "12px" }}>분석 중입니다... 잠시만 기다려주세요!</p>
         </div>
       )}
