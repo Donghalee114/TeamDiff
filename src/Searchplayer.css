@@ -1,0 +1,19 @@
+
+.CanClick{
+  cursor: pointer;
+  width: 100px;
+  height: 35px;
+  border: 2px solid black;
+  border-radius: 10px;
+  background: #ffffff;
+}
+
+.DisabledClick{
+  cursor: not-allowed;
+  background-color: #6d6c6c56;
+  width: 100px;
+  height: 35px;
+  border : 2px solid #6d6c6c0c;
+  border-radius: 10px;
+  color: white;
+}

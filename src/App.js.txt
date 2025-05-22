@@ -1,0 +1,23 @@
+    <div className="App">
+      <div>전적 검색</div>
+      <input type="text" value={inputValue} onKeyDown={handleKeyPress} onChange={(e) => setInputValue(e.target.value)} />
+      <button onClick={handleUUIDSearch}>검색</button>
+      <div>
+      {loading ? (
+        <p>로딩 중...</p>
+      ) : matchData && typeof matchData === 'object' ? (
+        <div>
+          {matchData.map((match, index) => (
+            <div style={{display : "flex", border : "1px solid black", padding : "5px", margin : "15px"}} key={index}>
+
+              <p>게임 모드: {match.info.gameMode}</p>
+              <p>게임 결과: {match.info.teams[0].win ? '승리' : '패배'}</p>
+ 
+            </div>
+          ))}
+        </div>
+      ) : (
+        <p>결과 없음</p>
+      )}
+</div>
+    </div>
