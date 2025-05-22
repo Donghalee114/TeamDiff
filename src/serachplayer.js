@@ -9,7 +9,7 @@ const tierScoreTable = {
 };
 
 
-const BASE_URL = "https://api.example.com"; // Replace with your actual API URL
+const BASE_URL = process.env.REACT_APP_BASE_URL;
 
 const roleOrder = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'];
 
