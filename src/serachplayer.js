@@ -89,78 +89,83 @@ function SearchPlayer() {
     }
   };
 
-  const handleFetchAllSummoners = async () => {
-    if (summoners.some(summoner => !summoner.name)) {
-      setWarning('❗ 소환사 이름을 모두 입력해주세요.');
-      return;
+const handleFetchAllSummoners = async () => {
+  if (summoners.some(summoner => !summoner.name)) {
+    setWarning('❗ 소환사 이름을 모두 입력해주세요.');
+    return;
+  }
+
+  setWarning('');
+  const newResult = [];
+  const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
+
+  for (let i = 0; i < summoners.length; i++) {
+    const summoner = summoners[i];
+    const name = encodeURIComponent(summoner.name);
+    const tag = summoner.tag || 'KR1';
+
+    setLoadingIndex(i);
+    setIsLoading(true);
+
+    try {
+      // 1. puuid 가져오기
+      const res1 = await fetch(`${BASE_URL}/summoner/${name}?tag=${tag}`);
+      const data1 = await res1.json();
+      const puuid = data1.puuid;
+      await sleep(2000);
+
+      // 2. 티어 점수 계산
+      const res2 = await fetch(`${BASE_URL}/summoner/league/${puuid}`);
+      const data2 = await res2.json();
+      const soloRank = data2.find(entry => entry.queueType === 'RANKED_SOLO_5x5');
+      const tier = soloRank ? soloRank.tier.toUpperCase() : 'UNRANKED';
+      const tierScore = tierScoreTable[tier] || 0;
+      await sleep(2000);
+
+      // ✅ 3. 통합 분석 API 한 번 호출
+      const res3 = await fetch(`${BASE_URL}/merged-analyze/${puuid}`);
+      const data3 = await res3.json();
+      await sleep(2000);
+
+      const winScore = data3.scoreFromWinRate || 0;
+      const winRate = data3.winRate || 0;
+      const totalScore = tierScore + winScore;
+
+      newResult.push({
+        name: summoner.name,
+        tag,
+        puuid,
+        tier,
+        tierScore,
+        winScore,
+        winRate,
+        totalScore,
+        mainRole: data3.mainRole,
+        backupRoles: data3.backupRoles
+      });
+    } catch (error) {
+      console.error('Error fetching summoner data:', error);
+      newResult.push({
+        name: summoner.name,
+        tag,
+        puuid: "Error",
+        tier: "Error",
+        winScore: 0,
+        winRate: 0,
+        totalScore: 0,
+        mainRole: "Error",
+        backupRoles: ["Error"]
+      });
+      await sleep(1000);
+    } finally {
+      setIsLoading(false);
+      setCanClick(true);
     }
-    setWarning('');
-    const newResult = [];
-    const sleep = ms => new Promise(resolve => setTimeout(resolve, ms));
-    for (let i = 0; i < summoners.length; i++) {
-      const summoner = summoners[i];
-      const name = encodeURIComponent(summoner.name);
-      const tag = summoner.tag || 'KR1';
-      setLoadingIndex(i);
-      setIsLoading(true);
-      try {
-        const res1 = await fetch(`${BASE_URL}/summoner/${name}?tag=${tag}`);
-        const data1 = await res1.json();
-        const puuid = data1.puuid;
-        await sleep(1800);
+  }
 
-        const res2 = await fetch(`${BASE_URL}/summoner/league/${puuid}`);
-        const data2 = await res2.json();
-        const soloRank = data2.find(entry => entry.queueType === 'RANKED_SOLO_5x5');
-        const tier = soloRank ? soloRank.tier.toUpperCase() : 'UNRANKED';
-        const tierScore = tierScoreTable[tier] || 0;
-        await sleep(1800);
+  setResult(newResult);
+};
 
-        const res3 = await fetch(`${BASE_URL}/analyze/${puuid}`);
-        const data3 = await res3.json();
-        const winScore = data3.scoreFromWinRate || 0;
-        const winRate = data3.winRate || 0;
-        await sleep(1800);
-
-        const totalScore = tierScore + winScore;
-
-        const res4 = await fetch(`${BASE_URL}/roles/${puuid}`);
-        const data4 = await res4.json();
-        await sleep(1800);
-
-        newResult.push({
-          name: summoner.name,
-          tag,
-          puuid,
-          tier,
-          tierScore,
-          winScore,
-          winRate,
-          totalScore,
-          mainRole: data4.mainRole,
-          backupRoles: data4.backupRoles
-        });
-      } catch (error) {
-        console.error('Error fetching summoner data:', error);
-        newResult.push({
-          name: summoner.name,
-          tag,
-          puuid: "Error",
-          tier: "Error",
-                  winScore: 0,
-          winRate: 0,
-          totalScore: 0,
-          mainRole: "Error",
-          backupRoles: ["Error"]
-        });
-        await sleep(1000);
-      } finally {
-        setIsLoading(false);
-        setCanClick(true);
-      }
-    }
-    setResult(newResult);
-  };
 
   const handleBulkPaste = e => {
     const lines = e.target.value.trim().split('\n');
