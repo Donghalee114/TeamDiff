@@ -4,11 +4,11 @@ export default function Privacy() {
   return (
     <>
       
-        <title>개인정보처리방침 | TeamDiff</title>
+        <title>개인정보처리방침 | LoLDraft </title>
       
       <main style={{ padding: '2rem' }}>
         <h1>개인정보처리방침</h1>
-        <p>TeamDiff는 사용자 개인정보를 중요하게 여기며 최소한의 정보만을 수집합니다.</p>
+        <p>LoLDraft 는 사용자 개인정보를 중요하게 여기며 최소한의 정보만을 수집합니다.</p>
 
         <h2>1. 수집하는 정보</h2>
         <p>소환사 이름과 태그 등 공개 게임 데이터만을 수집합니다. 개인을 식별할 수 있는 정보는 저장하지 않습니다.</p>

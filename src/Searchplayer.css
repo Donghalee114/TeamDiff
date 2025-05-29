@@ -1,19 +1,100 @@
-
-.CanClick{
-  cursor: pointer;
-  width: 100px;
-  height: 35px;
-  border: 2px solid black;
-  border-radius: 10px;
-  background: #ffffff;
+.main-layout {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+  width: 100%;
 }
 
-.DisabledClick{
-  cursor: not-allowed;
-  background-color: #6d6c6c56;
-  width: 100px;
-  height: 35px;
-  border : 2px solid #6d6c6c0c;
-  border-radius: 10px;
+.tab-active {
+  background-color: #6366f1;
   color: white;
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.tab-active:hover {
+  background-color: #4f46e5;
+}
+
+.tab-inactive {
+  background-color: #e0e7ff;
+  color: #6366f1;
+  font-weight: normal;
+  border-radius: 6px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.tab-inactive:hover {
+  background-color: #dbeafe;
+}
+
+.tabs {
+  display: flex;
+  justify-content: end;
+  gap: 10px;
+  position: relative;
+}
+
+.buttonDefault {
+  background-color: #e0e7ff;
+  color: #6366f1;
+  font-weight: 800;
+  border-radius: 6px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.buttonDefault:hover {
+  background-color: #6366f1;
+  color: white;
+}
+
+.buttonWarning {
+  background-color: #ff150067;
+  color: white;
+  font-weight: 800;
+  border-radius: 6px;
+  padding: 8px 12px;
+  border: none;
+  cursor: pointer;
+}
+
+.buttonWarning:hover {
+  background-color: #ff0000;
+}
+
+.panel-div {
+  width: 100%;
+  padding: 40px 20px 60px;
+  display: flex;
+  justify-content: center;
+  gap: 100px;
+  align-items: flex-start;
+  min-height: calc(100vh - 120px);
+  flex-wrap: wrap;
+  margin-top: 100px;
+}
+
+@media (max-width: 1024px) {
+  .panel-div {
+    flex-direction: column;
+    gap: 40px;
+    align-items: center;
+  }
+
+  .tabs {
+    justify-content: center;
+  }
+}
+
+html, body {
+  margin: 0;
+  padding: 0;
+  overflow-x: hidden;
 }

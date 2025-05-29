@@ -1,0 +1,80 @@
+.match-results {
+  max-width: 700px;
+  margin: 10px auto;
+  padding: 10px;
+}
+
+.match-result-wrapper h2 {
+  margin-bottom: 20px;
+  font-size: 24px;
+  text-align: center;
+}
+
+.match-card {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  height: 80px;
+  border: 1px solid black;
+  border-radius: 10px;
+  margin-bottom: 20px;
+  padding: 0 20px;
+  font-weight: 600;
+}
+
+.team {
+  display: flex;
+  width: 200px;
+  justify-content: space-between;
+  font-size: 20px;
+}
+
+.match-date {
+  width: 150px;
+  text-align: center;
+  font-size: 18px;
+  color: black;
+}
+
+.score.win {
+  font-weight: 1000;
+  color: black;
+}
+
+.score.lose {
+  font-weight: 800;
+  color: gray;
+}
+
+/* ✅ 모바일 대응 */
+@media (max-width: 595px) {
+
+  .match-card {
+
+    padding: 10px;
+    gap: 10px;
+    font-size: 0.8rem;
+  }
+
+  .team {
+    width: 100%;
+    justify-content: space-between;
+    font-size: 14px;
+  }
+
+  .match-date {
+    width: 100%;
+    font-size: 14px;
+  }
+
+  .match-result-wrapper h2 {
+    font-size: 18px;
+  }
+}
+
+
+@media (max-width: 320px){
+  .match-date{
+    font-size: 11px
+  }
+}

@@ -1,250 +1,600 @@
-export const injectDummyData_JungleOverload = (setResult, setCanClick) => {
-  const players = [
-    { name: "정글1", tag: "KR1", tier: "PLATINUM", tierScore: 1200, winScore: 80, totalScore: 1280, mainRole: "JUNGLE", backupRoles: ["TOP", "MID"] },
-    { name: "정글2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "JUNGLE", backupRoles: ["BOTTOM"] },
-    { name: "정글3", tag: "KR1", tier: "DIAMOND", tierScore: 1400, winScore: 90, totalScore: 1490, mainRole: "JUNGLE", backupRoles: ["UTILITY"] },
-    { name: "정글4", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 40, totalScore: 1040, mainRole: "JUNGLE", backupRoles: ["TOP", "MID"] },
-    { name: "정글5", tag: "KR1", tier: "BRONZE", tierScore: 900, winScore: 30, totalScore: 930, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "미드1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 60, totalScore: 1160, mainRole: "MIDDLE", backupRoles: ["BOTTOM"] },
-    { name: "탑1", tag: "KR1", tier: "PLATINUM", tierScore: 1200, winScore: 70, totalScore: 1270, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "서폿1", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 50, totalScore: 1050, mainRole: "UTILITY", backupRoles: ["BOTTOM"] },
-    { name: "원딜1", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 60, totalScore: 1060, mainRole: "BOTTOM", backupRoles: ["UTILITY"] },
-    { name: "탑2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "TOP", backupRoles: [] },
-  ];
-  setResult(players);
-  setCanClick(true);
-}
-
-export const injectDummyData_NoBackups = (setResult, setCanClick) => {
-  const players = Array(10).fill(0).map((_, i) => ({
-    name: `유저${i+1}`,
-    tag: "KR1",
-    tier: "GOLD",
-    tierScore: 1100,
-    winScore: 50,
-    totalScore: 1150,
-    mainRole: i < 5 ? "TOP" : "JUNGLE", // 중복 라인
-    backupRoles: [] // 부 포지션 없음
-  }));
-  setResult(players);
-  setCanClick(true);
-}
-
-
-export const injectDummyData_UnbalancedScore = (setResult, setCanClick) => {
-  const players = [
-    { name: "고수1", tag: "KR1", tier: "CHALLENGER", tierScore: 1700, winScore: 100, totalScore: 1800, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "고수2", tag: "KR1", tier: "CHALLENGER", tierScore: 1700, winScore: 100, totalScore: 1800, mainRole: "JUNGLE", backupRoles: ["MIDDLE"] },
-    { name: "고수3", tag: "KR1", tier: "GRANDMASTER", tierScore: 1600, winScore: 100, totalScore: 1700, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "고수4", tag: "KR1", tier: "MASTER", tierScore: 1500, winScore: 90, totalScore: 1590, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "고수5", tag: "KR1", tier: "MASTER", tierScore: 1500, winScore: 90, totalScore: 1590, mainRole: "UTILITY", backupRoles: [] },
-
-    { name: "브론즈1", tag: "KR1", tier: "BRONZE", tierScore: 900, winScore: 30, totalScore: 930, mainRole: "TOP", backupRoles: [] },
-    { name: "브론즈2", tag: "KR1", tier: "BRONZE", tierScore: 900, winScore: 30, totalScore: 930, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "브론즈3", tag: "KR1", tier: "BRONZE", tierScore: 900, winScore: 30, totalScore: 930, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "브론즈4", tag: "KR1", tier: "BRONZE", tierScore: 900, winScore: 30, totalScore: 930, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "브론즈5", tag: "KR1", tier: "BRONZE", tierScore: 900, winScore: 30, totalScore: 930, mainRole: "UTILITY", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-}
-
-
-export const injectDummyData_MissingRoles = (setResult, setCanClick) => {
-  const players = [
-    ...Array(5).fill(0).map((_, i) => ({
-      name: `정상${i+1}`,
-      tag: "KR1",
-      tier: "GOLD",
-      tierScore: 1100,
-      winScore: 50,
-      totalScore: 1150,
-      mainRole: ["TOP", "JUNGLE", "MIDDLE", "BOTTOM", "UTILITY"][i],
-      backupRoles: []
-    })),
-    ...Array(5).fill(0).map((_, i) => ({
-      name: `미상${i+1}`,
-      tag: "KR1",
-      tier: "SILVER",
-      tierScore: 1000,
-      winScore: 30,
-      totalScore: 1030,
-      mainRole: null,
-      backupRoles: []
-    }))
-  ];
-  setResult(players);
-  setCanClick(true);
-}
-
-
-export const injectDummyData_PotentialDuplicateInTeam = (setResult, setCanClick) => {
-  const players = [
-    { name: "A1", tag: "KR1", totalScore: 1200, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "A2", tag: "KR1", totalScore: 1250, mainRole: "JUNGLE", backupRoles: ["TOP"] },
-    { name: "A3", tag: "KR1", totalScore: 1150, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "A4", tag: "KR1", totalScore: 1100, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "A5", tag: "KR1", totalScore: 1000, mainRole: "UTILITY", backupRoles: [] },
-
-    { name: "B1", tag: "KR1", totalScore: 1200, mainRole: "TOP", backupRoles: [] },
-    { name: "B2", tag: "KR1", totalScore: 1250, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "B3", tag: "KR1", totalScore: 1150, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "B4", tag: "KR1", totalScore: 1100, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "B5", tag: "KR1", totalScore: 1000, mainRole: "UTILITY", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-}
-
-export const injectDummyData_OnlyOneSupport = (setResult, setCanClick) => {
-  const players = [
-    { name: "유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "유저2", tag: "KR1", tier: "GOLD", tierScore: 1080, winScore: 50, totalScore: 1130, mainRole: "TOP", backupRoles: ["BOTTOM"] },
-    { name: "유저3", tag: "KR1", tier: "GOLD", tierScore: 1150, winScore: 50, totalScore: 1200, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "유저4", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 40, totalScore: 1040, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "유저5", tag: "KR1", tier: "GOLD", tierScore: 1120, winScore: 20, totalScore: 1140, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "유저6", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 60, totalScore: 1160, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "유저7", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 100, totalScore: 1100, mainRole: "BOTTOM", backupRoles: ["TOP"] },
-    { name: "유저8", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "유저9", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 10, totalScore: 1110, mainRole: "TOP", backupRoles: ["UTILITY"] },
-    { name: "유저10", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 0, totalScore: 1100, mainRole: "UTILITY", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-};
-
-export const injectDummyData_NoMid = (setResult, setCanClick) => {
-  const players = [
-    { name: "유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 30, totalScore: 1130, mainRole: "TOP", backupRoles: [] },
-    { name: "유저2", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 50, totalScore: 1050, mainRole: "TOP", backupRoles: [] },
-    { name: "유저3", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 70, totalScore: 1170, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "유저4", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 60, totalScore: 1060, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "유저5", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 30, totalScore: 1130, mainRole: "BOTTOM", backupRoles: ["MIDDLE"] },
-    { name: "유저6", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "유저7", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "UTILITY", backupRoles: [] },
-    { name: "유저8", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 50, totalScore: 1050, mainRole: "UTILITY", backupRoles: [] },
-    { name: "유저9", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 45, totalScore: 1145, mainRole: "TOP", backupRoles: [] },
-    { name: "유저10", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 35, totalScore: 1035, mainRole: "JUNGLE", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-};
-
-
-export const injectDummyData_AllUnranked = (setResult, setCanClick) => {
-  const roles = ['TOP', 'JUNGLE', 'MIDDLE', 'BOTTOM', 'UTILITY'];
-  const players = Array(10).fill(0).map((_, i) => ({
-    name: `언랭${i+1}`,
-    tag: "KR1",
-    tier: "UNRANKED",
-    tierScore: 0,
-    winScore: 0,
-    totalScore: 0+i*100,
-    mainRole: roles[i % 5],
-    backupRoles: []
-  }));
-  setResult(players);
-  setCanClick(true);
-};
-
-export const injectDummyData_AllSameTierButRandomRoles = (setResult, setCanClick) => {
-  const players = [
-    { name: "유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "TOP", backupRoles: ["UTILITY"] },
-    { name: "유저2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "TOP", backupRoles: ["MIDDLE"] },
-    { name: "유저3", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "유저4", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "JUNGLE", backupRoles: ["BOTTOM"] },
-    { name: "유저5", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "MIDDLE", backupRoles: ["TOP"] },
-    { name: "유저6", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "유저7", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "유저8", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "UTILITY", backupRoles: [] },
-    { name: "유저9", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "UTILITY", backupRoles: [] },
-    { name: "유저10", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "MIDDLE", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-};
-
-
-export const injectDummyData_HardFallbackRequired = (setResult, setCanClick) => {
-  const players = Array(10).fill(0).map((_, i) => ({
-    name: `탑러${i+1}`,
-    tag: "KR1",
-    tier: "GOLD",
-    tierScore: 1100,
-    winScore: 50,
-    totalScore: 1150+i*40,
-    mainRole: "TOP",
-    backupRoles: []
-  }));
-  setResult(players);
-  setCanClick(true);
-};
-
-export const injectDummyData_NormalMatch1 = (setResult, setCanClick) => {
-  const players = [
-    { name: "탑유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "정글유저1", tag: "KR1", tier: "PLATINUM", tierScore: 1200, winScore: 60, totalScore: 1260, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "미드유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 55, totalScore: 1155, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "원딜유저1", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 80, totalScore: 1080, mainRole: "BOTTOM", backupRoles: ["UTILITY"] },
-    { name: "서폿유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "UTILITY", backupRoles: [] },
-    
-    { name: "탑유저2", tag: "KR1", tier: "PLATINUM", tierScore: 1200, winScore: 50, totalScore: 1250, mainRole: "TOP", backupRoles: [] },
-    { name: "정글유저2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 60, totalScore: 1160, mainRole: "JUNGLE", backupRoles: ["TOP"] },
-    { name: "미드유저2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 45, totalScore: 1145, mainRole: "MIDDLE", backupRoles: ["BOTTOM"] },
-    { name: "원딜유저2", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 70, totalScore: 1070, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "서폿유저2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "UTILITY", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-};
-
-
-export const injectDummyData_NormalMatch2 = (setResult, setCanClick) => {
-  const players = [
-    { name: "A1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 55, totalScore: 1155, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "A2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 45, totalScore: 1145, mainRole: "JUNGLE", backupRoles: ["TOP"] },
-    { name: "A3", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 60, totalScore: 1160, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "A4", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 65, totalScore: 1165, mainRole: "BOTTOM", backupRoles: ["UTILITY"] },
-    { name: "A5", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "UTILITY", backupRoles: [] },
-    { name: "B1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "TOP", backupRoles: [] },
-    { name: "B2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 55, totalScore: 1155, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "B3", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "MIDDLE", backupRoles: ["BOTTOM"] },
-    { name: "B4", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 60, totalScore: 1160, mainRole: "BOTTOM", backupRoles: [] },
-    { name: "B5", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 45, totalScore: 1145, mainRole: "UTILITY", backupRoles: [] }
-  ];
-  setResult(players);
-  setCanClick(true);
-};
-export const injectDummyData_OneTeamOverloaded = (setResult, setCanClick) => {
-  const players = [
-    { name: "탑유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 50, totalScore: 1150, mainRole: "TOP", backupRoles: ["JUNGLE"] },
-    { name: "정글유저1", tag: "KR1", tier: "PLATINUM", tierScore: 1200, winScore: 60, totalScore: 1260, mainRole: "JUNGLE", backupRoles: [] },
-    { name: "미드유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 55, totalScore: 1155, mainRole: "MIDDLE", backupRoles: [] },
-    { name: "원딜유저1", tag: "KR1", tier: "SILVER", tierScore: 1000, winScore: 80, totalScore: 1080, mainRole: "BOTTOM", backupRoles: ["UTILITY"] },
-    { name: "서폿유저1", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 40, totalScore: 1140, mainRole: "UTILITY", backupRoles: [] },
-    
-    { name: "탑유저2", tag: "KR1", tier: "PLATINUM", tierScore: 1200, winScore: 50, totalScore: 1250, mainRole: "TOP", backupRoles: [] },
-    { name: "정글유저2", tag: "KR1", tier: "GOLD", tierScore: 1100, winScore: 60, totalScore: 1160, mainRole: "JUNGLE", backupRoles:["TOP"] },
-    { name: "미드유저2", tag:"KR1" ,tier:"GOLD" ,tierScore:"1100" ,winScore:"45" ,totalScore:"1145" ,mainRole:"MIDDLE" ,backupRoles:["BOTTOM"]},
-    { name:"원딜유저2" ,tag:"KR1" ,tier:"SILVER" ,tierScore:"1000" ,winScore:"70" ,totalScore:"1070" ,mainRole:"BOTTOM" ,backupRoles:[]},
-    { name:"서폿유저2" ,tag:"KR1" ,tier:"GOLD" ,tierScore:"1100" ,winScore:"40" ,totalScore:"1140" ,mainRole:"UTILITY" ,backupRoles:[]} 
-  ];
-  setResult(players);
-  setCanClick(true);
-}
-
-export default {
-  injectDummyData_JungleOverload,
-  injectDummyData_NoBackups,
-  injectDummyData_UnbalancedScore,
-  injectDummyData_MissingRoles,
-  injectDummyData_PotentialDuplicateInTeam,
-  injectDummyData_OnlyOneSupport,
-  injectDummyData_NoMid,
-  injectDummyData_AllUnranked,
-  injectDummyData_AllSameTierButRandomRoles,
-  injectDummyData_HardFallbackRequired,
-  injectDummyData_NormalMatch1,
-  injectDummyData_NormalMatch2,
-  injectDummyData_OneTeamOverloaded
-}
+export const dummyScenarios = [
+  [
+    {
+      "name": "유저1-1",
+      "tag": "KR1",
+      "tier": "MASTER",
+      "tierScore": 3100,
+      "winScore": 40,
+      "totalScore": 3140,
+      "mainRole": "TOP",
+      "backupRoles": []
+    },
+    {
+      "name": "유저1-2",
+      "tag": "KR1",
+      "tier": "CHALLENGER",
+      "tierScore": 4000,
+      "winScore": 76,
+      "totalScore": 4076,
+      "mainRole": "JUNGLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저1-3",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 39,
+      "totalScore": 239,
+      "mainRole": "MIDDLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저1-4",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 36,
+      "totalScore": 236,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "JUNGLE",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저1-5",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 80,
+      "totalScore": 480,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "BOTTOM",
+        "MIDDLE"
+      ]
+    },
+    {
+      "name": "유저1-6",
+      "tag": "KR1",
+      "tier": "GRANDMASTER",
+      "tierScore": 3600,
+      "winScore": 81,
+      "totalScore": 3681,
+      "mainRole": "TOP",
+      "backupRoles": [
+        "MIDDLE",
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저1-7",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 59,
+      "totalScore": 2559,
+      "mainRole": "JUNGLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저1-8",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 82,
+      "totalScore": 282,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "TOP",
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저1-9",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 52,
+      "totalScore": 252,
+      "mainRole": "BOTTOM",
+      "backupRoles": []
+    },
+    {
+      "name": "유저1-10",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 82,
+      "totalScore": 1082,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "TOP"
+      ]
+    }
+  ],
+  [
+    {
+      "name": "유저2-1",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 44,
+      "totalScore": 444,
+      "mainRole": "TOP",
+      "backupRoles": [
+        "MIDDLE",
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저2-2",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 98,
+      "totalScore": 498,
+      "mainRole": "JUNGLE",
+      "backupRoles": [
+        "BOTTOM",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저2-3",
+      "tag": "KR1",
+      "tier": "CHALLENGER",
+      "tierScore": 4000,
+      "winScore": 41,
+      "totalScore": 4041,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "TOP",
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저2-4",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 73,
+      "totalScore": 273,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "JUNGLE",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저2-5",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 62,
+      "totalScore": 2562,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "JUNGLE",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저2-6",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 43,
+      "totalScore": 443,
+      "mainRole": "TOP",
+      "backupRoles": []
+    },
+    {
+      "name": "유저2-7",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 51,
+      "totalScore": 1051,
+      "mainRole": "JUNGLE",
+      "backupRoles": [
+        "TOP",
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저2-8",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 100,
+      "totalScore": 1100,
+      "mainRole": "MIDDLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저2-9",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 84,
+      "totalScore": 2584,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "JUNGLE",
+        "MIDDLE"
+      ]
+    },
+    {
+      "name": "유저2-10",
+      "tag": "KR1",
+      "tier": "GRANDMASTER",
+      "tierScore": 3600,
+      "winScore": 50,
+      "totalScore": 3650,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "JUNGLE"
+      ]
+    }
+  ],
+  [
+    {
+      "name": "유저3-1",
+      "tag": "KR1",
+      "tier": "MASTER",
+      "tierScore": 3100,
+      "winScore": 21,
+      "totalScore": 3121,
+      "mainRole": "TOP",
+      "backupRoles": []
+    },
+    {
+      "name": "유저3-2",
+      "tag": "KR1",
+      "tier": "PLATINUM",
+      "tierScore": 1400,
+      "winScore": 92,
+      "totalScore": 1492,
+      "mainRole": "JUNGLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저3-3",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 48,
+      "totalScore": 2548,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "TOP",
+        "UTILITY"
+      ]
+    },
+    {
+      "name": "유저3-4",
+      "tag": "KR1",
+      "tier": "MASTER",
+      "tierScore": 3100,
+      "winScore": 27,
+      "totalScore": 3127,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "JUNGLE"
+      ]
+    },
+    {
+      "name": "유저3-5",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 98,
+      "totalScore": 2598,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "BOTTOM",
+        "JUNGLE"
+      ]
+    },
+    {
+      "name": "유저3-6",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 85,
+      "totalScore": 485,
+      "mainRole": "TOP",
+      "backupRoles": []
+    },
+    {
+      "name": "유저3-7",
+      "tag": "KR1",
+      "tier": "GRANDMASTER",
+      "tierScore": 3600,
+      "winScore": 65,
+      "totalScore": 3665,
+      "mainRole": "JUNGLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저3-8",
+      "tag": "KR1",
+      "tier": "CHALLENGER",
+      "tierScore": 4000,
+      "winScore": 40,
+      "totalScore": 4040,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저3-9",
+      "tag": "KR1",
+      "tier": "SILVER",
+      "tierScore": 700,
+      "winScore": 91,
+      "totalScore": 791,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "UTILITY"
+      ]
+    },
+    {
+      "name": "유저3-10",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 53,
+      "totalScore": 253,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "BOTTOM"
+      ]
+    }
+  ],
+  [
+    {
+      "name": "유저4-1",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 42,
+      "totalScore": 242,
+      "mainRole": "TOP",
+      "backupRoles": []
+    },
+    {
+      "name": "유저4-2",
+      "tag": "KR1",
+      "tier": "SILVER",
+      "tierScore": 700,
+      "winScore": 82,
+      "totalScore": 782,
+      "mainRole": "JUNGLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저4-3",
+      "tag": "KR1",
+      "tier": "PLATINUM",
+      "tierScore": 1400,
+      "winScore": 27,
+      "totalScore": 1427,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "BOTTOM",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저4-4",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 76,
+      "totalScore": 476,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저4-5",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 89,
+      "totalScore": 1089,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저4-6",
+      "tag": "KR1",
+      "tier": "EMERALD",
+      "tierScore": 1900,
+      "winScore": 50,
+      "totalScore": 1950,
+      "mainRole": "TOP",
+      "backupRoles": [
+        "JUNGLE",
+        "MIDDLE"
+      ]
+    },
+    {
+      "name": "유저4-7",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 61,
+      "totalScore": 461,
+      "mainRole": "JUNGLE",
+      "backupRoles": [
+        "UTILITY"
+      ]
+    },
+    {
+      "name": "유저4-8",
+      "tag": "KR1",
+      "tier": "MASTER",
+      "tierScore": 3100,
+      "winScore": 74,
+      "totalScore": 3174,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "JUNGLE",
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저4-9",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 39,
+      "totalScore": 1039,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "MIDDLE",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저4-10",
+      "tag": "KR1",
+      "tier": "BRONZE",
+      "tierScore": 400,
+      "winScore": 94,
+      "totalScore": 494,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "JUNGLE"
+      ]
+    }
+  ],
+  [
+    {
+      "name": "유저5-1",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 58,
+      "totalScore": 2558,
+      "mainRole": "TOP",
+      "backupRoles": [
+        "MIDDLE",
+        "JUNGLE"
+      ]
+    },
+    {
+      "name": "유저5-2",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 32,
+      "totalScore": 1032,
+      "mainRole": "JUNGLE",
+      "backupRoles": [
+        "BOTTOM",
+        "UTILITY"
+      ]
+    },
+    {
+      "name": "유저5-3",
+      "tag": "KR1",
+      "tier": "SILVER",
+      "tierScore": 700,
+      "winScore": 38,
+      "totalScore": 738,
+      "mainRole": "MIDDLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저5-4",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 62,
+      "totalScore": 262,
+      "mainRole": "BOTTOM",
+      "backupRoles": []
+    },
+    {
+      "name": "유저5-5",
+      "tag": "KR1",
+      "tier": "GOLD",
+      "tierScore": 1000,
+      "winScore": 20,
+      "totalScore": 1020,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "BOTTOM"
+      ]
+    },
+    {
+      "name": "유저5-6",
+      "tag": "KR1",
+      "tier": "SILVER",
+      "tierScore": 700,
+      "winScore": 46,
+      "totalScore": 746,
+      "mainRole": "TOP",
+      "backupRoles": []
+    },
+    {
+      "name": "유저5-7",
+      "tag": "KR1",
+      "tier": "GRANDMASTER",
+      "tierScore": 3600,
+      "winScore": 56,
+      "totalScore": 3656,
+      "mainRole": "JUNGLE",
+      "backupRoles": []
+    },
+    {
+      "name": "유저5-8",
+      "tag": "KR1",
+      "tier": "IRON",
+      "tierScore": 200,
+      "winScore": 57,
+      "totalScore": 257,
+      "mainRole": "MIDDLE",
+      "backupRoles": [
+        "TOP",
+        "UTILITY"
+      ]
+    },
+    {
+      "name": "유저5-9",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 35,
+      "totalScore": 2535,
+      "mainRole": "BOTTOM",
+      "backupRoles": [
+        "JUNGLE",
+        "TOP"
+      ]
+    },
+    {
+      "name": "유저5-10",
+      "tag": "KR1",
+      "tier": "DIAMOND",
+      "tierScore": 2500,
+      "winScore": 67,
+      "totalScore": 2567,
+      "mainRole": "UTILITY",
+      "backupRoles": [
+        "JUNGLE",
+        "MIDDLE"
+      ]
+    }
+  ]
+];
