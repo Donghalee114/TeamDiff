@@ -20,7 +20,7 @@ export default function Tournaments() {
   // 자동 입장
   useEffect(() => {
     const savedCode = localStorage.getItem("tournamentCode");
-    if (savedCode) navigate(`/tournament/${savedCode}`);
+    if (savedCode) navigate(`/tournament/tournaments${savedCode}`);
   }, []);
 
   // 최근 생성 토너먼트 불러오기
