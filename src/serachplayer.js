@@ -28,6 +28,7 @@ const {
   return (
 
     <div className="main-layout" style={{ background: "linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%)" }}>
+
       <Headers text="10명의 소환사 정보를 입력하고, 실력과 포지션을 고려해 자동으로 팀을 구성하세요!" />
       <main className="panel-div" >
         <div className="left-panel">
@@ -49,7 +50,7 @@ const {
         <div className="right-panel">
           <div className="tabs" style={{position: "relative", top: "30px" ,left: "500px" ,  width : "200px" , zIndex: 10, background: "white" , borderTopLeftRadius : "16px", borderTopRightRadius: "16px" }}>
             <button className={tab === 'score' ? 'tab-active' : 'tab-inactive'} onClick={() => setTab('score')}>소환사 점수</button>
-            <button className={tab === 'team' ? 'tab-active' : 'tab-inactive'} onClick={() => setTab('team')} style={{cursor : !canClick ? 'not-allowed' : "pointer", marginRight : "30px"}} disabled={!canClick}>팀 결과</button>
+            <button className={`${tab === 'team' ? 'tab-active' : 'tab-inactive'} ${canClick ? 'blink-button' : ''}`}onClick={() => setTab('team')} style={{cursor : !canClick ? 'not-allowed' : "pointer", marginRight : "30px"}} disabled={!canClick}>팀 결과</button>
           </div>
           {tab === 'score' && <ScoreDisplay result={result} setResult={setResult} />}
           {tab === 'team' && <TeamDisplay  teamResult={teamResult} setResult={setResult} setCanClick={setCanClick} handleMakeTeams={handleMakeTeams} />}
@@ -59,6 +60,8 @@ const {
       
       <Footer />
     </div>
+
+    
   );
 }
 

@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import "../utils/scoreBoard.css";
 import MatchResults from "../component/MatchResults"
 import TeamRankings from "../component/TeamRankings";
+import DetailPage from "../component/AdminPages"
 import CreateTeam from "../component/createTeam";
 import handleTeamList from "../utils/summonerInputUtils";
 import Tournaments from "./tournaments"
@@ -81,7 +82,8 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
           <span className={`selectShow ${activeTab === "AddTeam" ? "active" : ""}`}
           onClick={() => setActiveTab("AddTeam")}>
             팀 생성 및 관리
-          </span></>) : ( null )
+          </span>
+          </>) : ( null )
 }
         </div>
 
@@ -103,6 +105,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
               <p>여기에 세부 지표 내용을 추가하세요.</p>
             </div>
           )}
+          {activeTab === "AddTeam" && <DetailPage/>}
         </div>
       </div>
       <Footer />

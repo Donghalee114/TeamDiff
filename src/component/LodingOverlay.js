@@ -26,7 +26,7 @@ export default function LoadingOverlay() {
         fontSize: "1.2rem",
         marginTop: "12px"
       }}>
-        분석 중입니다... 잠시만 기다려주세요!
+        로딩중입니다... 잠시만 기다려주세요!
       </p>
     </div>
   );

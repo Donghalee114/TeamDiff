@@ -81,6 +81,19 @@
   margin-top: 100px;
 }
 
+@keyframes blink{
+  0%{
+    opacity: 1;
+  }
+  50%{opacity: 0.;}
+ 
+100%{opacity: 1;}
+ }
+.blink-button{
+  animation: blink 1.5s ;
+  animation-iteration-count: 5;
+}
+
 @media (max-width: 1024px) {
   .panel-div {
     flex-direction: column;

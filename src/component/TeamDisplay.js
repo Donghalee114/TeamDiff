@@ -117,8 +117,8 @@ useEffect(() => {
   <h4 style={{ margin: "0 0 8px 0", color: "#6366f1", fontWeight: 700, fontSize: "1.05rem" }}>점수차</h4>
   <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
     <span style={{ background: "#e0e7ff", color: "#6366f1", padding: "4px 8px", borderRadius: "4px" }}>
-      팀 A 평균 점수: {teamResult.teamAScore}점<br />
-      팀 B 평균 점수: {teamResult.teamBScore}점<br />
+     팀 A 평균 점수: {teamResult?.teamAScore ?? '-'}점<br />
+      팀 B 평균 점수: {teamResult?.teamBScore ?? '-'}점<br />
       {overA !== null && (
         overA ? (
           <div>A팀의 점수가 {scoreDiff}점 더 높습니다.</div>

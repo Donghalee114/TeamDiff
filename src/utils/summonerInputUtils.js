@@ -191,10 +191,11 @@ export default function useSummonerInput() {
 
 
   useEffect(() => {
-  if (result.length === 10) {
+
+  if (result.length === 10 && teamResult === null && canClick) {
     handleMakeTeams(); // 자동 팀 구성
   }
-}, [result]);
+}, [result , canClick , teamResult]);
 
 return {
   summoners, setSummoners, result, setResult, teamResult, setTeamResult,
