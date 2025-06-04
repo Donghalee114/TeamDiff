@@ -147,7 +147,7 @@ const CheckTeamList = async () => {
 const subtitleStyle = {
   fontSize: "1.2rem",
   marginBottom: "12px",
-  color: "#3730a3"
+  
 };
 
 const cardStyle = {
@@ -175,6 +175,7 @@ const buttonStyle = {
   borderRadius: "6px",
   border: "none",
   cursor: "pointer"
+  , textAlign : "center"
 };
 
 const buttonDangerStyle = {
@@ -192,7 +193,7 @@ const inputStyle = {
 
   return (
     <div style={{ padding: "32px", fontFamily: "Arial, sans-serif", maxWidth: "1000px", margin: "auto" }}>
-  <div style={{ marginBottom: "24px", display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+  <div style={{ marginBottom: "24px", display: "flex", justifyContent: "flex-end", gap: "10px"  }}>
     <button style={buttonStyle} onClick={testAdmin}>Admin Test</button>
     <button style={buttonStyle} onClick={testTeam}>Team Test</button>
   </div>
@@ -203,14 +204,29 @@ const inputStyle = {
 
       {/* 팀 생성 */}
       <section style={cardStyle}>
+        <div style={{cursor : "pointer", display : "flex" , justifyContent : "center" , alignItems : "center" , gap : "240px"}} onClick={makeTeam}>
+        
+        {openTeamMake ? <></> :
+        <>
         <h2 style={subtitleStyle}> 팀 생성</h2>
-        <button style={buttonStyle} onClick={makeTeam}>+ 팀 생성</button>
+        </>
+      }
+        </div>
+        
         {openTeamMake && <CreateTeam setOpenTeamMake={setOpenTeamMake} tournamentsID={tournamentsID} />}
       </section>
 
       {/* 팀 리스트 */}
       <section style={cardStyle}>
-        <h2 style={subtitleStyle}> 팀 목록</h2>
+        <span style={{display : "flex" , justifyContent : "center" , alignItems : "center" }}><h2 style={subtitleStyle}> 팀 목록</h2> 
+        <h2
+          onClick={CheckTeamList}
+         style={{cursor : "pointer"  , padding : "10px", background : "#6366f1" , color : "white" ,borderRadius : "16px", marginLeft : "240px" ,  ...subtitleStyle}}
+        >
+          새로고침
+        </h2>
+        
+        </span>
         <div style={{ maxHeight: "300px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px" }}>
           {teamList.map((t, idx) => (
             <div key={idx} style={teamCardStyle}>
@@ -224,7 +240,10 @@ const inputStyle = {
                     : "0%"
                 }</p>
               </div>
+              <div style={{display : "flex" , flexDirection : "column" , marginLeft : "250px"}}>
+              <button style={buttonStyle}>선수 관리</button>
               <button style={buttonDangerStyle} onClick={DeleteCheck}>삭제</button>
+              </div>
               {checkDelete && (
                 <Modal
                   title="정말 삭제하시겠습니까?"
@@ -232,6 +251,7 @@ const inputStyle = {
                   onCancel={() => setCheckDelete(false)}
                 />
               )}
+              
             </div>
           ))}
         </div>

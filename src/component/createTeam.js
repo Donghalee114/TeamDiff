@@ -98,7 +98,11 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
         </div>
       )}
 
-      <button type="submit" style={buttonStyle}>팀 생성</button>
+          <div style={{display : "flex" , justifyContent : "center" , gap : "20px"}}>
+          <button type="submit" style={buttonStyle}>팀 생성</button>
+          <button style={buttonStyle} onClick={() => setOpenTeamMake(false)}>취소</button>
+          </div>
+      
     </form>
   );
 }
