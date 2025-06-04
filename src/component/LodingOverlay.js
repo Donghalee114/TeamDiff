@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default function LoadingOverlay() {
+export default function LoadingOverlay({ message }) {
   return (
     <div style={{
       position: "fixed",
@@ -26,7 +26,7 @@ export default function LoadingOverlay() {
         fontSize: "1.2rem",
         marginTop: "12px"
       }}>
-        로딩중입니다... 잠시만 기다려주세요!
+        {message ? message : '로딩중입니다 잠시만 기다려 주세요..'}
       </p>
     </div>
   );

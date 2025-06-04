@@ -9,12 +9,12 @@ import CreateTeam from "../component/createTeam";
 import handleTeamList from "../utils/summonerInputUtils";
 import Tournaments from "./tournaments"
 
-export default function ScoreBoard({ tournamentId }) {
+export default function ScoreBoard({ tournamentID }) {
   const [activeTab, setActiveTab] = useState("matchResults");
   const [team, setTeam] = useState([]);
   const [matches, setMatches] = useState([]);
   const [isMobile, setIsMobile] = useState(false);
-  
+  const tournamentId = tournamentID
 const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
 
 
@@ -27,7 +27,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
 
 
   useEffect(() => {
-    fetch(`${BASE_URL}/matches/${tournamentId}`)
+    fetch(`${BASE_URL}/tournament/matches/${tournamentId}`)
       .then(res => res.json())
       .then(data => setMatches(data))
       .catch(err => console.error("매치 결과 불러오기 실패:", err));
@@ -105,7 +105,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
               <p>여기에 세부 지표 내용을 추가하세요.</p>
             </div>
           )}
-          {activeTab === "AddTeam" && <DetailPage/>}
+          {activeTab === "AddTeam" && <DetailPage tournamentsID = {tournamentId}/>}
         </div>
       </div>
       <Footer />

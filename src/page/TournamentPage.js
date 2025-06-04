@@ -20,16 +20,20 @@ export default function TournamentPage() {
   }, [id]);
 
   const deleteLocalStorage = () => {
-    localStorage.removeItem('tournamentCode'); // ❗ 수정된 부분
+    localStorage.removeItem('tournamentCode'); 
     navigate('/tournament');
   };
 
-  if (!tournament) return <LoadingOverlay />;
+ // Loading 중 메시지 추가 예시
+if (!tournament) return <LoadingOverlay message="대회 정보를 불러오는 중입니다..." />;
+
 
   return (
     <>
       <Headers text={`${tournament.name}의 페이지 입니다. | 참가코드 : ${tournament.id} |`} />
-      <div style={{ marginTop: "70px" }}>
+
+  
+  <div style={{ zIndex : 3 , marginTop: "70px" }}>
         <div
           style={{
             display: "flex",
@@ -58,6 +62,7 @@ export default function TournamentPage() {
 
         <ScoreBoard tournamentID={tournament.id} />
       </div>
+
       <Footer />
     </>
   );
