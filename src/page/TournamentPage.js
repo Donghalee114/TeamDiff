@@ -38,13 +38,13 @@ if (!tournament) return <LoadingOverlay message="대회 정보를 불러오는 �
           style={{
             display: "flex",
             alignItems: "center",
-            justifyContent: "space-between",
+            justifyContent: "space-around",
             marginBottom: "20px",
           }}
         >
-          <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-            <h1>{tournament.name}</h1>
-            <p>참가 코드: <strong>{tournament.id}</strong></p>
+          <div style={{ display: "flex", alignItems : "end", gap: "20px" }}>
+            <h1>토너먼트 이름 : {tournament.name}</h1>
+            <h2>참가 코드: <strong>{tournament.id}</strong></h2>
           </div>
 
           <span

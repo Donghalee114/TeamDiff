@@ -33,6 +33,19 @@ export default function ScoreDisplay({ result, setResult }) {
 
   const roleDistribution = getRoleDistribution();
 
+  const getDuplicatedMainRoles = () => {
+  const count = {};
+  result.forEach(p => {
+    if (p.mainRole) {
+      count[p.mainRole] = (count[p.mainRole] || 0) + 1;
+    }
+  });
+  // 중복된 포지션만 리턴
+  return Object.keys(count).filter(role => count[role] > 1);
+};
+
+const duplicatedRoles = getDuplicatedMainRoles();
+
   
 
   return (
@@ -82,6 +95,19 @@ export default function ScoreDisplay({ result, setResult }) {
           {roleOrder.map(role => `${roleToKorean[role]}: ${roleDistribution[role] || 0}명`).join(' | ')}
         </div>
       )}
+      {positionMode === 'manual' && duplicatedRoles.length > 0 && (
+    <div style={{
+      backgroundColor: '#fef3c7',
+      color: '#92400e',
+      padding: '10px 12px',
+      borderRadius: '8px',
+      marginBottom: '12px',
+      fontWeight: 600,
+      fontSize: "0.95rem"
+    }}>
+      주 포지션 중복 경고: {duplicatedRoles.map(role => roleToKorean[role]).join(', ')}에 중복된 인원이 있습니다.
+    </div>
+  )}
       <div style={{
         maxHeight: '540px',
         overflowY: 'auto',
@@ -110,8 +136,10 @@ export default function ScoreDisplay({ result, setResult }) {
               승률 점수: <strong>{r.winScore}점</strong> | 승률: <strong>{r.winRate}%</strong> | 주 포지션: <strong>{roleToKorean[r.mainRole]}</strong> | 부포지션 : <strong>{r.backupRoles?.length ? r.backupRoles.map(role => roleToKorean[role]).join(', ') : '없음'}</strong>
            
             </div>
+            
             {positionMode === 'manual' && (
               <>
+              
                 <button
                   onClick={() => {
                     const updated = [...showRoles];
@@ -129,6 +157,7 @@ export default function ScoreDisplay({ result, setResult }) {
                     marginTop: "6px"
                   }}
                 >
+                  
                   {showRoles[idx] ? '포지션 접기' : '포지션 설정'}
                 </button>
                 {showRoles[idx] && (

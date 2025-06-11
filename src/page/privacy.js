@@ -6,8 +6,8 @@ export default function Privacy() {
       
         <title>개인정보처리방침 | LoLDraft </title>
       
-      <main style={{ padding: '2rem' }}>
-        <h1>개인정보처리방침</h1>
+      <main style={{ padding: '3rem 2rem', maxWidth: '800px', margin: '0 auto', fontFamily: 'sans-serif', lineHeight: '1.6' }}>
+        <h1 style={{ fontSize: '2rem', color: '#4f46e5', marginBottom: '1rem' }}>개인정보처리방침</h1>
         <p>LoLDraft 는 사용자 개인정보를 중요하게 여기며 최소한의 정보만을 수집합니다.</p>
 
         <h2>1. 수집하는 정보</h2>

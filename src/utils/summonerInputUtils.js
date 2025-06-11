@@ -15,7 +15,10 @@ export default function useSummonerInput() {
 
 
 
-  const [summoners, setSummoners] = useState(Array(10).fill({ name: '', tag: '' }));
+const [summoners, setSummoners] = useState(
+  Array.from({ length: 10 }, () => ({ name: '', tag: '', input: '' }))
+);
+
   const [result, setResult] = useState([]);
   const [teamResult, setTeamResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
@@ -54,28 +57,31 @@ export default function useSummonerInput() {
   const handleSingleInput = (idx, value) => {
     const [name, tag = ''] = value.includes('#') ? value.split('#') : [value, ''];
     const newSummoners = [...summoners];
-    newSummoners[idx] = { name, tag };
+    newSummoners[idx] = { name, tag , input : value};
     setSummoners(newSummoners);
   };
 
+const handleBulkPaste = e => {
+  e.preventDefault();
+  const text = e.clipboardData.getData('text/plain');
+  const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
+  const parsed = lines.slice(0, 10).map(line => {
+    const cleaned = line.includes(' 님이') ? line.split(' 님이')[0] : line;
+    const [name, tag = 'KR1'] = cleaned.split('#');
+    return {
+      name: name.trim(),
+      tag: tag.trim(),
+      input: `${name.trim()}#${tag.trim()}`
+    };
+  });
 
-  const handleBulkPaste = e => {
-    e.preventDefault();
-    const text = e.clipboardData.getData('text/plain');
-    const lines = text.split('\n').map(l => l.trim()).filter(Boolean);
-    const parsed = lines.slice(0, 10).map(line => {
-      const cleaned = line.includes(' 님이') ? line.split(' 님이')[0] : line;
-      const [name, tag = 'KR1'] = cleaned.split('#');
-      return { name: name.trim(), tag: tag.trim() };
-    });
-
-    const newSummoners = [...summoners];
-    let insertIndex = newSummoners.findIndex(s => !s.name);
-    parsed.forEach(player => {
-      if (insertIndex < 10) newSummoners[insertIndex++] = player;
-    });
-    setSummoners(newSummoners);
-  };
+  const newSummoners = [...summoners];
+  let insertIndex = newSummoners.findIndex(s => !s.name);
+  parsed.forEach(player => {
+    if (insertIndex < 10) newSummoners[insertIndex++] = player;
+  });
+  setSummoners(newSummoners);
+};
 
   const handleDeleteSummoner = (idx) => {
     const newSummoners = [...summoners];
@@ -112,7 +118,7 @@ export default function useSummonerInput() {
 
   const handleFetchAllSummoners = async () => {
     if (summoners.some(s => !s.name)) {
-      setWarning('❗ 소환사 이름을 모두 입력해주세요.');
+      setWarning('소환사 이름을 모두 입력해주세요.');
       return;
     }
     setWarning('');
@@ -170,7 +176,7 @@ export default function useSummonerInput() {
 
   };
 
-  const handleBulkPasteFromTextArea = () => {
+const handleBulkPasteFromTextArea = () => {
   const textarea = document.getElementById("summonerInput");
   if (!textarea) return;
   const text = textarea.value;
@@ -178,7 +184,11 @@ export default function useSummonerInput() {
   const parsed = lines.slice(0, 10).map(line => {
     const cleaned = line.includes(' 님이') ? line.split(' 님이')[0] : line;
     const [name, tag = 'KR1'] = cleaned.split('#');
-    return { name: name.trim(), tag: tag.trim() };
+    return {
+      name: name.trim(),
+      tag: tag.trim(),
+      input: `${name.trim()}#${tag.trim()}`
+    };
   });
 
   const newSummoners = [...summoners];

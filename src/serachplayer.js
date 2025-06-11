@@ -2,7 +2,6 @@
 
 import React, { useState } from "react";
 import './Searchplayer.css';
-import { dummyScenarios } from './DummyData.js';
 import Headers from './component/Header.js';
 import Footer from './component/footer.js';
 import useSummonerInput from './utils/summonerInputUtils';
@@ -16,7 +15,7 @@ function SearchPlayer() {
 const {
   summoners, setSummoners,
   result, setResult,
-  teamResult, setTeamResult,
+  teamResult, 
   isLoading, loadingIndex, warning, canClick, setCanClick,
   handleSingleInput, handleBulkPaste, handleDeleteSummoner,
   handleClearInput, handleFetchAllSummoners, handleMakeTeams , handleBulkPasteFromTextArea
@@ -44,7 +43,6 @@ const {
             onFetch={handleFetchAllSummoners}
             setSummoners={setSummoners}
             handleBulkPasteFromTextArea={handleBulkPasteFromTextArea}
-            
           />
         </div>
         <div className="right-panel">
@@ -57,8 +55,8 @@ const {
         </div>
       </main>
       {isLoading && <LoadingOverlay />}
-      
-      <Footer />
+       <Footer />
+   
     </div>
 
     

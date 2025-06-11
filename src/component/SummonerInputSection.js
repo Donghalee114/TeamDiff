@@ -72,7 +72,11 @@ export default function SummonerInputSection({
           <button className="buttonDefault" onClick={toggleStoragePopup}>저장 및 불러오기</button>
         </div>
       </div>
+      <span style={{display : "flex" , alignItems : "start" , gap : "350px"}}>
       <button className="buttonWarning" style={{ marginLeft: "8px", marginBottom: "15px" }} onClick={onClear}>초기화</button>
+      {warning && <div style={{ color: '#ef4444', margin: '10px 0', fontWeight: 800 }}>{warning}</div>}
+      </span>
+
       {summoners.map((summoner, idx) => (
         <div key={idx} style={{
           display: "flex",
@@ -86,14 +90,31 @@ export default function SummonerInputSection({
               type="text"
               ref={el => { if (el) inputRefs.current[idx] = el; }}
               placeholder="닉네임#태그 (예: Kimman#KR1)"
-              value={summoner.tag ? `${summoner.name || ''}#${summoner.tag}` : summoner.name || ''}
+             value={summoner.input || (summoner.tag ? `${summoner.name || ''}#${summoner.tag}` : summoner.name || '')}
+
               onKeyDown={e => {
                 if (e.key === 'Tab' && !e.shiftKey && idx === 9) {
                   e.preventDefault();
                   inputRefs.current[0]?.focus();
                 }
               }}
-              onChange={e => onInput(idx, e.target.value)}
+              onChange={e => {
+                const newSummoners = [...summoners];
+                newSummoners[idx].input = e.target.value;
+                setSummoners(newSummoners);
+              }}
+              onBlur={() => {
+                const inputVal = summoners[idx].input || '';
+                const [name, tag = ''] = inputVal.includes('#') ? inputVal.split('#') : [inputVal, ''];
+                const newSummoners = [...summoners];
+                newSummoners[idx] = {
+                  ...newSummoners[idx],
+                  name: name.trim(),
+                  tag: tag.trim(),
+                  input: `${name.trim()}${tag ? `#${tag.trim()}` : ''}`
+                };
+                setSummoners(newSummoners);
+              }}
               style={{
                 flex: 1,
                 height: '32px',
@@ -104,6 +125,7 @@ export default function SummonerInputSection({
                 fontSize: "1rem"
               }}
             />
+
             <button
               className="buttonWarning"
               onClick={() => onDelete(idx)}
@@ -124,7 +146,7 @@ export default function SummonerInputSection({
           {loadingIndex === idx && <span style={{ marginLeft: '6px', fontSize: "1.1rem" }}>🔄</span>}
         </div>
       ))}
-      {warning && <div style={{ color: '#ef4444', margin: '10px 0', fontWeight: 600 }}>{warning}</div>}
+    
       <button
         onClick={onFetch}
         style={{
@@ -138,7 +160,8 @@ export default function SummonerInputSection({
           fontWeight: 700,
           fontSize: "1.1rem",
           cursor: "pointer",
-          transition: "background 0.2s"
+          transition: "background 0.2s",
+
         }}
         disabled={isLoading}
       >

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import Headers from "../component/Header";
 import { useNavigate } from "react-router-dom";
 import Footer from "../component/footer";
+import LoadingOverlay from "../component/LodingOverlay";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:6900";
 
@@ -128,7 +129,7 @@ const cardTitle = {
 
   return (
     <>
-      <Headers />
+      <Headers  text="내전 및 토너먼트를 만들고 관리하세요!"/>
       <div style={{ marginTop: "100px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
   <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "20px"  }}>내전 / 토너먼트 관리</h1>
 
@@ -182,13 +183,14 @@ const cardTitle = {
         <p>코드: <strong>{recentTournament.id}</strong></p>
       </>
     ) : (
-      <p>최근 생성된 토너먼트가 없습니다.</p>
+      <p>최근 생성하신 토너먼트가 없습니다.</p>
     )}
   </div>
 
   {/* 전체 토너먼트 목록 */}
   <div style={cardStyle}>
     <h2 style={cardTitle}>전체 토너먼트 목록</h2>
+ 
     {allTournaments.length === 0 ? (
       <p>등록된 토너먼트가 없습니다.</p>
     ) : (

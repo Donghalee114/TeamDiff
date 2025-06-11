@@ -1,305 +1,222 @@
+// DetailPage.jsx
 import { useState, useEffect } from "react";
-
-import { useParams , useNavigate} from "react-router-dom";
-import CreateTeam from "../component/createTeam"
-import Modal from "../component/modal"
+import { useParams, useNavigate } from "react-router-dom";
+import AdminView from "../component/AdminView";
+import UserView from "../component/UserView";
+import LoadingOverlay from "../component/LodingOverlay"
+import "../utils/AdminPage.css";
 
 const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:6900";
 
-export default function DetailPage({tournamentsID}) {
-  const navigate = useNavigate()
-  const { id } = useParams(); // 토너먼트 ID
+export default function DetailPage({ tournamentsID }) {
+  const navigate = useNavigate();
+  const { id } = useParams();
+ const emptyInputs = () => Array(5).fill(null).map(() => ({ name: '', puuid: '', role: 'MEMBER' }));
   const [isAdmin, setIsAdmin] = useState(false);
-  const [hasTeam, setHasTeam] = useState(false);
   const [adminId, setAdminId] = useState("");
   const [adminPw, setAdminPw] = useState("");
   const [teamCode, setTeamCode] = useState("");
-  const [teamList , setTeamList] = useState([])
-  const [checkDelete , setCheckDelete] = useState(false)
-  const [checkTournamentDelete , setCheckTournamentDelete] = useState(false)
+  const [teamList, setTeamList] = useState([]);
+  const [checkDelete, setCheckDelete] = useState(false);
+  const [checkTournamentDelete, setCheckTournamentDelete] = useState(false);
+  const [loading, setLoading] = useState(false);
 
-  const [openTeamMake , setOpenTeamMake] = useState(false)
+  const [checkSetUpTeam, setCheckSetUpTeam] = useState(false);
+  const [selectedTeamId, setSelectedTeamId] = useState(null);
+  const [memberInputs, setMemberInputs] = useState(emptyInputs());
 
-  const testAdmin = () => setIsAdmin(prev => !prev);
-  const testTeam = () => setHasTeam(prev => !prev);
+  const [openTeamMake, setOpenTeamMake] = useState(false);
 
+  useEffect(() => { CheckTeamList(); }, []);
   useEffect(() => {
-  console.log(`======================================`)
-  console.log('[DetailPage] tournamentsID:', tournamentsID);
-  console.log('[DetailPage] HasTeam:', hasTeam);
-  console.log('[DetailPage] ISAdmin:', isAdmin);
-}, [tournamentsID , hasTeam , isAdmin]);
+    console.log("[DetailPage] tournamentsID:", tournamentsID);
+  }, [tournamentsID, isAdmin]);
 
+ 
+  const parseNameAndTag = (fullInput) => {
+    const [name, tag] = fullInput.split('#');
+    return { name: name?.trim() || '', tag: tag?.trim() || 'KR1' };
+  };
 
-useEffect(() => {
-  CheckTeamList()
-}, [])
-
-const TournamentDeleteCheck = () => {
-  if(checkTournamentDelete) setCheckTournamentDelete(false)
-  else setCheckTournamentDelete(true)
-}
-
-const DeleteCheck = () => {
-  if(checkDelete) setCheckDelete(false);
-  else setCheckDelete(true)
-}
-  // 관리자 확인 API 연동
   const checkAdmin = async () => {
-    
     try {
       const res = await fetch(`${BASE_URL}/tournament/tournaments/${id}/verify`, {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({
-          adminId: adminId,
-          adminPassword: adminPw,
-        }),
+        body: JSON.stringify({ adminId, adminPassword: adminPw })
       });
-
       if (res.ok) {
         setIsAdmin(true);
         alert("관리자 로그인 성공");
-      } else {
-        alert("아이디 또는 비밀번호가 일치하지 않습니다.");
-      }
-    } catch (error) {
-      console.error("관리자 확인 에러:", error);
+      } else alert("아이디 또는 비밀번호가 일치하지 않습니다.");
+    } catch (err) {
+      console.error("관리자 확인 에러:", err);
       alert("서버 오류가 발생했습니다.");
     }
   };
 
-const DeleteTournament = async (tournamentsID) => {
+  const CheckTeamList = async () => {
+    try {
+      setLoading(true);
+      const res = await fetch(`${BASE_URL}/tournament/tournaments/${tournamentsID}/teams`);
+      const data = await res.json();
+      setTeamList(data);
+    } catch (err) {
+      console.error("팀 목록 에러:", err);
+      alert("서버 오류가 발생했습니다.");
+    } finally {
+      setLoading(false);
+    }
+  };
+
+const fetchTeamMembers = async (teamId) => {
+  try {
+    const res = await fetch(`${BASE_URL}/tournament/teams/${teamId}/members`);
+    const data = await res.json();
+
+    const inputs = data.map((m) => ({
+      name: m.summonername,
+      role: m.leader_puuid ? 'LEADER' : 'MEMBER',
+    }));
+
+    setMemberInputs(inputs); // 기존 입력값 상태에 자동 채워넣기
+  } catch (err) {
+    console.error('팀 멤버 불러오기 실패:', err);
+  }
+};
+
+const handleSetTeam = async (teamId) => {
+  setSelectedTeamId(teamId);
+  await fetchTeamMembers(teamId); // ① 멤버 정보 불러오기
+  setCheckSetUpTeam(true);        // ② 설정 UI 띄우기
+};
+
+
+  const handleRegisterMembers = async () => {
+    const leaderCount = memberInputs.filter(m => m.role === 'LEADER').length;
+    if (leaderCount > 1) return alert("리더는 한 명만 지정할 수 있습니다.");
+
+    if (leaderCount === 0 ) return alert("리더를 지정해 주세요")
+
+    const inputsWithPuuid = [];
+    for (let m of memberInputs) {
+      if (!m.name.includes('#')) continue;
+      const { name, tag } = parseNameAndTag(m.name);
+
+      try {
+        const res = await fetch(`${BASE_URL}/summoner/${encodeURIComponent(name)}?tag=${encodeURIComponent(tag)}`);
+        const data = await res.json();
+        const summonerName = name + "#" + tag
+        inputsWithPuuid.push({
+          teamId: selectedTeamId,
+          tournamentsID: tournamentsID,
+          summonerName: summonerName,
+          leader_puuid: m.role === 'LEADER' ? data.puuid : null,
+          member_puuid: m.role === 'MEMBER' ? data.puuid : null,
+          role: m.role
+        });
+      } catch (err) {
+        alert(`${m.name} 정보를 가져오는 데 실패했습니다.`);
+        return;
+      }
+    }
+
   try{
-    const res = await fetch(`${BASE_URL}/tournament/tournaments/${tournamentsID}` , {
+    await fetch(`${BASE_URL}/tournament/teams/${selectedTeamId}/members`, {
       method : "DELETE",
       headers: { "Content-Type": "application/json" },
-    });
+    })
+  }catch (err) {
+    console.error("팀 삭제 에러: " , err)
+  }
 
-    if (res.ok){
-      alert("토너먼트가 삭제되었습니다.")
-    localStorage.removeItem('tournamentCode'); 
-    navigate('/tournament');
-    }else {
-      alert("삭제에 실패했습니다.")
-    }
-  } catch (error) {
-    console.error("팀 삭제 에러", error);
-    alert("서버 오류가 발생했습니다.");
+
+for (let m of inputsWithPuuid) {
+  const res = await fetch(`${BASE_URL}/tournament/teams/${selectedTeamId}/members`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(m)
+  });
+
+  if (!res.ok) {
+    const data = await res.json();
+    alert(`등록 실패: ${data.error || "서버 오류"}`);
+    return;
   }
 }
 
-const DeleteTeam = async (teamId) => {
+    alert("등록 완료");
+    setCheckSetUpTeam(false);
+    setSelectedTeamId(null);
+    setMemberInputs(emptyInputs());
+  };
+
+  const DeleteTeam = async (teamId) => {
   try {
     const res = await fetch(`${BASE_URL}/tournament/${teamId}/teams`, {
       method: "DELETE",
       headers: { "Content-Type": "application/json" },
     });
-
     if (res.ok) {
       alert("팀이 삭제되었습니다.");
-      CheckTeamList(); // 삭제 후 팀 목록 갱신
+      CheckTeamList(); // 삭제 후 목록 새로고침
     } else {
-      alert("삭제에 실패했습니다.");
+      alert("팀 삭제 실패");
     }
   } catch (error) {
-    console.error("팀 삭제 에러", error);
+    console.error("팀 삭제 에러:", error);
     alert("서버 오류가 발생했습니다.");
   }
 };
 
-
-
-const CheckTeamList = async () => {
-
+const DeleteTournament = async (tournamentsID) => {
   try {
-    const res = await fetch(`${BASE_URL}/tournament/tournaments/${tournamentsID}/teams`, {
-      method : "GET",
+    const res = await fetch(`${BASE_URL}/tournament/tournaments/${tournamentsID}`, {
+      method: "DELETE",
       headers: { "Content-Type": "application/json" },
-    })
-    const data = await res.json()
-    console.log("팀 리스트 :" ,data)
-    setTeamList(data);
-      
+    });
+    if (res.ok) {
+      alert("토너먼트가 삭제되었습니다.");
+      localStorage.removeItem("tournamentCode");
+      navigate("/tournament");
+    } else {
+      alert("토너먼트 삭제 실패");
+    }
   } catch (error) {
-    console.error("팀 목록 에러" , error)
-    alert("서버 오류가 발생했습니다.")
+    console.error("토너먼트 삭제 에러:", error);
+    alert("서버 오류가 발생했습니다.");
   }
-}
-
-  const makeTeam = () => {
-    if(openTeamMake)
-      {setOpenTeamMake(false)}
-    else
-    {setOpenTeamMake(true)}
-  };
-
-  const joinTeam = () => {
-    alert(`팀 코드 ${teamCode}로 가입 시도 (추후 구현)`);
-  };
-
-  const titleStyle = {
-  fontSize: "2rem",
-  marginBottom: "20px",
-  color: "#4f46e5"
 };
 
-const subtitleStyle = {
-  fontSize: "1.2rem",
-  marginBottom: "12px",
-  
+const joinTeam = () => {
+  alert(`팀 코드 ${selectedTeamId}로 가입 시도 (기능 구현 예정)`);
 };
 
-const cardStyle = {
-  border: "1px solid #d1d5db",
-  borderRadius: "12px",
-  padding: "20px",
-  marginBottom: "24px",
-  backgroundColor: "#f9fafb"
-};
-
-const teamCardStyle = {
-  display: "flex",
-  gap: "16px",
-  alignItems: "center",
-  padding: "12px",
-  border: "1px solid #e5e7eb",
-  borderRadius: "10px",
-  backgroundColor: "white"
-};
-
-const buttonStyle = {
-  backgroundColor: "#6366f1",
-  color: "white",
-  padding: "8px 16px",
-  borderRadius: "6px",
-  border: "none",
-  cursor: "pointer"
-  , textAlign : "center"
-};
-
-const buttonDangerStyle = {
-  ...buttonStyle,
-  backgroundColor: "#ef4444"
-};
-
-const inputStyle = {
-  width: "100%",
-  padding: "8px",
-  marginBottom: "10px",
-  borderRadius: "6px",
-  border: "1px solid #d1d5db"
-};
 
   return (
-    <div style={{ padding: "32px", fontFamily: "Arial, sans-serif", maxWidth: "1000px", margin: "auto" }}>
-  <div style={{ marginBottom: "24px", display: "flex", justifyContent: "flex-end", gap: "10px"  }}>
-    <button style={buttonStyle} onClick={testAdmin}>Admin Test</button>
-    <button style={buttonStyle} onClick={testTeam}>Team Test</button>
-  </div>
+    <div style={{ padding: "32px", fontFamily: "Arial", maxWidth: "1000px", margin: "auto" }}>
+      {loading && <LoadingOverlay />}
+      <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
+        <button onClick={() => setIsAdmin(p => !p)}>Admin Test</button>
+      </div>
 
-  {isAdmin ? (
-    <div>
-      <h1 style={titleStyle}> 관리자 대시보드</h1>
+      {isAdmin ? (
+        <AdminView
+          {...{
+            openTeamMake, setOpenTeamMake,
+            teamList, CheckTeamList,teamCode,
+            setSelectedTeamId, setCheckSetUpTeam, fetchTeamMembers,
+            selectedTeamId, checkSetUpTeam, memberInputs, setMemberInputs,
+            handleRegisterMembers, checkDelete, setCheckDelete,
+            DeleteTeam, checkTournamentDelete, setCheckTournamentDelete,
+            DeleteTournament, tournamentsID, id , handleSetTeam , setLoading
+            
 
-      {/* 팀 생성 */}
-      <section style={cardStyle}>
-        <div style={{cursor : "pointer", display : "flex" , justifyContent : "center" , alignItems : "center" , gap : "240px"}} onClick={makeTeam}>
-        
-        {openTeamMake ? <></> :
-        <>
-        <h2 style={subtitleStyle}> 팀 생성</h2>
-        </>
-      }
-        </div>
-        
-        {openTeamMake && <CreateTeam setOpenTeamMake={setOpenTeamMake} tournamentsID={tournamentsID} />}
-      </section>
-
-      {/* 팀 리스트 */}
-      <section style={cardStyle}>
-        <span style={{display : "flex" , justifyContent : "center" , alignItems : "center" }}><h2 style={subtitleStyle}> 팀 목록</h2> 
-        <h2
-          onClick={CheckTeamList}
-         style={{cursor : "pointer"  , padding : "10px", background : "#6366f1" , color : "white" ,borderRadius : "16px", marginLeft : "240px" ,  ...subtitleStyle}}
-        >
-          새로고침
-        </h2>
-        
-        </span>
-        <div style={{ maxHeight: "300px", overflowY: "auto", display: "flex", flexDirection: "column", gap: "12px" }}>
-          {teamList.map((t, idx) => (
-            <div key={idx} style={teamCardStyle}>
-              <img src={t.logourl} alt="로고" width="64" height="64" style={{ borderRadius: "8px" }} />
-              <div>
-                <strong>{t.name}</strong>
-                <p>팀 코드: {t.id}</p>
-                <p>경기 수: {t.totalmatches} | 승리: {t.wincount} | 승률: {
-                  t.totalmatches > 0
-                    ? `${((t.wincount / t.totalmatches) * 100).toFixed(1)}%`
-                    : "0%"
-                }</p>
-              </div>
-              <div style={{display : "flex" , flexDirection : "column" , marginLeft : "250px"}}>
-              <button style={buttonStyle}>선수 관리</button>
-              <button style={buttonDangerStyle} onClick={DeleteCheck}>삭제</button>
-              </div>
-              {checkDelete && (
-                <Modal
-                  title="정말 삭제하시겠습니까?"
-                  onConfirm={() => DeleteTeam(t.id)}
-                  onCancel={() => setCheckDelete(false)}
-                />
-              )}
-              
-            </div>
-          ))}
-        </div>
-      </section>
-
-      {/* 토너먼트 삭제 */}
-      <section style={cardStyle}>
-        <h2 style={subtitleStyle}> 토너먼트 삭제</h2>
-        <button style={buttonDangerStyle} onClick={TournamentDeleteCheck}>토너먼트 삭제</button>
-        {checkTournamentDelete && (
-          <Modal
-            title="토너먼트를 정말 삭제하시겠습니까?"
-            onConfirm={() => DeleteTournament(id)}
-            onCancel={() => setCheckTournamentDelete(false)}
-          />
-        )}
-      </section>
-    </div>
-  ) : (
-    <div>
-      {!hasTeam ? (
-        <section style={cardStyle}>
-          <h2 style={subtitleStyle}> 팀 가입</h2>
-          <input
-            placeholder="팀 코드 입력"
-            value={teamCode}
-            onChange={(e) => setTeamCode(e.target.value)}
-            style={inputStyle}
-          />
-          <button style={buttonStyle} onClick={joinTeam}>팀 가입</button>
-        </section>
+          }}
+        />
       ) : (
-        <section style={cardStyle}>
-          <h2>팀 정보 (준비 중)</h2>
-        </section>
+        <UserView {...{ setLoading ,teamList , CheckTeamList ,selectedTeamId, setTeamCode, joinTeam, adminId, setAdminId, adminPw, setAdminPw, checkAdmin , teamCode }} />
       )}
-
-      <section style={cardStyle}>
-        <h2 style={subtitleStyle}> 관리자 로그인</h2>
-        <label>아이디</label>
-        <input value={adminId} onChange={(e) => setAdminId(e.target.value)} style={inputStyle} />
-        <label>비밀번호</label>
-        <input type="password" value={adminPw} onChange={(e) => setAdminPw(e.target.value)} style={inputStyle} />
-        <button style={buttonStyle} onClick={checkAdmin}>로그인</button>
-      </section>
     </div>
-  )}
-</div>
-
   );
 }

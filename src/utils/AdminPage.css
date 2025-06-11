@@ -1,0 +1,13 @@
+
+.MakeTeam{
+  border: 1px solid #d1d5db;
+  border-Radius: 12px;
+  padding: 20px;
+  margin-Bottom: 24px;
+  background-Color: #f9fafb;
+  cursor: pointer;
+}
+
+.MakeTeam:hover{
+  background-color: rgba(131, 139, 139, 0.856)
+}
