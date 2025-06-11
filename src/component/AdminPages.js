@@ -11,7 +11,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:6900";
 export default function DetailPage({ tournamentsID }) {
   const navigate = useNavigate();
   const { id } = useParams();
- const emptyInputs = () => Array(5).fill(null).map(() => ({ name: '', puuid: '', role: 'MEMBER' }));
+
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminId, setAdminId] = useState("");
   const [adminPw, setAdminPw] = useState("");
@@ -23,6 +23,9 @@ export default function DetailPage({ tournamentsID }) {
 
   const [checkSetUpTeam, setCheckSetUpTeam] = useState(false);
   const [selectedTeamId, setSelectedTeamId] = useState(null);
+
+    const emptyInputs = () => Array(5).fill(null).map(() => ({ name: '', puuid: '', role: 'MEMBER' }));
+
   const [memberInputs, setMemberInputs] = useState(emptyInputs());
 
   const [openTeamMake, setOpenTeamMake] = useState(false);
@@ -73,22 +76,27 @@ const fetchTeamMembers = async (teamId) => {
   try {
     const res = await fetch(`${BASE_URL}/tournament/teams/${teamId}/members`);
     const data = await res.json();
+    const filled = Array(5).fill(null).map((_, idx) => {
+    const d = data[idx];
+    if (!d) return { name: '', puuid: '', role: 'MEMBER' };
 
-    const inputs = data.map((m) => ({
-      name: m.summonername,
-      role: m.leader_puuid ? 'LEADER' : 'MEMBER',
-    }));
-
-    setMemberInputs(inputs); // 기존 입력값 상태에 자동 채워넣기
+  return {
+    name: d.summonername || '',  // summonerName은 name + 태그로 다시 붙여도 됨
+    puuid: d.leader_puuid || d.member_puuid || '',
+    role: d.leader_puuid ? 'LEADER' : 'MEMBER'
+  };
+});
+    setMemberInputs(filled);
   } catch (err) {
-    console.error('팀 멤버 불러오기 실패:', err);
+    console.error("팀 멤버 조회 실패:", err);
+    setMemberInputs(Array(5).fill({ name: '', puuid: '', role: 'MEMBER' }));
   }
 };
 
 const handleSetTeam = async (teamId) => {
   setSelectedTeamId(teamId);
-  await fetchTeamMembers(teamId); // ① 멤버 정보 불러오기
-  setCheckSetUpTeam(true);        // ② 설정 UI 띄우기
+  await fetchTeamMembers(teamId); //  멤버 정보 불러오기
+  setCheckSetUpTeam(true);        //  설정 UI 띄우기
 };
 
 

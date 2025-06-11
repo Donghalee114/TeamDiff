@@ -12,7 +12,10 @@ export default function MatchResults() {
   return (
     <div className="match-results">
       <div className="match-result-wrapper">
+        <span>      
         <h2>최근 경기 결과</h2>
+        <button>매치 결과 입력</button>
+        </span>
         {dummyMatches.map((match, index) => (
         <div className="match-card" key={index}>
             <div className="team team-a">

@@ -1,4 +1,5 @@
 // AdminView.jsx
+import { useEffect } from "react";
 import CreateTeam from "../component/createTeam";
 import Modal from "../component/modal";
 import "../utils/AdminPage.css";
@@ -16,6 +17,12 @@ export default function AdminView({
     width: "100%", padding: "8px", marginBottom: "10px",
     borderRadius: "6px", border: "1px solid #d1d5db"
   };
+
+  useEffect(() => {
+  console.log("selectedTeamId:", selectedTeamId);
+console.log("checkSetUpTeam:", checkSetUpTeam);
+  }, [])
+
 
   return (
     <div>
@@ -43,9 +50,7 @@ export default function AdminView({
                 <p>승률: {t.totalmatches > 0 ? `${((t.wincount / t.totalmatches) * 100).toFixed(1)}%` : '0%'}</p>
               </div>
               <div style={{ marginLeft: "auto", display: "flex", flexDirection: "column", gap: "8px" }}>
-                <button onClick={() => {
-                handleSetTeam(t.id)
-                }}>선수 관리</button>
+                <button onClick={() => handleSetTeam(t.id)}>선수 관리</button>
 
                 <button onClick={() => setCheckDelete(true)} style={{ backgroundColor: "#ef4444", color: "white" }}>삭제</button>
                 {checkDelete && <Modal title="정말 삭제하시겠습니까?" onConfirm={() => DeleteTeam(t.id)} onCancel={() => setCheckDelete(false)} />}
@@ -54,6 +59,7 @@ export default function AdminView({
           ))}
         </div>
       </section>
+      
 
       {/* 선수 관리 모달 */}
       {selectedTeamId && checkSetUpTeam && (

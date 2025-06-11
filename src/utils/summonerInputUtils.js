@@ -23,7 +23,7 @@ const [summoners, setSummoners] = useState(
   const [teamResult, setTeamResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(null);
-  const [canClick, setCanClick] = useState(false);
+  const [canClick, setCanClick] = useState(true);
   const [warning, setWarning] = useState('');
     const [teamList, setTeamList] = useState([]);
 

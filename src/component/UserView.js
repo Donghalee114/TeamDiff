@@ -95,9 +95,8 @@ const fetchTeamByCode = async (id) => {
   <div>
     {teamInfo?.name && (
       <div style={{ marginTop: "10px", backgroundColor: "#eef2ff", padding: "12px", borderRadius: "8px" }}>
-        <p><strong>팀 이름:</strong> {teamInfo.name}</p>
-        <p><strong>토너먼트:</strong> {teamInfo.tournament_name || "없음"}</p>
-        <p><strong>팀원:</strong></p>
+        <p><strong>팀 이름:</strong> {teamInfo.name} | {teamInfo.shortname || "없음"}</p>
+        <p><strong>멤버:</strong></p>
         <ul>
           {teamMember.map((m, i) => (
             <li key={i}>
