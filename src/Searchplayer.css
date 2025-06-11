@@ -106,6 +106,12 @@
   }
 }
 
+@media (max-width : 425) {
+  body {
+    overflow-x: auto;
+  }
+}
+
 html, body {
   margin: 0;
   padding: 0;

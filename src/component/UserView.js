@@ -109,7 +109,7 @@ const fetchTeamByCode = async (id) => {
     )}
   </div>
 ) : (
-  warning ? <div style={{fontSize : "20px" , color : "red" , fontWeight : "700"}}>잘못된 팀 코드거나 서버 오류가 발생하였습니다. 다시 시도해주세요</div> : null
+  warning ? <div style={{fontSize : "20px" , color : "red" , fontWeight : "700"}}>잘못된 팀 코드거나 팀 멤버가 없거나 서버 오류가 발생하였습니다. 다시 시도해주세요</div> : null
 )}
       </section>
 
