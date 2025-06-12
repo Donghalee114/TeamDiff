@@ -50,32 +50,70 @@ useEffect(() => {
   const vaild = summoners.filter(s => s.name && s.tag);
 
   return (
-    <div style={{
-      position: 'fixed', top: 100, left: '54%', marginTop : "250px", transform: 'translateX(-50%)',
-      background: 'white', border: '1px solid #ccc', padding: '20px', borderRadius: '12px', zIndex: 9999,
-      width: '300px', maxHeight: '300px', overflowY: 'auto', boxShadow: '0 4px 24px rgba(99,102,241,0.07)',
+<div style={{
+  position: 'fixed',
+  top: '50%',
+  left: '50%',
+  transform: 'translate(-50%, -50%)',
+  background: '#2a2d4e',  // 어두운 배경
+  border: '1px solid #3b3f5c',
+  padding: '24px',
+  borderRadius: '16px',
+  zIndex: 9999,
+  width: '340px',
+  maxHeight: '360px',
+  overflowY: 'auto',
+  boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
+  color: '#e0e0e0'
+}}>
+  <button
+    className='buttonWarning'
+    onClick={onClose}
+    style={{
+      position: 'absolute',
+      top: '12px',
+      right: '12px',
+      background: '#ff4d4d',
+      color: '#fff',
+      border: 'none',
+      borderRadius: '6px',
+      padding: '6px 12px',
+      cursor: 'pointer'
     }}>
-      <button className='buttonWarning' onClick={onClose} style={{ marginTop: '5px' , marginLeft : "230px" , width : "60px" , height : "40px" , position : "fixed" , zIndex : "1"}}>닫기</button>
-      <div style={{position : "relative",  left: "0px", width: "100%",}}>
-      <h3 style={{  marginBottom: '12px' }}> 소환사 저장 / 불러오기</h3>
-      {Array.from({ length: 5 }).map((_, i) => {
-      const filled = (savedSlots[i] || []).filter(s => s.name).length;
-      return (
-        <div key={i} style={{ marginBottom: '10px' }}>
-          <strong>슬롯 {i + 1}: </strong>  
-          {filled > 0 
+    닫기
+  </button>
+
+  <h3 style={{ marginBottom: '16px', color: '#facc15' }}>
+    📦 소환사 저장 / 불러오기
+  </h3>
+
+  {Array.from({ length: 5 }).map((_, i) => {
+    const filled = (savedSlots[i] || []).filter(s => s.name).length;
+    return (
+      <div key={i} style={{
+        marginBottom: '14px',
+        background: '#1f2235',
+        borderRadius: '8px',
+        padding: '12px'
+      }}>
+        <strong style={{ fontSize: '1rem', color: '#facc15' }}>
+          슬롯 {i + 1}:
+        </strong>
+        <div style={{ fontSize: '0.9rem', margin: '6px 0', color: '#cbd5e1' }}>
+          {filled > 0
             ? `${savedSlots[i]?.[0]?.name || '이름없음'} 외 ${filled - 1}명`
             : '비어있음'}
-          <div style={{ marginTop: '4px' }}>
-            <button className = "buttonDefault" onClick={() => saveToSlot(i)} style={{ marginRight: '8px' }}>저장</button>
-            <button className = "buttonDefault" onClick={() => loadFromSlot(i)}>불러오기</button>
-            <button className = "buttonWarning" onClick={() => deleteSlot(i)} style={{ marginLeft: '8px' }}>삭제</button>
-          </div>
         </div>
-  );
-})}
 
+        <div style={{ display: 'flex', gap: '6px', flexWrap: 'wrap' }}>
+          <button className='buttonDefault' onClick={() => saveToSlot(i)}>저장</button>
+          <button className='buttonDefault' onClick={() => loadFromSlot(i)}>불러오기</button>
+          <button className='buttonWarning' onClick={() => deleteSlot(i)}>삭제</button>
+        </div>
+      </div>
+    );
+  })}
 </div>
-    </div>
+
   );
 }

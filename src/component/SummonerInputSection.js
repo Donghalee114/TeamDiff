@@ -1,5 +1,6 @@
 import React, { useRef , useState } from 'react';
 import SummonerStoragePopup from './summonerPopUp';
+import '../Searchplayer.css'
 
 export default function SummonerInputSection({
   summoners,
@@ -24,58 +25,76 @@ export default function SummonerInputSection({
 
 
   return (
- 
     <section style={{
-      background: "white",
+      background: "#26293a", // 어두운 카드 배경
       borderRadius: "16px",
-      boxShadow: "0 4px 24px rgba(99,102,241,0.07)",
-      padding: "32px 28px",
+      boxShadow: "0 4px 16px rgba(0,0,0,0.3)",
+      padding: "28px 24px",
       width: "650px",
       minWidth: "340px",
-      height: "760px"
+      height: "900px",
+      color: "#e0e0e0"
     }}>
+
      {showStoragePopup ? <SummonerStoragePopup summoners={summoners} setSummoners={setSummoners} onClose={toggleStoragePopup}/> : null}
-      <h2 style={{ fontWeight: 700, fontSize: "1.3rem", marginBottom: "18px", color: "#6366f1" }}>
-        1. 소환사 정보 입력
-      </h2>
-      <div style={{ marginBottom: "16px" }}>
-        <textarea
-          rows={4}
-          placeholder="한 줄에 한 명씩 닉네임#태그 입력 (예: 홍길동#KR1)"
-          id="summonerInput"
-          onPaste={onPaste}
-          style={{
-            position: "relative",
-            width: "95%",
-            border: "1.5px solid #c7d2fe",
-            borderRadius: "8px",
-            padding: "10px",
-            fontSize: "1rem",
-            resize: "none",
-            background: "#f3f4f6"
-          }}
-        />
-        <div style={{
-          marginLeft: "355px",
-          background: "#f3f4f6",
-          borderRadius: "10px",
-          border: "1.5px solid #c7d2fe",
-          padding: "12px 10px",
-          display: "flex",
-          justifyContent: "center",
-          gap: "13px",
-          alignItems: "center",
-          width: "40%",
-          height: "24px"
+      <h2 style={{
+          fontWeight: 700,
+          fontSize: "1.2rem",
+          marginBottom: "18px",
+          color: "#c7a008"
         }}>
-          <button className="buttonDefault" onClick={handleBulkPasteFromTextArea}>추가</button>
-          <button className="buttonDefault" onClick={toggleStoragePopup}>저장 및 불러오기</button>
-        </div>
+          1. 소환사 정보 입력
+        </h2>
+
+      <div style={{ marginBottom: "-37px" }}>
+      <textarea
+        rows={4}
+        placeholder="위 입력창에 아래의 예시처럼 복사하거나 입력하시고 추가버튼을 누르시면 입력하실수 있습니다. 
+        예시 1)
+          JUGKlNG #kr 님이 로비에 참가하셨습니다.
+          DK Sharvel #KR1 님이 로비에 참가하셨습니다.
+          예시 2)
+          SDW blunt#KR1
+          홍길동#KR4
+          Hide on Bush#KR1
+          "
+        onPaste={onPaste}
+        style={{
+          width: "96%",
+          height: "130px",
+          border: "1.5px solid #444",
+          borderRadius: "8px",
+          padding: "10px",
+          fontSize: "0.95rem",
+          resize: "none",
+          background: "#1f2235",
+          color: "#e0e0e0"
+        }}
+
+        id="summonerInput"
+      />
+
+      <div style={{
+        marginTop: "2px",
+        display: "flex",
+        justifyContent: "flex-end",
+        gap: "10px"
+      }}>
+        <button className="buttonDefault" onClick={handleBulkPasteFromTextArea}>추가</button>
+        <button className="buttonDefault" onClick={toggleStoragePopup}>저장 및 불러오기</button>
       </div>
-      <span style={{display : "flex" , alignItems : "start" , gap : "350px"}}>
-      <button className="buttonWarning" style={{ marginLeft: "8px", marginBottom: "15px" }} onClick={onClear}>초기화</button>
-      {warning && <div style={{ color: '#ef4444', margin: '10px 0', fontWeight: 800 }}>{warning}</div>}
-      </span>
+
+      </div>
+
+        <span style={{
+          display: "flex",
+          justifyContent: "space-between",
+          margin: "10px 0"
+        }}>
+          <button className="buttonWarning" onClick={onClear}>초기화</button>
+          {warning && <div style={{ color: '#ff6b6b', fontWeight: 700 }}>{warning}</div>}
+        </span>
+
 
       {summoners.map((summoner, idx) => (
         <div key={idx} style={{
@@ -87,6 +106,7 @@ export default function SummonerInputSection({
           <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
             <span style={{ width: "26px", textAlign: "right", marginRight: "6px", fontWeight: "bold" }}>{idx + 1}.</span>
             <input
+              
               type="text"
               ref={el => { if (el) inputRefs.current[idx] = el; }}
               placeholder="닉네임#태그 (예: Kimman#KR1)"
@@ -118,11 +138,12 @@ export default function SummonerInputSection({
               style={{
                 flex: 1,
                 height: '32px',
-                border: loadingIndex === idx ? '2px solid #fbbf24' : '1.5px solid #c7d2fe',
+                border: loadingIndex === idx ? '2px solid #fbbf24' : '1.5px solid #444',
                 borderRadius: "6px",
-                backgroundColor: loadingIndex === idx ? '#fef9c3' : '#f9fafb',
+                backgroundColor: loadingIndex === idx ? '#3b3a10' : '#1f2235',
+                color: "#fff",
                 padding: "0 8px",
-                fontSize: "1rem"
+                fontSize: "0.95rem"
               }}
             />
 
@@ -146,27 +167,27 @@ export default function SummonerInputSection({
           {loadingIndex === idx && <span style={{ marginLeft: '6px', fontSize: "1.1rem" }}>🔄</span>}
         </div>
       ))}
-    
+          
       <button
         onClick={onFetch}
         style={{
           width: "100%",
-          marginTop: "10px",
-          background: "#6366f1",
-          color: "white",
+          marginTop: "16px",
+          background: "#e7e7e7",
+          color: "#000",
           border: "none",
           borderRadius: "8px",
           padding: "12px 0",
           fontWeight: 700,
-          fontSize: "1.1rem",
-          cursor: "pointer",
-          transition: "background 0.2s",
-
+          fontSize: "1rem",
+          cursor: "pointer"
         }}
+        className='hovers'
         disabled={isLoading}
       >
         소환사 점수화
       </button>
+
     </section>
   );
 }

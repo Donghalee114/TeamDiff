@@ -27,44 +27,40 @@ export default function ScoreDisplay({ result, setResult }) {
         roleCount[p.mainRole]++;
       }
     });
-  
     return roleCount;
   };
 
   const roleDistribution = getRoleDistribution();
 
   const getDuplicatedMainRoles = () => {
-  const count = {};
-  result.forEach(p => {
-    if (p.mainRole) {
-      count[p.mainRole] = (count[p.mainRole] || 0) + 1;
-    }
-  });
-  // 중복된 포지션만 리턴
-  return Object.keys(count).filter(role => count[role] > 1);
-};
+    const count = {};
+    result.forEach(p => {
+      if (p.mainRole) {
+        count[p.mainRole] = (count[p.mainRole] || 0) + 1;
+      }
+    });
+    return Object.keys(count).filter(role => count[role] > 1);
+  };
 
-const duplicatedRoles = getDuplicatedMainRoles();
-
-  
+  const duplicatedRoles = getDuplicatedMainRoles();
 
   return (
     <section style={{
       position: "relative",
-      top : "-38px",
-      background: "white",
-       borderRadius: "16px",
-      boxShadow: "0 4px 24px rgba(99,102,241,0.07)",
+      top: "-53px",
+     background: "#26293a",
+      borderRadius: "16px",
+      boxShadow: "0 4px 24px rgba(0,0,0,0.3)",
       padding: "32px 28px",
       width: "650px",
-      minWidth: "440px",
-      height: "765px",
-      maxHeight: "770px",
+      minWidth: "450px",
+      height: "890px",
+      color: "#e0e0e0"
     }}>
-      <h2 style={{ zIndex : 100 , fontWeight: 700, fontSize: "1.3rem", marginBottom: "18px", color: "#6366f1" }}>
+      <h2 style={{ fontWeight: 700, fontSize: "1.3rem", marginBottom: "18px", color: "#facc15" }}>
         2. 소환사 점수 및 포지션
       </h2>
-     
+
       <div style={{ marginBottom: "16px" }}>
         <label style={{ fontWeight: 600, marginRight: "10px" }}>포지션 모드:</label>
         <select
@@ -74,19 +70,21 @@ const duplicatedRoles = getDuplicatedMainRoles();
             width: "180px",
             height: "32px",
             borderRadius: "6px",
-            border: "1.5px solid #c7d2fe",
+            border: "1.5px solid #facc15",
             fontSize: "1rem",
-            background: "#f3f4f6"
+            background: "#1f2235",
+            color: "#fff"
           }}
         >
           <option value="auto">포지션 자동 선택</option>
           <option value="manual">포지션 수동 선택</option>
         </select>
       </div>
+
       {result.length > 0 && (
         <div style={{
           marginBottom: '14px',
-          backgroundColor: '#f1f5f9',
+          backgroundColor: '#1f2235',
           padding: '10px 14px',
           borderRadius: "8px",
           fontSize: "0.98rem"
@@ -95,51 +93,51 @@ const duplicatedRoles = getDuplicatedMainRoles();
           {roleOrder.map(role => `${roleToKorean[role]}: ${roleDistribution[role] || 0}명`).join(' | ')}
         </div>
       )}
+
       {positionMode === 'manual' && duplicatedRoles.length > 0 && (
-    <div style={{
-      backgroundColor: '#fef3c7',
-      color: '#92400e',
-      padding: '10px 12px',
-      borderRadius: '8px',
-      marginBottom: '12px',
-      fontWeight: 600,
-      fontSize: "0.95rem"
-    }}>
-      주 포지션 중복 경고: {duplicatedRoles.map(role => roleToKorean[role]).join(', ')}에 중복된 인원이 있습니다.
-    </div>
-  )}
+        <div style={{
+          backgroundColor: '#facc15',
+          color: '#000',
+          padding: '10px 12px',
+          borderRadius: '8px',
+          marginBottom: '12px',
+          fontWeight: 600,
+          fontSize: "0.95rem"
+        }}>
+          주 포지션 중복 경고: {duplicatedRoles.map(role => roleToKorean[role]).join(', ')}에 중복된 인원이 있습니다.
+        </div>
+      )}
+
       <div style={{
         maxHeight: '540px',
         overflowY: 'auto',
         padding: '6px',
         borderRadius: '8px',
-        backgroundColor: '#f9fafb',
-        border: '1px solid #e5e7eb'
+        backgroundColor: '#1c1f3a',
+        border: '1px solid #444'
       }}>
-        {result.length === 0 && <p style={{ color: "#6b7280" }}>소환사 점수화 버튼을 눌러주세요</p>}
+        {result.length === 0 && <p style={{ color: "#9ca3af" }}>소환사 점수화 버튼을 눌러주세요</p>}
         {result.map((r, idx) => (
           <div key={idx} style={{
-            backgroundColor: idx % 2 === 0 ? '#fff' : '#f3f4f6',
+            backgroundColor: idx % 2 === 0 ? '#2a2d4e' : '#1f2235',
             padding: '12px 10px',
             marginBottom: '8px',
             borderRadius: '6px',
-            boxShadow: "0 1px 2px rgba(0,0,0,0.03)"
+            boxShadow: "0 1px 2px rgba(0,0,0,0.2)"
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <span style={{ fontWeight: 700 }}>{r.name}#{r.tag}</span>
-              <span style={{ background: "#6366f1", color: "white", borderRadius: "4px", padding: "2px 8px" }}>
+              <span style={{ background: "#facc15", color: "#000", borderRadius: "4px", padding: "2px 8px" }}>
                 {tierToKorean[r.tier] || r.tier}
               </span>
-              <span style={{ color: "#64748b" }}>({r.tierScore}점)</span>
+              <span style={{ color: "#d1d5db" }}>({r.tierScore}점)</span>
             </div>
             <div style={{ fontSize: "0.95rem", marginTop: "4px" }}>
               승률 점수: <strong>{r.winScore}점</strong> | 승률: <strong>{r.winRate}%</strong> | 주 포지션: <strong>{roleToKorean[r.mainRole]}</strong> | 부포지션 : <strong>{r.backupRoles?.length ? r.backupRoles.map(role => roleToKorean[role]).join(', ') : '없음'}</strong>
-           
             </div>
-            
+
             {positionMode === 'manual' && (
               <>
-              
                 <button
                   onClick={() => {
                     const updated = [...showRoles];
@@ -147,8 +145,8 @@ const duplicatedRoles = getDuplicatedMainRoles();
                     setShowRoles(updated);
                   }}
                   style={{
-                    background: showRoles[idx] ? "#fbbf24" : "#e0e7ff",
-                    color: "#374151",
+                    background: showRoles[idx] ? "#fbbf24" : "#4b5563",
+                    color: "#fff",
                     border: "none",
                     borderRadius: "6px",
                     padding: "4px 12px",
@@ -157,7 +155,6 @@ const duplicatedRoles = getDuplicatedMainRoles();
                     marginTop: "6px"
                   }}
                 >
-                  
                   {showRoles[idx] ? '포지션 접기' : '포지션 설정'}
                 </button>
                 {showRoles[idx] && (
@@ -206,7 +203,7 @@ const duplicatedRoles = getDuplicatedMainRoles();
                 )}
               </>
             )}
-            <div style={{ marginTop: "6px", fontWeight: 700, color: "#6366f1" }}>총점: {r.totalScore}점</div>
+            <div style={{ marginTop: "6px", fontWeight: 700, color: "#facc15" }}>총점: {r.totalScore}점</div>
           </div>
         ))}
       </div>

@@ -23,7 +23,7 @@ const [summoners, setSummoners] = useState(
   const [teamResult, setTeamResult] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
   const [loadingIndex, setLoadingIndex] = useState(null);
-  const [canClick, setCanClick] = useState(true);
+  const [canClick, setCanClick] = useState(false);
   const [warning, setWarning] = useState('');
     const [teamList, setTeamList] = useState([]);
 
@@ -73,7 +73,10 @@ const handleBulkPaste = e => {
       tag: tag.trim(),
       input: `${name.trim()}#${tag.trim()}`
     };
+  
   });
+
+  setSummoners(parsed); // ✅ 여기까지만
 
   const newSummoners = [...summoners];
   let insertIndex = newSummoners.findIndex(s => !s.name);

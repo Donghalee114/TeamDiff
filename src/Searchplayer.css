@@ -1,104 +1,138 @@
+/* 전체 레이아웃 */
+html, body {
+  margin: 0;
+  padding: 0;
+  height: 100%;
+  width: 100%;
+  overflow-x: hidden;
+  font-family: 'Noto Sans KR', sans-serif;
+ background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
+  color: #e0e0e0; /* 부드러운 밝은 회색 */
+  font-size: 14px;
+}
+
+.left-panel,
+.right-panel {
+margin-top: 120px;
+
+}
+/* 메인 레이아웃 */
 .main-layout {
   display: flex;
   flex-direction: column;
-  height: 100%;
-  width: 100%;
+  min-height: 100vh;
+  width: 100vw;
+  margin-top: 70px;
+  
+}
+
+/* 탭 버튼 (고급스러운 포인트 색상) */
+.tab-active,
+.tab-inactive {
+  padding: 5px 10px;
+  font-size: 0.85rem;
+  border-radius: 5px;
+  border: none;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background-color 0.2s, color 0.2s;
 }
 
 .tab-active {
-  background-color: #6366f1;
-  color: white;
-  font-weight: bold;
-  border-radius: 6px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
+  background-color: #f0eee9; /* 골드톤 강조 */
+  color: #000;
 }
 
 .tab-active:hover {
-  background-color: #4f46e5;
+  background-color: #e5c100;
 }
 
 .tab-inactive {
-  background-color: #e0e7ff;
-  color: #6366f1;
-  font-weight: normal;
-  border-radius: 6px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
+  background-color: #2f3145;
+  color: #000000;
 }
 
 .tab-inactive:hover {
-  background-color: #dbeafe;
+  background-color: #34353a;
 }
 
+/* 탭 정렬 */
 .tabs {
   display: flex;
-  justify-content: end;
-  gap: 10px;
-  position: relative;
+  justify-content: flex-end;
+  gap: 8px;
+  padding-bottom: 6px;
+}
+
+/* 버튼 스타일 */
+.buttonDefault,
+.buttonWarning {
+  padding: 6px 10px;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s;
 }
 
 .buttonDefault {
-  background-color: #e0e7ff;
-  color: #6366f1;
-  font-weight: 800;
-  border-radius: 6px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
+  background-color: #a79191;
+  color: #2f314a;
 }
 
 .buttonDefault:hover {
-  background-color: #6366f1;
-  color: white;
+  background-color: #2f314a;
+  color: #c7a008;
 }
 
 .buttonWarning {
-  background-color: #ff150067;
-  color: white;
-  font-weight: 800;
-  border-radius: 6px;
-  padding: 8px 12px;
-  border: none;
-  cursor: pointer;
+  background-color: #c89e9e;
+  color: #150707;
+}
+
+.hovers:hover {
+  background-color: #1023ae ;
 }
 
 .buttonWarning:hover {
-  background-color: #ff0000;
+  background-color: #ff3b30;
+  color: white;
 }
 
+/* 콘텐츠 영역 */
 .panel-div {
   width: 100%;
-  padding: 40px 20px 60px;
+  padding: 20px 16px 40px;
   display: flex;
   justify-content: center;
-  gap: 100px;
+  gap: 40px;
   align-items: flex-start;
-  min-height: calc(100vh - 120px);
+  min-height: calc(100vh - 100px);
   flex-wrap: wrap;
-  margin-top: 100px;
+  margin-top: 2px;
+  background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
 }
 
-@keyframes blink{
-  0%{
-    opacity: 1;
-  }
-  50%{opacity: 0.;}
- 
-100%{opacity: 1;}
- }
-.blink-button{
-  animation: blink 1.5s ;
+/* 깜빡임 */
+@keyframes blink {
+  0% { opacity: 1; }
+  50% { opacity: 0; }
+  100% { opacity: 1; }
+}
+
+.blink-button {
+  animation: blink 1.5s;
   animation-iteration-count: 5;
 }
 
+/* 반응형 */
 @media (max-width: 1024px) {
   .panel-div {
     flex-direction: column;
-    gap: 40px;
+    gap: 30px;
     align-items: center;
+    margin-top: 100px;
   }
 
   .tabs {
@@ -106,14 +140,8 @@
   }
 }
 
-@media (max-width : 425) {
+@media (max-width: 425px) {
   body {
     overflow-x: auto;
   }
-}
-
-html, body {
-  margin: 0;
-  padding: 0;
-  overflow-x: hidden;
 }

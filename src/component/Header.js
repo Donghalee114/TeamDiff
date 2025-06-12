@@ -13,6 +13,7 @@ export default function Headers({ text }) {
 <nav>
         <span className='navbutton' onClick={() => navigate("/Tournament")} >내전 관리</span>
         <span className='navbutton' onClick={() => navigate("/teamMatch")} >팀 자동 구성</span>
+        <span className='navbutton' onClick={() => navigate("/MockDraft")}>모의 밴픽</span>
 </nav>
     </header>
   );

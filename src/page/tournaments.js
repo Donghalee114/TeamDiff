@@ -78,32 +78,37 @@ export default function Tournaments() {
     }
   };
 
-  const inputStyle = {
+const inputStyle = {
   padding: "10px",
   borderRadius: "8px",
-  border: "1px solid #ccc",
+  border: "1px solid #555",
+  backgroundColor: "#1f2235",
+  color: "#fff",
   fontSize: "1rem",
   width: "400px"
 };
 
-
-  const inputStyle2 = {
-  padding: "10px",
-  borderRadius: "8px",
-  border: "1px solid #ccc",
-  fontSize: "1rem",
+const inputStyle2 = {
+  ...inputStyle,
   width: "270px",
-  marginRight : "5px"
+  marginRight: "5px"
 };
 
 const primaryBtn = {
   padding: "10px 20px",
-  background: "#4f46e5",
-  color: "white",
+  background: "#c7a008",  // 골드 포인트
+  color: "#000",
   border: "none",
   borderRadius: "8px",
   cursor: "pointer",
+  fontWeight: "bold"
 };
+
+const primaryBtn2 = {
+  ...primaryBtn,
+  width : "80%"
+}
+
 
 const secondaryBtn = {
   ...primaryBtn,
@@ -112,14 +117,21 @@ const secondaryBtn = {
 };
 
 const cardStyle = {
-  background: "#f9fafb",
+  background: "#26293a", // 어두운 카드 배경
+  color: "#eee",         // 밝은 텍스트
   padding: "20px",
   borderRadius: "12px",
-  boxShadow: "0 2px 8px rgba(0,0,0,0.05)",
+  boxShadow: "0 2px 8px rgba(0,0,0,0.2)",
   width: "400px",
   marginBottom: "30px",
 };
 
+const cardStyle2 = {
+  ...cardStyle,
+    display : "flex",
+  flexDirection: "column",
+  alignItems : "center"
+}
 const cardTitle = {
   fontSize: "1.2rem",
   fontWeight: "bold",
@@ -129,17 +141,25 @@ const cardTitle = {
 
   return (
     <>
-      <Headers  text="내전 및 토너먼트를 만들고 관리하세요!"/>
-      <div style={{ marginTop: "100px", width: "100%", display: "flex", flexDirection: "column", alignItems: "center" }}>
+<Headers  text="내전 및 토너먼트를 만들고 관리하세요!"/>
+<div style={{
+  background: "linear-gradient(135deg,rgb(44, 44, 78) 0%,rgb(55, 58, 95) 100%)",
+  minHeight: "100vh",
+  paddingTop: "100px",
+  display: "flex",
+  flexDirection: "column",
+  alignItems: "center",
+  color: "white"
+}}>
+
   <h1 style={{ fontSize: "2rem", fontWeight: "bold", marginBottom: "20px"  }}>내전 / 토너먼트 관리</h1>
 
   {/* 생성 섹션 */}
-  <div style={{ background: "#f0f4ff", padding: "24px", borderRadius: "12px",
-     width: "400px", boxShadow: "0 2px 12px rgba(0,0,0,0.1)", marginBottom: "30px" , display : "flex" , justifyContent : "center" }}>
+  <div style={cardStyle2}>
     {!enable ? (
       <button
         onClick={() => setEnable(true)}
-        style={{  width : "300px" , padding: "10px 20px", borderRadius: "8px", background: "#6366f1", color: "white", border: "none", cursor: "pointer" }}
+        style={primaryBtn2}
       >
         내전 / 토너먼트 생성하기
       </button>
@@ -194,7 +214,15 @@ const cardTitle = {
     {allTournaments.length === 0 ? (
       <p>등록된 토너먼트가 없습니다.</p>
     ) : (
-      <div style={{ maxHeight: "150px", overflowY: "auto", background: "#fff", padding: "10px", borderRadius: "8px", border: "1px solid #ddd" }}>
+      <div style={{
+            maxHeight: "150px",
+            overflowY: "auto",
+            background: "#1f2235", // 어두운 박스
+            color: "#ddd",
+            padding: "10px",
+            borderRadius: "8px",
+            border: "1px solid #444"
+          }}>
         <ul style={{ margin: 0, paddingLeft: "16px" }}>
           {allTournaments.map((t, idx) => (
             <li key={idx}>{t.name} (ID: {t.id})</li>

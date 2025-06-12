@@ -39,27 +39,40 @@ export default function TeamDisplay({ teamResult, setResult, setCanClick, handle
         return (aIndex === -1 ? 999 : aIndex) - (bIndex === -1 ? 999 : bIndex);
       })
       .map((p, idx) => (
-        <li key={idx} style={{ marginBottom: "2px" }}>
-          <span style={{ fontWeight: 600 }}>{p.name}#{p.tag}</span>
-          <span style={{
-            background: "#e0e7ff", color: "#6366f1", borderRadius: "4px",
-            padding: "2px 8px", marginLeft: "8px", fontSize: "0.98rem"
-          }}>
-            {roleToKorean[p.assignedRole] || '포지션 없음'}
-          </span>
-          <span style={{ marginLeft: "8px", color: "#64748b" }}>
-            {tierToKorean[p.tier]} ({p.totalScore}점)
-          </span>
-          {p.mainRole ? (
-            p.assignedRole === p.mainRole ? (
-              <span style={{ color: "#22c55e", marginLeft: "8px" }}>주 포지션</span>
-            ) : (
-              <span style={{ color: "#fbbf24", marginLeft: "8px" }}>
-                부 포지션 (주: {roleToKorean[p.mainRole] || p.mainRole})
-              </span>
-            )
-          ) : null}
-        </li>
+<li key={idx} style={{
+  background: "#1f2235",
+  borderRadius: "6px",
+  padding: "6px 12px",
+  marginBottom: "6px",
+  fontSize: "0.95rem",
+  display: "flex",
+  justifyContent: "space-between",
+  alignItems: "center"
+}}>
+  {/* 왼쪽: 포지션 + 이름 + 티어 + 점수 */}
+  <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
+    <strong style={{minWidth : "130px"}}>{p.name}#{p.tag}</strong>
+    <span style={{
+      background: "#3f4468",
+      color: "#e0e0e0",
+      borderRadius: "4px",
+      padding: "2px 6px"
+    }}>
+      {roleToKorean[p.assignedRole] || '없음'}
+    </span>
+    <span style={{ color: "#a3aed0" }}>
+      {tierToKorean[p.tier]} ({p.totalScore}점)
+    </span>
+  </div>
+
+  {/* 오른쪽: 포지션 태그 */}
+  <div style={{ color: p.assignedRole === p.mainRole ? "#22c55e" : "#fbbf24" }}>
+    {p.assignedRole === p.mainRole
+      ? "주 포지션"
+      : `부 포지션 (주: ${roleToKorean[p.mainRole]})`}
+  </div>
+</li>
+
       ));
   };
 
@@ -67,20 +80,30 @@ export default function TeamDisplay({ teamResult, setResult, setCanClick, handle
     <section style={{
       position: "relative",
       top: "-38px",
-      background: "white",
+      background: "#26293a",
       borderRadius: "16px",
-      boxShadow: "0 4px 24px rgba(99,102,241,0.07)",
-      padding: "32px 28px",
+      boxShadow: "0 4px 16px rgba(0,0,0,0.4)",
+      padding: "28px 24px",
       width: "650px",
       minWidth: "340px",
-      height: "765px",
+      height: "890px",
+      color: "#e0e0e0"
     }}>
-      <h2 style={{ fontWeight: 700, fontSize: "1.3rem", marginBottom: "18px", color: "#6366f1" }}>3. 팀 구성 결과</h2>
+
+     <h2 style={{
+  fontWeight: 700,
+  fontSize: "1.3rem",
+  marginBottom: "18px",
+  color: "#c7a008"
+}}>
+  3. 팀 구성 결과
+</h2>
+
 
       <button onClick={handleMakeTeams} className='buttonDefault' style={{ width: "130px" }}>팀 구성 재시도</button>
 
       {teamResult.fallbackUsed ? (
-        <div style={{ marginTop: '10px', color: '#ef4444', fontWeight: 600, fontSize: "1rem" }}>
+        <div style={{ marginTop: '10px', color: '#ff6b6b', fontWeight: 600, fontSize: "1rem" }}>
           ⚠️ 포지션 충돌로 인해 점수 균형 기준으로 팀이 배정되었습니다.<br />
           (라인 밸런스 부족)
         </div>
@@ -91,16 +114,21 @@ export default function TeamDisplay({ teamResult, setResult, setCanClick, handle
       )}
 
       {Array.isArray(teamResult?.teamA) && (
-        <>
+          <>
           <h3>팀 A (총점: {teamResult.teamAScore}점)</h3>
+          <div style={{marginLeft : "-40px"}}>
           <ul>{renderTeamList(teamResult.teamA)}</ul>
+        </div>
         </>
       )}
 
       {Array.isArray(teamResult?.teamB) && (
         <>
           <h3>팀 B (총점: {teamResult.teamBScore}점)</h3>
+          <div style={{marginLeft : "-40px"}}>
           <ul>{renderTeamList(teamResult.teamB)}</ul>
+          </div>
+          
         </>
       )}
 
@@ -108,23 +136,6 @@ export default function TeamDisplay({ teamResult, setResult, setCanClick, handle
         초기화
       </button>
 
-      <div style={{
-        marginTop: "30px",
-        background: "#f3f4f6",
-        borderRadius: "10px",
-        padding: "12px 10px"
-      }}>
-        <h4 style={{ margin: "0 0 8px 0", color: "#6366f1", fontWeight: 700, fontSize: "1.05rem" }}>점수 차이</h4>
-        <div style={{ display: "flex", flexWrap: "wrap", gap: "6px" }}>
-          <span style={{ background: "#e0e7ff", color: "#6366f1", padding: "4px 8px", borderRadius: "4px" }}>
-            팀 A 총점: {teamResult?.teamAScore ?? '-'}점<br />
-            팀 B 총점: {teamResult?.teamBScore ?? '-'}점<br />
-            {overA !== null && (
-              <div>{overA ? `A팀이 ${scoreDiff}점 높습니다.` : `B팀이 ${scoreDiff}점 높습니다.`}</div>
-            )}
-          </span>
-        </div>
-      </div>
     </section>
   );
 }

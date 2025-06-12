@@ -1,6 +1,12 @@
-.body {
-  background-color: 'linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%)';
-  font-family: Arial, sans-serif;
+/* index.css 또는 App.css의 최상단에 적용 */
+html {
+  font-size: 14px; /* 🔽 전체 기본 폰트 크기 줄이기 (기존 16px) */
+}
+
+body {
   margin: 0;
-  padding: 0px;
+  padding: 0;
+  font-family: 'Noto Sans KR', sans-serif;
+  background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
+  overflow-x: hidden;
 }

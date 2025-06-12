@@ -1,0 +1,71 @@
+.room-container {
+  max-width: 1500px;
+  margin: 200px auto;
+  padding: 30px;
+  background-color: #1f2937; /* 다크 그레이 */
+  color: #f9fafb;
+  border-radius: 12px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+  text-align: center;
+  font-family: 'Segoe UI', sans-serif;
+  width: 1500px;
+  height: 500px;
+  display: flex;
+  justify-content: space-around;
+  align-items: center;
+}
+
+.room-container h2 {
+  font-size: 1.6rem;
+  color: #60a5fa; /* 블루톤 강조 */
+  margin-bottom: 0.5rem;
+}
+
+.room-container h3 {
+  font-size: 1.3rem;
+  margin-bottom: 1rem;
+  color: #fbbf24;
+}
+
+.room-container p {
+  margin: 8px 0;
+  font-size: 1rem;
+}
+
+.room-container b {
+  color: #34d399; /* 에메랄드톤 강조 */
+}
+
+button {
+  margin-top: 20px;
+  padding: 12px 24px;
+  font-size: 1rem;
+  background-color: #3b82f6;
+  color: white;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+button:disabled {
+  background-color: #6b7280; /* 회색 비활성화 */
+  cursor: not-allowed;
+}
+
+button:hover:not(:disabled) {
+  background-color: #2563eb;
+}
+
+.waiting-message {
+  margin-top: 30px;
+  font-size: 1.1rem;
+  color: #d1d5db;
+}
+
+
+.leader-container {
+  height: 300px;
+  width: 450px;
+  border: 1px solid black;
+}

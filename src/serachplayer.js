@@ -18,7 +18,7 @@ const {
   teamResult, 
   isLoading, loadingIndex, warning, canClick, setCanClick,
   handleSingleInput, handleBulkPaste, handleDeleteSummoner,
-  handleClearInput, handleFetchAllSummoners, handleMakeTeams , handleBulkPasteFromTextArea
+  handleClearInput, handleFetchAllSummoners, handleMakeTeams , handleBulkPasteFromTextArea , onPaste
 } = useSummonerInput();
 
 
@@ -46,7 +46,7 @@ const {
           />
         </div>
         <div className="right-panel">
-          <div className="tabs" style={{position: "relative", top: "30px" ,left: "500px" ,  width : "200px" , zIndex: 10, background: "white" , borderTopLeftRadius : "16px", borderTopRightRadius: "16px" }}>
+          <div className="tabs" style={{position: "relative", top: "30px" ,left: "500px" ,  width : "200px" , zIndex: 10, background: "1b1b2f" , borderTopLeftRadius : "16px", borderTopRightRadius: "16px" }}>
             <button className={tab === 'score' ? 'tab-active' : 'tab-inactive'} onClick={() => setTab('score')}>소환사 점수</button>
             <button className={`${tab === 'team' ? 'tab-active' : 'tab-inactive'} ${canClick ? 'blink-button' : ''}`}onClick={() => setTab('team')} style={{cursor : !canClick ? 'not-allowed' : "pointer", marginRight : "30px"}} disabled={!canClick}>팀 결과</button>
           </div>

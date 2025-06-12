@@ -1,0 +1,85 @@
+/* 전체 컨테이너 */
+.setup-container {
+  max-width: 600px;
+  margin: 100px auto;
+  padding: 40px 30px;
+  background-color: #1b1b2f;
+  border-radius: 16px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.6);
+  color: #ffffff;
+  font-family: 'Noto Sans KR', sans-serif;
+}
+
+/* 헤더 텍스트 */
+.setup-container h2 {
+  text-align: center;
+  margin-bottom: 30px;
+  font-size: 26px;
+  font-weight: bold;
+  color: #c7a008;
+}
+
+/* 각 필드 */
+.setup-field {
+  margin-bottom: 22px;
+  display: flex;
+  flex-direction: column;
+}
+
+.setup-field label {
+  font-size: 15px;
+  font-weight: 500;
+  margin-bottom: 6px;
+  color: #ddd;
+}
+
+.setup-field input {
+  padding: 10px;
+  border-radius: 6px;
+  background-color: #2a2a40;
+  border: none;
+  color: #fff;
+  font-size: 14px;
+}
+
+.radio-group {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+  margin-top: 8px;
+  justify-content: space-around;
+}
+
+.radio-group label {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 14px;
+  cursor: pointer;
+  user-select: none;
+}
+
+.radio-group input[type="radio"] {
+  accent-color: #c7a008;
+  width: 16px;
+  height: 16px;
+}
+
+/* 버튼 */
+.start-button {
+  margin-top: 10px;
+  padding: 12px;
+  width: 100%;
+  font-size: 16px;
+  font-weight: bold;
+  background-color: #c7a008;
+  color: #000;
+  border: none;
+  border-radius: 8px;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.start-button:hover {
+  background-color: #e5b700;
+}

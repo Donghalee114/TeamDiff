@@ -8,6 +8,13 @@ const dummyMatches = [
   // ... 중복 생략 가능
 ];
 
+
+const CheckMatch = async () => {
+  
+}
+ 
+
+
 export default function MatchResults() {
   return (
     <div className="match-results">

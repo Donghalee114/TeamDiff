@@ -40,6 +40,7 @@ if (!tournament) return <LoadingOverlay message="대회 정보를 불러오는 �
             alignItems: "center",
             justifyContent: "space-around",
             marginBottom: "20px",
+            background: "linear-gradient(135deg,rgb(44, 44, 78) 0%,rgb(55, 58, 95) 100%)",
           }}
         >
           <div style={{ display: "flex", alignItems : "end", gap: "20px" }}>
@@ -63,7 +64,7 @@ if (!tournament) return <LoadingOverlay message="대회 정보를 불러오는 �
         <ScoreBoard tournamentID={tournament.id} />
       </div>
 
-      <Footer />
+
     </>
   );
 }
