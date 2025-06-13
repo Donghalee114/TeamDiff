@@ -12,8 +12,10 @@ export default function MockDraftRoom() {
   const { roomId } = useParams();
   const navigate = useNavigate();
 
+
   const query = new URLSearchParams(window.location.search);
   const userRole = query.get("role");
+  const userHostId = query.get("hostId"); // 🔑 쿼리에서 hostKey 추가로 받기
 
   const [roomData, setRoomData] = useState(state || null);
   const [isReady, setIsReady] = useState(false);
@@ -37,7 +39,7 @@ export default function MockDraftRoom() {
           }
 
           // 쿼리스트링의 내 역할을 추가하여 상태 설정
-          setRoomData({ ...data, role: userRole, roomId });
+          setRoomData({ ...data, role: userRole, roomId , hostKey : userHostId});
         })
         .catch(err => {
           console.error(err);
@@ -51,7 +53,7 @@ export default function MockDraftRoom() {
     if (!roomData || !roomData.role || !roomData.blueTeam || !roomData.redTeam) return;
 
     socket = io(SOCKET_URL);
-    socket.emit('join-room', { roomId, role: roomData.role });
+    socket.emit('join-room', { roomId, role: roomData.role , hostKey : roomData.hostKey });
 
     socket.on('room-status', (status) => {
       setRoomStatus(status);

@@ -13,7 +13,7 @@ const MockDraftSetup = () => {
   const [mode, setMode] = useState('standard'); // standard or fearless
   const [role, setRole] = useState('blue');
   const [anotherRole , setAnotherRole] = useState('')
-
+  const hostKey = uuidv4();   
   const navigate = useNavigate();
 
     useEffect(() => {
@@ -28,7 +28,7 @@ const handleSubmit = async () => {
   if (!blueTeam || !redTeam) return alert('팀 이름을 입력해주세요.');
 
   const roomId = uuidv4();
-  const roomData = { roomId, blueTeam, redTeam, bo, mode };
+  const roomData = { roomId, blueTeam, redTeam, bo, mode , hostKey };
 
   try {
     // 백엔드에 방 정보 저장
@@ -44,7 +44,7 @@ const handleSubmit = async () => {
     }
 
     // 상대팀 링크 생성
-    const inviteUrl = `${window.location.origin}/MockDrafts/${roomId}?role=${anotherRole}&blueTeam=${encodeURIComponent(
+    const inviteUrl = `${window.location.origin}/MockDrafts/${roomId}?role=${anotherRole}&hostKey=${hostKey}&blueTeam=${encodeURIComponent(
       blueTeam
     )}&redTeam=${encodeURIComponent(redTeam)}&bo=${bo}&mode=${mode}`;
 

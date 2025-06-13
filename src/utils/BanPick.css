@@ -1,200 +1,381 @@
-.banpick-container {
-  padding: 20px;
-  background-color: #0f0f1a;
+/* ========== 전체 레이아웃 ========== */
+.banpick-wrapper {
+  background: #2e2e30;
+  min-height: 93vh;
   color: #fff;
-  min-height: 100vh;
-}
-
-.turn-info {
-  margin-bottom: 15px;
-  font-size: 20px;
-  font-weight: bold;
-  color: #90cdf4;
-}
-
-.champion-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(80px, 1fr));
-  gap: 10px;
-  padding: 20px 0;
-  background: #1e1e2e;
-  border-radius: 12px;
-  max-height: 420px;
-  overflow-y: auto;
-}
-
-.champ-card {
-  position: relative;
-  cursor: pointer;
-  text-align: center;
-  transition: transform 0.2s ease;
-}
-
-.champ-card:hover {
-  transform: scale(1.05);
-}
-
-.champ-card.disabled {
-  opacity: 0.3;
-  pointer-events: none;
-}
-
-.champ-card img {
-  width: 100%;
-  border-radius: 6px;
-  border: 2px solid #444;
-}
-
-.champ-card .champ-name {
-  font-size: 0.75rem;
-  margin-top: 4px;
-  color: #ddd;
-}
-
-.champ-card.selected img {
-  filter: grayscale(80%) brightness(0.5);
-}
-
-.champ-card.selected::after {
-  content: attr(data-type);
-  position: absolute;
-  top: 0;
-  left: 0;
-  background: rgba(0, 0, 0, 0.7);
-  color: #fff;
-  font-size: 0.8rem;
-  width: 100%;
-  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  border-radius: 6px;
+  flex-direction: column;
+  margin-top: 60px;
+  overflow-y: hidden;
 }
 
-.banpick-layout {
+.layout {
   display: flex;
-  justify-content: space-between;
-  align-items: flex-start;
-  padding: 32px;
-  background: #1a1a1a;
-  color: white;
-  gap: 24px;
-  width: 100%;
-}
-
-.team-side {
-  flex: 1;
-  background: #121212;
-  padding: 16px;
-  border-radius: 12px;
-  width: 100px;
-  box-shadow: 0 0 10px rgba(0, 0, 0, 0.5);
-  transition: background 0.3s ease;
-}
-
-.blue-side.inactive, .red-side.inactive {
-  background: #2a2a2a;
-  opacity: 0.5;
-}
-
-.blue-side {
-  border: 2px solid #3b82f6;
-}
-
-.red-side {
-  border: 2px solid #ef4444;
-}
-
-.ban-row, .pick-row {
-  display: flex;
-  align-items: center;
-  margin: 10px 0;
-  gap: 4px;
-  flex-wrap: wrap;
-}
-
-.ban-row span, .pick-row span {
-  font-size: 0.85rem;
-  color: #888;
-  width: 30px;
-}
-
-.slots {
-  display: flex;
-  gap: 6px;
-  flex-wrap: wrap;
-}
-
-.slot {
-  width: 40px;
-  height: 40px;
-  background: #2a2a2a;
-  border-radius: 6px;
-  text-align: center;
-  line-height: 40px;
-  font-size: 0.8rem;
-  color: #bbb;
-  border: 1px solid #444;
+  gap: 12px;
+  padding: 0 16px;
+  height: 87vh;
   overflow: hidden;
 }
 
-.slot img {
+.team-column {
+  flex: 1;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  min-width: 120px;
+}
+.team-column.inactive {
+  opacity: 0.3;
+}
+
+/* ========== 타이머 바 ========== */
+.timer-bar {
+  position: relative;
+  height: 40px;
+  background: #222;
+  margin-bottom: 4px;
+}
+.timer-num {
+  position: absolute;
+  left: 12px;
+  top: 3px;
+  font-size: 20px;
+  font-weight: 700;
+}
+.timer-progress {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  height: 5px;
+  background: #3b82f6;
+  transition: width 0.9s linear;
+}
+.turn-label {
+  position: absolute;
+  left: 80px;
+  top: 9px;
+  font-size: 14px;
+  opacity: 0.8;
+}
+
+/* ========== 픽 리스트 ========== */
+.pick-list {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.pick-slot {
+  position: relative;
+  width: 100%;
+  height: 130px;
+  border: 2px solid #999;
+  border-radius: 6px;
+  overflow: hidden;
+  background-color: #111;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  aspect-ratio: 16 / 9; /* 👈 추가: 비율 고정 */
+}
+
+.pick-slot img.splash-img {
   width: 100%;
   height: 100%;
   object-fit: cover;
-  border-radius: 6px;
+  object-position: center 10%; /* 👈 상단 중심으로 약간 올림 */
+  mask-image: linear-gradient(to bottom, black 80%, transparent 100%);
+  mask-size: 100% 100%;
+  mask-repeat: no-repeat;
+  border-radius: 0; /* 👈 pick-slot에 이미 radius 있음 */
 }
 
-.slot.filled {
-  background: #3b3b3b;
-  font-weight: bold;
-  color: #fff;
+
+/* ========== 밴 리스트 ========== */
+.ban-list {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 4px;
+  margin-top: 6px;
+}
+.ban-slot {
+  width: 48px;
+  height: 48px;
   border: 1px solid #999;
+  border-radius: 4px;
+  overflow: hidden;
+}
+.ban-slot img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 
-.pick-row .slot {
-  width: 64px;
-  height: 64px;
-}
-
-.center-info {
+/* ========== 중앙 챔피언 선택 ========== */
+.center {
   flex: 2;
-  background: #242424;
-  padding: 20px;
-  border-radius: 12px;
-  text-align: center;
-  box-shadow: inset 0 0 10px #000;
+  background: #15151f;
+  border: 1px solid #333;
+  border-radius: 10px;
+  padding: 10px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
-  min-height: 600px;
+  overflow: hidden;
 }
 
-.center-info h2 {
-  font-size: 1.6rem;
-  margin-bottom: 8px;
-  color: #4ade80;
+.search-input {
+  padding: 6px 10px;
+  border-radius: 6px;
+  background: #222;
+  border: none;
+  color: #eee;
+  font-size: 14px;
+  margin-bottom: 6px;
 }
 
-.center-info p {
-  font-size: 1rem;
-  color: #aaa;
+/* ========== 챔피언 그리드 ========== */
+.champ-grid {
+  flex: 1;
+  overflow-y: auto;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(72px, 1fr));
+  grid-auto-rows: 82px;
+  gap: 6px;
+  padding-right: 4px;
+  margin-top: 10px;
 }
 
-.confirm-area {
-  margin-top: 16px;
+/* ========== 챔피언 카드 ========== */
+.champ-card {
+  border: 1px solid #444;
+  border-radius: 4px;
+  background: #1e1e1e;
+  cursor: pointer;
+  transition: transform 0.12s ease;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: start;
+
+}
+.champ-card img {
+  width: 100%;
+  height: 56px;
+  object-fit: cover;
+  display: block;
+}
+.champ-name {
+  font-size: 11px;
+  color: #ccc;
+  padding: 2px 0 4px;
+  text-align: center;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 100%;
+}
+.champ-card.pending {
+  outline: 2px solid #4ade80;
+}
+.champ-card:hover:not(.disabled) {
+  transform: scale(1.06);
+}
+.champ-card.disabled {
+  opacity: 0.4;
+  cursor: not-allowed;
+}
+
+/* ========== 확인 버튼 ========== */
+.confirm-btn {
+  margin-top: 8px;
+  background: #1e40af;
+  color: #fff;
+  border: none;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  width: 100%;
+}
+.confirm-btn:disabled {
+  background: #555;
+  cursor: not-allowed;
+}
+
+.ban-btn {
+  margin-top: 8px;
+  background: #c22525;
+  color: #fff;
+  border: none;
+  padding: 8px 0;
+  border-radius: 6px;
+  font-weight: 600;
+  width: 100%;
+}
+
+.turn-message {
+  margin: 4px 0 8px;
+  font-size: 14px;
+  font-weight: 600;
+  color: #ddd;
   text-align: center;
 }
-.confirm-area button {
-  background-color: #1e40af;
-  color: white;
-  padding: 10px 16px;
+
+.turn-message span {
+  display: inline-block;
+  padding: 6px 12px;
+  background: #2a2a2a;
+  border-radius: 6px;
+}
+
+.result-copy-box {
+  margin-top: 100px;
+  margin-left: auto;
+  margin-right: auto;
+  margin-bottom: 100px;
+  width: 90%;
+  display: flex;
+  flex-direction: column;
+}
+.result-copy-box p {
+  color : #ddd
+}
+/* 결과 입력 패널 */
+.result-panel {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+.result-panel h3 {
+  margin: 4px 0;
+}
+.result-panel button {
+  width: 140px;
+  padding: 8px 0;
   border: none;
   border-radius: 6px;
-  font-weight: bold;
+  font-weight: 600;
   cursor: pointer;
+  transition: transform 0.15s;
 }
-.confirm-area button:disabled {
-  background-color: #6b7280;
-  cursor: not-allowed;
+.result-panel .blue-win { background: #2563eb; color: #fff; }
+.result-panel .red-win  { background: #ef4444; color: #fff; }
+.result-panel button:hover { transform: scale(1.05); }
+
+
+/* 라인 선택 버튼 */
+.role-filter {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+  margin: 10px 0;
+}
+
+.role-filter button {
+  background: none;
+  border: none;
+  padding: 6px;
+  width: 36px;
+  height: 36px;
+  border-radius: 6px;
+  cursor: pointer;
+  transition: transform 0.2s, background-color 0.2s;
+  background-color: #222;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.role-filter button:hover {
+  background-color: #444;
+  transform: scale(1.05);
+}
+
+.role-filter button.active {
+  background-color: #3b82f6;
+  box-shadow: 0 0 0 2px #3b82f6;
+}
+
+.role-filter button img {
+  width: 24px;
+  height: 24px;
+}
+
+
+/* ───────── 시리즈 스코어 바 ───────── */
+.series-bar {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 1.25rem;
+  font-weight: bold;
+  background: #1e1e2f;
+  color: #fff;
+  padding: 8px;
+  border-bottom: 2px solid #333;
+}
+
+.series-bar .blue-score {
+  color: #60a5fa; /* Tailwind blue-400 */
+  margin: 0 6px;
+}
+
+.series-bar .red-score {
+  color: #f87171; /* Tailwind red-400 */
+  margin: 0 6px;
+}
+
+/* ───────── 사이드 선택 모달 ───────── */
+.modal-backdrop {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(10, 10, 10, 0.7);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modal {
+  background: #222;
+  padding: 24px 32px;
+  border-radius: 10px;
+  text-align: center;
+  color: #fff;
+  max-width: 400px;
+  box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
+}
+
+.modal h3 {
+  font-size: 1.2rem;
+  margin-bottom: 16px;
+}
+
+.modal button {
+  margin: 0 12px;
+  padding: 10px 20px;
+  font-weight: bold;
+  border: none;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: background 0.2s;
+}
+
+.modal button:first-of-type {
+  background: #3b82f6;  /* blue-500 */
+  color: white;
+}
+.modal button:first-of-type:hover {
+  background: #2563eb;  /* blue-600 */
+}
+
+.modal button:last-of-type {
+  background: #ef4444;  /* red-500 */
+  color: white;
+}
+.modal button:last-of-type:hover {
+  background: #dc2626;  /* red-600 */
 }
