@@ -50,7 +50,7 @@ const handleSubmit = async () => {
 
     // 현재 유저는 바로 입장
     navigate(`/MockDrafts/${roomId}`, {
-      state: { ...roomData, role }
+      state: { ...roomData, role , inviteUrl}
     });
 
     // 초대 링크 복사

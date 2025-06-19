@@ -1,31 +1,11 @@
-/* 전체 레이아웃 */
-html, body {
-  margin: 0;
-  padding: 0;
-  height: 100%;
-  width: 100%;
-  overflow-x: hidden;
-  font-family: 'Noto Sans KR', sans-serif;
- background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
-  color: #e0e0e0; /* 부드러운 밝은 회색 */
-  font-size: 14px;
-}
+
 
 .left-panel,
 .right-panel {
-margin-top: 120px;
+margin-top: 0px;
 
 }
 /* 메인 레이아웃 */
-.main-layout {
-  display: flex;
-  flex-direction: column;
-  min-height: 100vh;
-  width: 100vw;
-  margin-top: 70px;
-  
-}
-
 /* 탭 버튼 (고급스러운 포인트 색상) */
 .tab-active,
 .tab-inactive {
@@ -108,12 +88,20 @@ margin-top: 120px;
   justify-content: center;
   gap: 40px;
   align-items: flex-start;
-  min-height: calc(100vh - 100px);
+  max-height: 93vh;
   flex-wrap: wrap;
-  margin-top: 2px;
   background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
+  overflow-y: hidden;
 }
 
+.scale{
+ transform: scale(0.82);
+  display : flex ;
+  justify-Content : center ;
+   width : 100%;
+   gap : 30px;
+  margin-Bottom : 10px;
+}
 /* 깜빡임 */
 @keyframes blink {
   0% { opacity: 1; }
@@ -129,10 +117,13 @@ margin-top: 120px;
 /* 반응형 */
 @media (max-width: 1024px) {
   .panel-div {
-    flex-direction: column;
-    gap: 30px;
-    align-items: center;
-    margin-top: 100px;
+    flex-direction: row;
+    gap: 10px;
+    align-items: start;
+    margin-top: 10px;
+  }
+  .scale{
+    transform: scale(0.75);
   }
 
   .tabs {

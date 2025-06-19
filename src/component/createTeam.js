@@ -7,18 +7,7 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
 
   const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:6900";
 
-  const logoPresets = [
-    { name: '로고1', url: 'https://i.imgur.com/veeUr29.jpeg' },
-    { name: '로고2', url: 'https://i.imgur.com/1RZpY66.jpeg' },
-    { name: '로고3', url: 'https://i.imgur.com/rma1KP7.jpeg' },
-    { name: '로고4', url: 'https://i.imgur.com/qeGpW7z.jpeg' },
-    { name: '로고5', url: 'https://i.imgur.com/rS8Rjsj.jpeg' },
-    { name: '로고6', url: 'https://i.imgur.com/agF8YfW.jpeg' },
-    { name: '토끼', url: 'https://cdn-icons-png.flaticon.com/512/616/616439.png' },
-    { name: '거북이', url: 'https://cdn-icons-png.flaticon.com/512/616/616417.png' },
-    { name: '도마뱀', url: 'https://cdn-icons-png.flaticon.com/512/616/616471.png' },
-    { name: '곰', url: 'https://cdn-icons-png.flaticon.com/512/616/616448.png' }
-  ];
+
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -46,8 +35,8 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ border: "1px solid #ccc", padding: "20px", borderRadius: "10px", background: "#f9f9f9" }}>
-      <h2>팀 생성</h2>
+    <form onSubmit={handleSubmit} style={{ padding: "20px", borderRadius: "10px",  background: "linear-gradient(135deg, #1e293b, #334155)",}}>
+      <h2 style={{ color: "rgb(79, 70, 229)"}}>팀 생성</h2>
 
       <input
         type="text"
@@ -67,37 +56,6 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
         style={inputStyle}
       />
 
-      <div>
-        <p>로고 선택:</p>
-        <div style={{ display: 'flex', flexWrap: 'wrap', gap: '12px' }}>
-          {logoPresets.map((logo) => (
-            <img
-              key={logo.url}
-              src={logo.url}
-              alt={logo.name}
-              title={logo.name}
-              width="60"
-              height="60"
-              onClick={() => setLogoUrl(logo.url)}
-              style={{
-                border: logoUrl === logo.url ? '3px solid #6366f1' : '1px solid #ccc',
-                borderRadius: '8px',
-                cursor: 'pointer',
-                padding: '4px',
-                backgroundColor: logoUrl === logo.url ? '#eef2ff' : '#fff'
-              }}
-            />
-          ))}
-        </div>
-      </div>
-
-      {logoUrl && (
-        <div style={{ marginTop: "12px" }}>
-          <p>선택된 로고 미리보기:</p>
-          <img src={logoUrl} alt="로고 미리보기" width="80" height="80" />
-        </div>
-      )}
-
           <div style={{display : "flex" , justifyContent : "center" , gap : "20px"}}>
           <button type="submit" style={buttonStyle}>팀 생성</button>
           <button style={buttonStyle} onClick={() => setOpenTeamMake(false)}>취소</button>
@@ -107,15 +65,18 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
   );
 }
 
-const inputStyle = {
-  display: "block",
-  width: "100%",
-  marginBottom: "12px",
-  padding: "8px",
-  borderRadius: "6px",
-  border: "1px solid #ccc"
-};
-
+  const inputStyle = {
+    flex: 1,
+    height: '32px',
+    border:   '1.5px solid #444',
+    borderRadius: "6px",
+    backgroundColor: '#1f2235',
+    color: "#fff",
+    padding: "0 8px",
+    fontSize: "0.95rem",
+    width : "95%",
+    marginBottom : "10px"
+  };
 const buttonStyle = {
   marginTop: "20px",
   padding: "10px 20px",

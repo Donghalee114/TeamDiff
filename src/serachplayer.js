@@ -26,10 +26,11 @@ const {
 
   return (
 
-    <div className="main-layout" style={{ background: "linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%)" }}>
+    <div className="main-layout" style={{  background: "linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%)" }}>
 
       <Headers text="10명의 소환사 정보를 입력하고, 실력과 포지션을 고려해 자동으로 팀을 구성하세요!" />
       <main className="panel-div" >
+        <div className= "scale">
         <div className="left-panel">
           <SummonerInputSection
             summoners={summoners}
@@ -53,9 +54,10 @@ const {
           {tab === 'score' && <ScoreDisplay result={result} setResult={setResult} />}
           {tab === 'team' && <TeamDisplay  teamResult={teamResult} setResult={setResult} setCanClick={setCanClick} handleMakeTeams={handleMakeTeams} />}
         </div>
+             </div>
       </main>
       {isLoading && <LoadingOverlay />}
-       <Footer />
+
    
     </div>
 

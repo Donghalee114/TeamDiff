@@ -275,7 +275,7 @@ export default function BanPick() {
   /* ───────────────────────────── 8. 렌더 ───────────────────────────────────── */
   return (
     <>
-      <Headers />
+      <Headers text = "벤픽을 하고 승패를 결정하세요!"/>
 
       {/* 상대방 퇴장 모달 (확인 눌러야만 닫힘) */}
       {opponentLeft && (

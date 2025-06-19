@@ -69,3 +69,12 @@ button:hover:not(:disabled) {
   width: 450px;
   border: 1px solid black;
 }
+
+.copy {
+  cursor: pointer;
+  display: flex;
+  flex-direction: column;
+}
+.copy:hover{
+  color: white;
+}

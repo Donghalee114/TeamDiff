@@ -10,3 +10,9 @@ body {
   background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
   overflow-x: hidden;
 }
+
+.main-wrapper, .scoreboard-container, .match-results {
+  max-width: 960px;      /* 일반적인 데스크탑 기준 */
+  margin: 0 auto;        /* 가운데 정렬 */
+  padding: 0 16px;
+}

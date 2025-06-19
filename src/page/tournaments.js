@@ -68,7 +68,12 @@ export default function Tournaments() {
   };
 
   // 참가 요청
-  const handleJoinTournament = async () => {
+const [loading, setLoading] = useState(false);
+
+const handleJoinTournament = async () => {
+  if (loading) return;
+  setLoading(true);
+  try {
     const res = await fetch(`${BASE_URL}/tournament/tournaments/${tournamentCode}`);
     if (res.ok) {
       localStorage.setItem("tournamentCode", tournamentCode);
@@ -76,7 +81,14 @@ export default function Tournaments() {
     } else {
       alert("없는 참가 코드거나 만료된 코드입니다.");
     }
-  };
+  } catch (err) {
+    console.error("서버 연결 실패:", err);
+    alert("서버에 연결할 수 없습니다. 잠시후에 다시 시도해주세요.");
+  } finally {
+    setLoading(false);
+  }
+};
+
 
 const inputStyle = {
   padding: "10px",
@@ -141,6 +153,7 @@ const cardTitle = {
 
   return (
     <>
+    {loading && <LoadingOverlay />}
 <Headers  text="내전 및 토너먼트를 만들고 관리하세요!"/>
 <div style={{
   background: "linear-gradient(135deg,rgb(44, 44, 78) 0%,rgb(55, 58, 95) 100%)",
@@ -246,7 +259,6 @@ const cardTitle = {
   </div>
 </div>
 
-      <Footer />
     </>
   );
 }

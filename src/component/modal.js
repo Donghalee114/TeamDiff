@@ -20,7 +20,7 @@ const buttonDangerStyle = {
       display: "flex", alignItems: "center", justifyContent: "center"
     }}>
       <div style={{
-        backgroundColor: "white", padding: "24px", borderRadius: "8px",
+        background: "linear-gradient(135deg, #1e293b, #334155)" , padding: "24px", borderRadius: "8px",
         width: "400px", boxShadow: "0 4px 20px rgba(0,0,0,0.2)"
       }}>
         <h2 style={{ marginBottom: "16px" }}>{title}</h2>

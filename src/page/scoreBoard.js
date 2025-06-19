@@ -108,7 +108,6 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
           {activeTab === "AddTeam" && <DetailPage tournamentsID = {tournamentId}/>}
         </div>
       </div>
-      <Footer />
     </>
   );
 }

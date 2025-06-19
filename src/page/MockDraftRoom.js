@@ -11,7 +11,7 @@ export default function MockDraftRoom() {
   const { state } = useLocation();
   const { roomId } = useParams();
   const navigate = useNavigate();
-
+  const inviteUrl = state?.inviteUrl;
 
   const query = new URLSearchParams(window.location.search);
   const userRole = query.get("role");
@@ -26,6 +26,11 @@ export default function MockDraftRoom() {
     standard: '일반전',
     fearless: '피어리스',
   };
+
+  const copyLink = () => {
+    navigator.clipboard.writeText(inviteUrl)
+    alert("링크 복사 완료!")
+  }
 
   // ✅ 새로고침 대비: state 없으면 백엔드에서 fetch
   useEffect(() => {
@@ -82,12 +87,15 @@ export default function MockDraftRoom() {
       <div className="room-container">
         <div className="leader-container">
           <h1>{roomData.blueTeam}</h1>
+         
           <div style={roomStatus.blueReady ? { background: "rgba(61, 182, 112, 0.38)", width: "100%" } : null}>
             {roomStatus.blueReady ? '✅ 준비 완료' : '대기 중'}
           </div>
         </div>
 
         <div className="room-info">
+        <h2 className='copy' onClick={() => copyLink()}>방 링크 복사하기!</h2>
+         
           <h3>{roomData.blueTeam} vs {roomData.redTeam}</h3>
           <p>진행 방식: BO{roomData.bo} / 벤픽 방식: {roleToKorean[roomData.mode]}</p>
           <p>당신은 <b style={roomData.role === 'blue' ? { color: "#38abe5" } : { color: "red" }}>

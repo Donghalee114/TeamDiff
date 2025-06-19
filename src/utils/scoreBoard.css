@@ -1,51 +1,73 @@
 /* 전체 컨테이너 */
 .scoreboard-container {
-  margin-top: 0;
+  background-color: #121829;
+  color: #e5e7eb;
   padding: 16px;
-  text-align: center;
-  font-size: 14px;
+  min-height: 100vh;
+  font-family: 'Pretendard', sans-serif;
+  box-sizing: border-box;
 }
 
 /* 탭 메뉴 */
 .tab-menu {
   display: flex;
   justify-content: center;
-  gap: 10px;
+  gap: 8px;
   flex-wrap: wrap;
-  border-bottom: 1px solid #ccc;
+  border-bottom: 1px solid #334155;
   padding-bottom: 6px;
-  margin-bottom: 12px;
+  margin-bottom: 16px;
 }
 
 /* 탭 버튼 */
 .selectShow {
-  border: 1px solid #aaa;
-  height: 28px;
-  padding: 4px 12px;
-  font-size: 0.9rem;
-  font-weight: 600;
-  color: #222;
-  cursor: pointer;
+  border: 1px solid #475569;
+  background-color: #1e293b;
+  color: #cbd5e1;
+  font-weight: 500;
+  font-size: 0.85rem;
+  padding: 4px 10px;
   border-radius: 6px;
-  transition: background-color 0.2s, color 0.2s;
-  background-color: #f0f4ff;
+  cursor: pointer;
+  transition: all 0.15s ease-in-out;
 }
 
 .selectShow:hover {
-  color: #345ad7;
-  background-color: #e6ecff;
+  background-color: #334155;
+  color: #ffffff;
+  border-color: #64748b;
 }
 
 /* 선택된 탭 */
 .selectShow.active {
-  background-color: #345ad7;
-  color: white;
-  border-color: #345ad7;
+  background-color: #4f46e5;
+  color: #ffffff;
+  border-color: #4f46e5;
 }
 
 /* 콘텐츠 박스 */
 .tab-content {
   max-width: 720px;
   margin: 0 auto;
-  padding: 8px;
+  padding: 12px;
+  background-color: #1e293b;
+  border-radius: 8px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.15);
+}
+
+/* 버튼 공통 */
+.button {
+  background-color: #4f46e5;
+  color: #ffffff;
+  padding: 6px 12px;
+  border: none;
+  border-radius: 5px;
+  font-size: 0.85rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: background-color 0.15s ease-in-out;
+}
+
+.button:hover {
+  background-color: #6366f1;
 }

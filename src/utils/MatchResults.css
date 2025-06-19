@@ -1,49 +1,100 @@
+/* 전체 영역 */
 .match-results {
-  max-width: 700px;
-  margin: 10px auto;
-  padding: 10px;
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 24px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 16px;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 10px 40px rgba(0, 0, 0, 0.25);
 }
 
-.match-result-wrapper h2 {
-  margin-bottom: 20px;
-  font-size: 24px;
-  text-align: center;
+/* 제목 및 버튼 정렬 */
+.match-result-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 28px;
 }
 
+.match-result-header h2 {
+  font-size: 1.6rem;
+  color: #ffffff;
+}
+
+.match-result-header button {
+  background: linear-gradient(135deg, #3b82f6, #60a5fa);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: 8px 16px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s ease;
+}
+
+.match-result-header button:hover {
+  transform: scale(1.05);
+  background: linear-gradient(135deg, #2563eb, #3b82f6);
+}
+
+/* 매치 카드 */
 .match-card {
   display: flex;
   justify-content: space-between;
   align-items: center;
-  height: 80px;
-  border: 1px solid black;
-  border-radius: 10px;
-  margin-bottom: 20px;
-  padding: 0 20px;
+  background: rgba(255, 255, 255, 0.03);
+  padding: 18px 24px;
+  border: 1px solid rgba(255,255,255,0.08);
+  border-radius: 14px;
+  margin-bottom: 16px;
+  transition: all 0.3s ease;
+}
+
+.match-card:hover {
+  background: rgba(255,255,255,0.08);
+  transform: scale(1.01);
+}
+
+/* 팀 영역 */
+.team {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  color: #e2e8f0;
+  font-size: 18px;
+  font-weight: 600;
+  width: 140px;
+}
+
+.score.win {
+  color: #22c55e;
+  font-size: 22px;
+  font-weight: 800;
+}
+
+.score.lose {
+  color: #9ca3af;
+  font-size: 20px;
   font-weight: 600;
 }
 
-.team {
-  display: flex;
-  width: 200px;
-  justify-content: space-between;
-  font-size: 20px;
-}
-
+/* 날짜 */
 .match-date {
-  width: 150px;
+  color: #cbd5e1;
+  font-size: 15px;
+  width: 120px;
   text-align: center;
-  font-size: 18px;
-  color: black;
 }
 
 .score.win {
   font-weight: 1000;
-  color: black;
+  color: rgb(255, 255, 255);
 }
 
 .score.lose {
   font-weight: 800;
-  color: gray;
+  color: rgb(97, 94, 94);
 }
 
 /* ✅ 모바일 대응 */

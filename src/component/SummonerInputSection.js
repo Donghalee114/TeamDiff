@@ -85,14 +85,14 @@ export default function SummonerInputSection({
       </div>
 
       </div>
-
+        {warning && <span style={{color: '#ff6b6b', fontWeight: 700 }}>{warning}</span>}
         <span style={{
           display: "flex",
           justifyContent: "space-between",
           margin: "10px 0"
         }}>
-          <button className="buttonWarning" onClick={onClear}>초기화</button>
-          {warning && <div style={{ color: '#ff6b6b', fontWeight: 700 }}>{warning}</div>}
+          <button  style={{marginTop : "px"}}className="buttonWarning" onClick={onClear}>초기화</button>
+          
         </span>
 
 
