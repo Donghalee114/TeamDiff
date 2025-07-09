@@ -52,16 +52,18 @@ if (!tournament) return <LoadingOverlay message="대회 정보를 불러오는 �
       borderRadius: "12px",
       boxShadow: "0 4px 16px rgba(0,0,0,0.2)",
       color: "#e2e8f0",
+      
     }}
   >
-     <button onClick={() => console.log(tournament)}>test</button>
-    <div>
+    
+    <div style={{marginRight : "auto" , marginLeft : "640px"}}>
       <h1 style={{ fontSize: "1.6rem", fontWeight: 700, marginBottom: "4px" }}>
         토너먼트 이름 : {`${tournament.name}`}
       </h1>
       <h2 style={{ fontSize: "1rem", fontWeight: 500 }}>
         참가 코드 : <span style={{ color: "#60a5fa", fontWeight: 700 }}>{tournament.id}</span>
       </h2>
+      
     </div>
 
     <span

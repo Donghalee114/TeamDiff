@@ -16,6 +16,21 @@ const tierToKorean = {
   MASTER: '마스터', GRANDMASTER: '그랜드마스터', CHALLENGER: '챌린저'
 };
 
+const tierStyleMap = {
+  UNRANKED :  {background : "gray" , color : "white"},
+  IRON:       { background: "#4b4b4b", color: "#e0e0e0" },   // 어두운 회색, 밝은 텍스트
+  BRONZE:     { background: "#b08d57", color: "#fffaf0" },   // 황갈색, 따뜻한 흰색
+  SILVER:     { background: "#c0c0c0", color: "#1a1a1a" },   // 중간 회색, 짙은 글자
+  GOLD:       { background: "#ffd700", color: "#1a1a1a" },   // 선명한 금색, 짙은 글자
+  PLATINUM:   { background: "#00bfae", color: "#ffffff" },   // 청록색, 흰색
+  EMERALD:    { background: "#2ecc71", color: "#ffffff" },   // 선명한 에메랄드, 흰색
+  DIAMOND:    { background: "#7289da", color: "#ffffff" },   // 연보라 블루, 흰색
+  MASTER:     { background: "#ae3ec9", color: "#ffffff" },   // 보라색 계열, 흰색
+  GRANDMASTER:{ background: "#e03131", color: "#ffffff" },   // 강렬한 빨강, 흰색
+  CHALLENGER: { background: "#f9a825", color: "#000000" },   // 진한 황금색, 검정
+};
+
+
 export default function ScoreDisplay({ result, setResult }) {
   const [positionMode, setPositionMode] = useState('auto');
   const [showRoles, setShowRoles] = useState(Array(result.length).fill(false));
@@ -109,7 +124,7 @@ export default function ScoreDisplay({ result, setResult }) {
       )}
 
       <div style={{
-        maxHeight: '540px',
+        maxHeight: '700px',
         overflowY: 'auto',
         padding: '6px',
         borderRadius: '8px',
@@ -127,7 +142,7 @@ export default function ScoreDisplay({ result, setResult }) {
           }}>
             <div style={{ display: "flex", alignItems: "center", gap: "8px" }}>
               <span style={{ fontWeight: 700 }}>{r.name}#{r.tag}</span>
-              <span style={{ background: "#facc15", color: "#000", borderRadius: "4px", padding: "2px 8px" }}>
+              <span style={{ ...(tierStyleMap[r.tier?.toUpperCase()] || {background: "#facc15", color: "#000"}), borderRadius: "4px", padding: "2px 8px" }}>
                 {tierToKorean[r.tier] || r.tier}
               </span>
               <span style={{ color: "#d1d5db" }}>({r.tierScore}점)</span>

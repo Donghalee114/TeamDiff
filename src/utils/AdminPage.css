@@ -75,11 +75,13 @@ h2{
   position: fixed;
   top: 0; left: 0;
   width: 100vw; height: 100vh;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(0, 0, 0, 0.4);
   display: flex;
   align-items: center;
   justify-content: center;
   z-index: 9999;
+
+  padding: 40px 20px; /* 작은 화면에서도 여유 공간 확보 */
 }
 
 .modal-box {
@@ -87,7 +89,11 @@ h2{
   padding: 24px;
   border-radius: 10px;
   width: 400px;
+  max-width: 95vw;
+  max-height: 80%;
+  overflow-y: auto;  /* ⭐ 모달 내부 내용 스크롤 */
 }
+
 
 .modal-buttons {
   display: flex;

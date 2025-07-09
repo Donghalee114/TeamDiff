@@ -51,7 +51,7 @@ export default function TeamDisplay({ teamResult, setResult, setCanClick, handle
 }}>
   {/* 왼쪽: 포지션 + 이름 + 티어 + 점수 */}
   <div style={{ display: "flex", alignItems: "center", gap: "10px" }}>
-    <strong style={{minWidth : "130px"}}>{p.name}#{p.tag}</strong>
+    <strong style={{minWidth : "160px"}}>{p.name}#{p.tag}</strong>
     <span style={{
       background: "#3f4468",
       color: "#e0e0e0",
@@ -69,7 +69,7 @@ export default function TeamDisplay({ teamResult, setResult, setCanClick, handle
   <div style={{ color: p.assignedRole === p.mainRole ? "#22c55e" : "#fbbf24" }}>
     {p.assignedRole === p.mainRole
       ? "주 포지션"
-      : `부 포지션 (주: ${roleToKorean[p.mainRole]})`}
+      : `부 포지션 (주: ${roleToKorean[p.mainRole] || "Error"} )`}
   </div>
 </li>
 

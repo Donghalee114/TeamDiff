@@ -11,13 +11,13 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (!logoUrl) return alert("로고를 선택해주세요!");
+
+
 
     const body = {
       name,
       shortName,
       tournamentsID,
-      logoUrl,
     };
 
     const res = await fetch(`${BASE_URL}/tournament/${tournamentsID}/teams`, {
@@ -35,7 +35,7 @@ export default function CreateTeamForm({ tournamentsID, setOpenTeamMake }) {
   };
 
   return (
-    <form onSubmit={handleSubmit} style={{ padding: "20px", borderRadius: "10px",  background: "linear-gradient(135deg, #1e293b, #334155)",}}>
+    <form onSubmit={handleSubmit} style={{ padding: "20px", borderRadius: "10px",  background: "linear-gradient(135deg, #1e293b, #334155)",   boxShadow:" 0 4px 16px rgba(0,0,0,0.3)"}}>
       <h2 style={{ color: "rgb(79, 70, 229)"}}>팀 생성</h2>
 
       <input

@@ -55,7 +55,7 @@ const handleSubmit = async () => {
 
     // 초대 링크 복사
     await navigator.clipboard.writeText(inviteUrl);
-    alert(`상대팀 팀장에게 아래 링크를 보내세요:\n${inviteUrl}`);
+    alert(`클립보드에 링크가 복사되었습니다. 상대방에게 링크를 보내주세요!`);
 
   } catch (err) {
     console.error(err);
@@ -84,7 +84,7 @@ const handleSubmit = async () => {
         <div className="setup-field">
           <label>진행 방식</label>
           <div className="radio-group">
-            <label><input type="radio" value={1} checked={bo === 1} onChange={() => setBo(1)} /> 단판</label>
+            <label><input type="radio" value={1} checked={bo === 1} onChange={() => {setBo(1); setMode("standard") }} /> 단판</label>
             <label><input type="radio" value={3} checked={bo === 3} onChange={() => setBo(3)} /> 3판 2선제</label>
             <label><input type="radio" value={5} checked={bo === 5} onChange={() => setBo(5)} /> 5판 3선제</label>
           </div>

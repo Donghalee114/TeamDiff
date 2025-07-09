@@ -11,7 +11,7 @@ const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:6900";
 export default function DetailPage({ tournamentsID }) {
   const navigate = useNavigate();
   const { id } = useParams();
-
+const DEFAULT_LINES = ["TOP", "JUG", "MID", "BOT", "SUP"];
   const [isAdmin, setIsAdmin] = useState(false);
   const [adminId, setAdminId] = useState("");
   const [adminPw, setAdminPw] = useState("");
@@ -78,12 +78,13 @@ const fetchTeamMembers = async (teamId) => {
     const data = await res.json();
     const filled = Array(5).fill(null).map((_, idx) => {
     const d = data[idx];
-    if (!d) return { name: '', puuid: '', role: 'MEMBER' };
+    if (!d) return { name: '', puuid: '', role: 'MEMBER' , line : DEFAULT_LINES[idx]};
 
   return {
     name: d.summonername || '',  // summonerName은 name + 태그로 다시 붙여도 됨
     puuid: d.leader_puuid || d.member_puuid || '',
-    role: d.leader_puuid ? 'LEADER' : 'MEMBER'
+    role: d.leader_puuid ? 'LEADER' : 'MEMBER',
+    line: d.line || DEFAULT_LINES[idx]
   };
 });
     setMemberInputs(filled);
@@ -101,7 +102,16 @@ const handleSetTeam = async (teamId) => {
 
 
   const handleRegisterMembers = async () => {
-    const leaderCount = memberInputs.filter(m => m.role === 'LEADER').length;
+    const nameCount = memberInputs.filter(m => m.name && m.name.includes('#')).length;
+if (nameCount < 5) return alert(`소환사를 모두 입력해주세요. 현재 ${nameCount}명`);
+
+
+const noneCount = memberInputs.filter(m => m.line === "None").length;
+
+if(noneCount > 1) return alert("라인을 지정해주세요")
+
+
+ const leaderCount = memberInputs.filter(m => m.role === 'LEADER').length;
     if (leaderCount > 1) return alert("리더는 한 명만 지정할 수 있습니다.");
 
     if (leaderCount === 0 ) return alert("리더를 지정해 주세요")
@@ -121,7 +131,8 @@ const handleSetTeam = async (teamId) => {
           summonerName: summonerName,
           leader_puuid: m.role === 'LEADER' ? data.puuid : null,
           member_puuid: m.role === 'MEMBER' ? data.puuid : null,
-          role: m.role
+          role: m.role,
+          line : m.line
         });
       } catch (err) {
         alert(`${m.name} 정보를 가져오는 데 실패했습니다.`);
@@ -205,7 +216,7 @@ const joinTeam = () => {
     <div style={{ padding: "32px", fontFamily: "Arial", maxWidth: "1000px", margin: "auto" }}>
       {loading && <LoadingOverlay />}
       <div style={{ display: "flex", justifyContent: "flex-end", gap: "10px" }}>
-        <button onClick={() => setIsAdmin(p => !p)}>Admin Test</button>
+      
       </div>
 
       {isAdmin ? (
@@ -225,6 +236,7 @@ const joinTeam = () => {
       ) : (
         <UserView {...{ setLoading ,teamList , CheckTeamList ,selectedTeamId, setTeamCode, joinTeam, adminId, setAdminId, adminPw, setAdminPw, checkAdmin , teamCode }} />
       )}
+        <button onClick={() => setIsAdmin(p => !p)}>Admin Test</button>
     </div>
   );
 }

@@ -186,7 +186,7 @@ export default function BanPick() {
     });
 
     return () => {
-      s.emit('user-leave', { roomId, role: myRole });  // 🔥 진짜 나갈 때만 보냄
+      s.emit('user-leave', { roomId, role: myRole }); 
       s.disconnect();
     };
   }, [roomData, myRole, roomId, navigate, myHostKey]);
@@ -229,12 +229,12 @@ export default function BanPick() {
 
   const handleResult = winner => {
     if (myId !== roomData.hostId) return; // 안전 가드
-    socketRef.current.emit('match-result', { roomId, winner, hostKey:myHostKey });
+    socketRef.current.emit('series-finished', { roomId, winner, hostKey:myHostKey });
     alert(`${winner==='blue'? roomData.blueTeam : roomData.redTeam} 승리로 기록했습니다!`);
   };
 
   const chooseSide = side => {
-    socketRef.current.emit('side-chosen', { roomId, loser:sidePrompt.loser, side });
+    socketRef.current.emit('choose-side', { roomId, loser:sidePrompt.loser, side });
     setSidePrompt(null);
   };
 
@@ -265,17 +265,12 @@ export default function BanPick() {
     </div>
   );
 
-  /* ───────────────────────────── 7. 디버그 로그 버튼 ───────────────────────── */
-  const log = () => {
-    console.log('소켓 ID:', socketRef.current?.id);
-    console.log('호스트 키:', roomData?.hostKey);
-    console.log('isHost:', isHost);
-  };
 
   /* ───────────────────────────── 8. 렌더 ───────────────────────────────────── */
+
   return (
     <>
-      <Headers text = "벤픽을 하고 승패를 결정하세요!"/>
+
 
       {/* 상대방 퇴장 모달 (확인 눌러야만 닫힘) */}
       {opponentLeft && (
@@ -307,7 +302,6 @@ export default function BanPick() {
           <span> : </span>
           <span className="red-score">{series.redWins}</span>
         </div>
-        <button onClick={log}>로그</button>
 
         {/* 타이머 */}
         {!finished && (
@@ -321,7 +315,7 @@ export default function BanPick() {
         {/* 3컬럼 레이아웃 */}
         <div className="layout">
           {/* BLUE 컬럼 */}
-          <div className={`team-column blue ${curTurn.team==='blue'?'highlight':'inactive'}`}>
+          <div className={`team-column blue ${curTurn.team==='blue' || finished?' highlight':'inactive' }`}>
             {roomData?.blueTeam}
             {renderPickList('blue')}
             {renderBanList('blue')}
@@ -352,8 +346,8 @@ export default function BanPick() {
                 {isHost && (
                   <div className="result-panel">
                     <h3>경기 결과를 선택하세요</h3>
-                    <button className="blue-win" onClick={()=>handleResult('blue')}>{roomData.blueTeam} 승</button>
-                    <button className="red-win"  onClick={()=>handleResult('red')}>{roomData.redTeam} 승</button>
+                    <button className="blue-win" onClick={()=> handleResult('blue')}>{roomData.blueTeam} 승</button>
+                    <button className="red-win"  onClick={()=> handleResult('red')}>{roomData.redTeam} 승</button>
                   </div>
                 )}
               </>
@@ -362,6 +356,7 @@ export default function BanPick() {
                 {/* 검색 / 라인 필터 */}
                 <input className="search-input" placeholder="챔피언 이름 검색" value={search} onChange={e=>setSearch(e.target.value)}/>
                 <div className="role-filter">
+                  
                   {['TOP','JUNGLE','MID','BOTTOM','SUPPORT'].map(role=>(
                     <button key={role} className={selectedRole===role?'active':''} onClick={()=>setSelectedRole(selectedRole===role?'ALL':role)}>
                       {role==='TOP'?<img src={TopIcon} alt="탑"/>:
@@ -384,7 +379,7 @@ export default function BanPick() {
                     const disabled = picked.includes(c.id);
                     const selected = pending===c.id;
                     return (
-                      <div key={c.id} className={`champ-card ${disabled?'disabled':''} ${selected?'pending':''}`} onClick={()=>onCardClick(c.id)}>
+                      <div key={c.id} className={`champ-card ${disabled?'disabled':''} ${selected?'pending':''}`} style={curTurn.type === 'pick' ? {border:" 1px solid rgb(110, 99, 109)"} : {}}  onClick={()=>onCardClick(c.id)}>
                         <img src={c.icon} alt={c.name}/>
                         <span className="champ-name">{c.name}</span>
                       </div>
@@ -401,7 +396,7 @@ export default function BanPick() {
           </div>
 
           {/* RED 컬럼 */}
-          <div className={`team-column red ${curTurn.team==='red'?'highlight':'inactive'}`}>
+          <div className={`team-column red ${curTurn.team==='red' || finished ?'highlight':'inactive'}`}>
             {roomData?.redTeam}
             {renderPickList('red')}
             {renderBanList('red')}
@@ -411,3 +406,4 @@ export default function BanPick() {
     </>
   );
 }
+

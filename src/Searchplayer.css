@@ -28,7 +28,7 @@ margin-top: 0px;
 }
 
 .tab-inactive {
-  background-color: #2f3145;
+  background-color: #535461;
   color: #000000;
 }
 
@@ -62,7 +62,7 @@ margin-top: 0px;
 }
 
 .buttonDefault:hover {
-  background-color: #2f314a;
+  background-color: #313897;
   color: #c7a008;
 }
 
@@ -88,14 +88,15 @@ margin-top: 0px;
   justify-content: center;
   gap: 40px;
   align-items: flex-start;
-  max-height: 93vh;
+  height: 100vh;
   flex-wrap: wrap;
   background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
-  overflow-y: hidden;
+  overflow: scroll;
+  margin-top: -20px;
 }
 
 .scale{
- transform: scale(0.82);
+ transform: scale(0.8);
   display : flex ;
   justify-Content : center ;
    width : 100%;
@@ -111,7 +112,7 @@ margin-top: 0px;
 
 .blink-button {
   animation: blink 1.5s;
-  animation-iteration-count: 5;
+  animation-iteration-count: 30;
 }
 
 /* 반응형 */

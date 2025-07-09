@@ -17,6 +17,12 @@ export default function Tournaments() {
 
   const [adminID, setAdminId] = useState("");
   const [adminPassword, setAdminPassword] = useState("");
+  const [checkAdminPassword , setCheckAdminPassword] = useState("")
+  const [allowTournamentName , setAllowTournamentName] = useState(false)
+  const [allowPassword , setAllowPassword] = useState(false)
+  const [allowCheckPassword , setAllowCheckPassword] = useState(false)
+  const [allowId , setAllowId] = useState(false)
+  const [allow , setAllow] = useState(false)
 
   // 자동 입장
   useEffect(() => {
@@ -44,8 +50,47 @@ export default function Tournaments() {
       .catch((err) => console.error("전체 토너먼트 조회 실패", err));
   }, []);
 
+  useEffect(() => {
+  if (checkAdminPassword && adminPassword !== checkAdminPassword) {
+    setAllow(true);
+  } else {
+    setAllow(false);
+  }
+}, [adminPassword, checkAdminPassword]);
+
   // 생성 요청
   const handleCreateTournament = async () => {
+
+  if (/[ㄱ-ㅎ|ㅏ-ㅣ|가-힣]/.test(adminID)) {
+    alert("관리자 아이디는 영문자나 숫자로 입력해주세요.");
+    return;           
+  }
+
+  if(!tournamentName){
+    setAllowTournamentName(true)
+    return
+  }
+
+  if(!adminID){
+    setAllowTournamentName(false)
+    setAllowId(true)
+    return
+  }
+    if(!adminPassword){
+    setAllowPassword(true)
+    setAllowId(false)
+    return
+  }
+    if(!checkAdminPassword){
+    setAllowPassword(false)
+    setAllowCheckPassword(true)
+    return
+  }
+
+  if(allow){
+    return
+  }
+
     const res = await fetch(`${BASE_URL}/tournament/tournaments`, {
       method: "POST",
       headers: { "Content-Type": "application/json" },
@@ -106,6 +151,10 @@ const inputStyle2 = {
   marginRight: "5px"
 };
 
+const inputwarning = {
+  ...inputStyle,
+  border : "1px solid red"
+}
 const primaryBtn = {
   padding: "10px 20px",
   background: "#c7a008",  // 골드 포인트
@@ -151,6 +200,7 @@ const cardTitle = {
 };
 
 
+
   return (
     <>
     {loading && <LoadingOverlay />}
@@ -177,31 +227,57 @@ const cardTitle = {
         내전 / 토너먼트 생성하기
       </button>
     ) : (
-      <div style={{ display: "flex", flexDirection: "column", gap: "12px" }}>
-        <input
-          type="text"
-          placeholder="관리자 아이디"
-          value={adminID}
-          onChange={(e) => setAdminId(e.target.value)}
-          style={inputStyle}
-        />
-        <input
-          type="password"
-          placeholder="비밀번호"
-          value={adminPassword}
-          onChange={(e) => setAdminPassword(e.target.value)}
-          style={inputStyle}
-        />
+      <div style={{ display: "flex", flexDirection: "column", gap: "8px" }}>
+
+      <span>토너먼트 이름 </span>
         <input
           type="text"
           placeholder="토너먼트 이름"
           value={tournamentName}
           onChange={(e) => setTournamentName(e.target.value)}
-          style={inputStyle}
+          style={allowTournamentName ? inputwarning : inputStyle}
         />
+
+
+
+        <span>관리자 아이디</span>
+      <input
+          type="text"
+          placeholder="관리자 아이디"
+          value={adminID}
+          onChange={(e) => setAdminId(e.target.value)}
+          style={allowId ? inputwarning : inputStyle}
+        />  
+
+        
+        <span>비밀번호</span>
+        <input
+          type="password"
+          placeholder="비밀번호"
+          value={adminPassword}
+          onChange={(e) => setAdminPassword(e.target.value)}
+          style={allowPassword ? inputwarning : inputStyle}
+        />
+        <span>비밀번호 확인 {allow && <span style={{color : "red" , marginLeft : "35%"}}> 비밀번호가 일치하지 않습니다.</span>}</span> 
+        <input
+          type="password"
+          placeholder="비밀번호 확인"
+          value={checkAdminPassword}
+          onChange={(e) => setCheckAdminPassword(e.target.value)}
+          style={allowCheckPassword ? inputwarning : inputStyle}
+        />
+  
+
         <div style={{ display: "flex", gap: "10px" }}>
           <button style={primaryBtn} onClick={handleCreateTournament}>생성 완료</button>
-          <button style={secondaryBtn} onClick={() => setEnable(false)}>취소</button>
+          <button style={secondaryBtn} onClick={() => {
+            setEnable(false); 
+            setAllow(false);  
+            setAllowId(false)
+            setAllowPassword(false)
+            setAllowCheckPassword(false)
+            setAllowTournamentName(false)
+            }}>취소</button>
         </div>
       </div>
     )}

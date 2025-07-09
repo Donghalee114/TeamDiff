@@ -1,18 +1,18 @@
-/* index.css 또는 App.css의 최상단에 적용 */
+
 html {
-  font-size: 14px; /* 🔽 전체 기본 폰트 크기 줄이기 (기존 16px) */
-}
+  font-size: 14px; }
 
 body {
   margin: 0;
   padding: 0;
   font-family: 'Noto Sans KR', sans-serif;
-  background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
-  overflow-x: hidden;
+  background: linear-gradient(135deg,rgb(44, 44, 78) 0%,rgb(55, 58, 95) 100%);
+
+
 }
 
 .main-wrapper, .scoreboard-container, .match-results {
-  max-width: 960px;      /* 일반적인 데스크탑 기준 */
-  margin: 0 auto;        /* 가운데 정렬 */
+  max-width: 960px;     
+  margin: 0 auto;      
   padding: 0 16px;
 }

@@ -32,7 +32,7 @@ export default function MockDraftRoom() {
     alert("링크 복사 완료!")
   }
 
-  // ✅ 새로고침 대비: state 없으면 백엔드에서 fetch
+  //  새로고침 대비: state 없으면 백엔드에서 fetch
   useEffect(() => {
     if (!roomData) {
       fetch(`${SOCKET_URL}/room/${roomId}`)
@@ -53,7 +53,7 @@ export default function MockDraftRoom() {
     }
   }, [roomData, roomId, userRole]);
 
-  // ✅ 소켓 연결 및 이벤트 처리
+  //  소켓 연결 및 이벤트 처리
   useEffect(() => {
     if (!roomData || !roomData.role || !roomData.blueTeam || !roomData.redTeam) return;
 
@@ -94,7 +94,7 @@ export default function MockDraftRoom() {
         </div>
 
         <div className="room-info">
-        <h2 className='copy' onClick={() => copyLink()}>방 링크 복사하기!</h2>
+        <h2 className='copy' onClick={() => copyLink}>방 링크 복사하기!</h2>
          
           <h3>{roomData.blueTeam} vs {roomData.redTeam}</h3>
           <p>진행 방식: BO{roomData.bo} / 벤픽 방식: {roleToKorean[roomData.mode]}</p>
@@ -123,3 +123,6 @@ export default function MockDraftRoom() {
     </>
   );
 }
+
+
+

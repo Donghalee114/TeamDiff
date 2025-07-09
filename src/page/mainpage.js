@@ -4,10 +4,7 @@ import '../utils/mainpage.css'
 
 function MainPage() {
 const snowflakes = Array.from({ length: 20 });
-const text = [
-  'LoL', 'Team', 'Match', 'Win', 'Draft', 'Top', 'Mid', 'Jungle', 'Bot', 'Support',
-  'GG', 'Go!', 'Pick', 'Ban', 'Blue', 'Red', 'Ready', 'Fight', 'Rank', 'Clash',
-];
+
   return (
     <>
       {/* 눈 입자 효과 */}

@@ -30,23 +30,26 @@ export default function AdminView({
       width : "100%"
   };
 
+  const DEFAULT_LINES = ["TOP", "JUG", "MID", "BOT", "SUP"];
+
+
   useEffect(() => {
     console.log("selectedTeamId:", selectedTeamId);
     console.log("checkSetUpTeam:", checkSetUpTeam);
   }, [])
 
   return (
-    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "24px" }}>
-      <h1 style={{ fontSize: "1.8rem", marginBottom: "20px", color: "#4f46e5", textAlign: "center" }}>관리자 대시보드</h1>
+    <div style={{ maxWidth: "900px", margin: "0 auto", padding: "14px" }}>
+      <h1 style={{ marginTop : "-40px" , fontSize: "1.8rem", marginBottom: "0px", color: "#4f46e5", textAlign: "center" }}>관리자 대시보드</h1>
 
       {/* 팀 생성 */}
-      <section style={{cursor : "pointer"}} className={openTeamMake ? "admin-section-on" : "admin-section"} onClick={() => !openTeamMake && setOpenTeamMake(true)}>
+      <section style={{cursor : "pointer" , marginTop : "20px" }} className={openTeamMake ? "admin-section-on" : "admin-section"} onClick={() => !openTeamMake && setOpenTeamMake(true)}>
         {!openTeamMake && <h2>팀 생성</h2>}
         {openTeamMake && <CreateTeam setOpenTeamMake={setOpenTeamMake} tournamentsID={tournamentsID} />}
       </section>
 
       {/* 팀 리스트 */}
-      <section className="admin-section">
+      <section style={{maxHeight : "500px" ,overFlow : "hidden"}} className="admin-section">
         <div className="section-header">
           <h2>팀 목록</h2>
           <button className="refresh-button" onClick={CheckTeamList}>새로고침</button>
@@ -70,39 +73,76 @@ export default function AdminView({
       </section>
 
       {/* 선수 관리 모달 */}
-      {selectedTeamId && checkSetUpTeam && (
-        <div className="modal-overlay">
-          <div className="modal-box">
-            <h2>팀 멤버 등록</h2>
-            {memberInputs.map((input, idx) => (
-              <div key={idx} style={{ marginBottom: "12px" }}>
-                <input placeholder="소환사이름#태그" value={input.name} onChange={e => {
-                  const newInputs = [...memberInputs];
-                  newInputs[idx].name = e.target.value;
-                  setMemberInputs(newInputs);
-                }} style={inputStyle} />
+{selectedTeamId && checkSetUpTeam && (
+  <div className="modal-overlay" >
+    <div className="modal-box">
+      <h2>팀 멤버 등록</h2>
+      {memberInputs.map((input, idx) => (
+        <div key={idx} style={{ marginBottom: "12px" }}>
+          <input placeholder="소환사이름#태그" value={input.name} onChange={e => {
+            const newInputs = [...memberInputs];
+            newInputs[idx].name = e.target.value;
+            setMemberInputs(newInputs);
+          }} style={inputStyle} />
 
-                <select value={input.role} onChange={e => {
-                  const newInputs = [...memberInputs];
-                  newInputs[idx].role = e.target.value;
-                  setMemberInputs(newInputs);
-                }} style={inputStyle2}>
-                  <option value="MEMBER">MEMBER</option>
-                  <option value="LEADER">LEADER</option>
-                </select>
-              </div>
-            ))}
-            <div className="modal-buttons">
-              <button onClick={handleRegisterMembers}>등록</button>
-              <button onClick={() => {
-                setCheckSetUpTeam(false);
-                setSelectedTeamId(null);
-                setMemberInputs(Array(5).fill({ name: '', puuid: '', role: 'MEMBER' }));
-              }}>취소</button>
-            </div>
-          </div>
+          <select value={input.role} onChange={e => {
+            const newInputs = [...memberInputs];
+            newInputs[idx].role = e.target.value;
+            setMemberInputs(newInputs);
+          }} style={inputStyle2}>
+            <option value="MEMBER">MEMBER</option>
+            <option value="LEADER">LEADER</option>
+          </select>
+
+          <select value={input.line} onChange={e => {
+            const newInputs = [...memberInputs];
+            newInputs[idx].line = e.target.value;
+            setMemberInputs(newInputs);
+          }} style={inputStyle2}>
+            <option value="TOP">TOP</option>
+            <option value="JUG">JUNGLE</option>
+            <option value="MID">MID</option>
+            <option value="BOT">BOTTOM</option>
+            <option value="SUP">SUPPORT</option>
+          </select>
         </div>
+      ))}
+
+      {memberInputs.length < 8 && (
+        <button
+          style={{ marginBottom: "px" }}
+          onClick={() => {
+            const defaultLine = DEFAULT_LINES[memberInputs.length] || "TOP";
+            setMemberInputs([
+              ...memberInputs,
+              { name: '', puuid: '', role: 'MEMBER', line: defaultLine }
+            ]);
+          }}
+        >
+          + 멤버 추가
+          
+        </button>
       )}
+
+      <div className="modal-buttons">
+        <button onClick={handleRegisterMembers}>등록</button>
+        <button onClick={() => {
+          setCheckSetUpTeam(false);
+          setSelectedTeamId(null);
+          setMemberInputs(Array(5).fill(null).map((_, idx) => ({
+            name: '',
+            puuid: '',
+            role: 'MEMBER',
+            line: DEFAULT_LINES[idx]
+          })));
+        }}>
+          취소
+        </button>
+      </div>
+    </div>
+  </div>
+)}
+
 
       {/* 토너먼트 삭제 */}
       <section className="admin-section">

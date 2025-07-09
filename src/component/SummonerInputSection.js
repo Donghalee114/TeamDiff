@@ -103,10 +103,9 @@ export default function SummonerInputSection({
           marginBottom: "8px",
           alignItems: "center"
         }}>
-          <div style={{ display: "flex", alignItems: "center", width: "100%" }}>
-            <span style={{ width: "26px", textAlign: "right", marginRight: "6px", fontWeight: "bold" }}>{idx + 1}.</span>
+          <div className = "d" style={{ display: "flex", alignItems: "center", width: "100%" }}>
+           
             <input
-              
               type="text"
               ref={el => { if (el) inputRefs.current[idx] = el; }}
               placeholder="닉네임#태그 (예: Kimman#KR1)"
@@ -152,7 +151,6 @@ export default function SummonerInputSection({
               onClick={() => onDelete(idx)}
               tabIndex={-1}
               style={{
-
                 border: "none",
                 borderRadius: "6px",
                 padding: "4px 8px",
