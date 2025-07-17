@@ -1,3 +1,4 @@
+import { useEffect } from "react";
 import Footer from "../component/footer";
 import Headers from "../component/Header";
 import '../utils/mainpage.css'
@@ -5,11 +6,17 @@ import '../utils/mainpage.css'
 function MainPage() {
 const snowflakes = Array.from({ length: 20 });
 
+const BASE_URL = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
+
+useEffect(() => {
+  fetch(`${BASE_URL}/ping`)
+    .then(res => res.json())
+    .then(data => console.log(data.message))
+    .catch(err => console.error('Ping failed:', err));
+}, []);
+
   return (
     <>
-      {/* 눈 입자 효과 */}
-
-
       <Headers text="LoL 토너먼트 팀 관리 시스템" />
       <div
         style={{

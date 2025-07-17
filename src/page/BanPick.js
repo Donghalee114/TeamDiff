@@ -120,14 +120,14 @@ export default function BanPick() {
 
   /* (2) 챔피언 목록 */
   useEffect(() => {
-    fetch('https://ddragon.leagueoflegends.com/cdn/14.12.1/data/ko_KR/champion.json')
+    fetch('https://ddragon.leagueoflegends.com/cdn/15.13.1/data/ko_KR/champion.json')
       .then(r => r.json())
       .then(d =>
         setChampions(
           Object.values(d.data).map(c => ({
             id    : c.id,
             name  : c.name,
-            icon  : `https://ddragon.leagueoflegends.com/cdn/14.12.1/img/champion/${c.image.full}`,
+            icon  : `https://ddragon.leagueoflegends.com/cdn/15.13.1/img/champion/${c.image.full}`,
             splash: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${c.id}_0.jpg`,
           }))
         )

@@ -56,6 +56,7 @@ export default function ScoreDisplay({ result, setResult }) {
     });
     return Object.keys(count).filter(role => count[role] > 1);
   };
+  
 
   const duplicatedRoles = getDuplicatedMainRoles();
 

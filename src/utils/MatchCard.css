@@ -1,0 +1,203 @@
+/* MatchCard.css */
+
+.match-card {
+  margin-bottom: 16px; /* 기본 마진 */
+  padding: 16px;
+  border-radius: 8px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+  color: #f1f5f9;
+  cursor: pointer;
+  transition: background-color 0.3s ease, opacity 0.3s ease,
+    margin-bottom 0.3s ease; /* margin-bottom도 트랜지션에 추가 */
+  user-select: none;
+  border-left: 4px solid; /* 색상은 동적으로 설정 */
+  width: 850px;
+  display: flex;
+  flex-direction: column; /* 요약과 아이템을 세로로 쌓기 위해 변경 */
+  height: 100px; /* 기본 높이 */
+  opacity: 0.85; /* 기본 투명도 */
+  position: relative; /* 필요시 아이템 절대 위치 지정을 위해 */
+}
+
+.match-card.expanded {
+  margin-bottom: 0;
+  opacity: 1;
+  height: auto; /* 확장될 때 높이가 내용에 맞춰 자동 조절 */
+}
+
+.match-summary {
+  display: flex;
+  align-items: center; /* 항목들을 세로 중앙 정렬 */
+  gap: 20px; /* 섹션 간 간격 */
+  height: 100px; /* 요약 부분이 전체 높이를 차지하도록 */
+}
+
+.match-info {
+  font-size: 14px;
+  color: #ddd;
+  display: flex;
+  flex-direction: column;
+  width: 125px;
+  justify-content: center; /* 내용을 세로 중앙 정렬 */
+  height: 100%; /* 부모의 전체 높이를 차지 */
+}
+
+.match-result {
+  margin: 0;
+  color: #fbbf24;
+  font-size: 16px; /* 강조를 위해 약간 크게 */
+}
+
+.champion-details {
+  display: flex;
+  align-items: center;
+  gap: 8px; /* 챔피언 이미지와 스펠/룬 블록 간 간격 */
+}
+
+.champion-image {
+  width: 64px;
+  height: 64px;
+  border-radius: 8px;
+}
+
+.spell-runes {
+  display: flex;
+  gap: 4px; /* 스펠과 룬 블록 간 간격 */
+}
+
+.spells,
+.runes {
+  display: flex;
+  flex-direction: column;
+  gap: 2px;
+}
+
+.spells img {
+  width: 28px;
+  height: 28px;
+  border-radius: 5px;
+}
+
+.runes img {
+  width: 23px;
+  height: 23px;
+  background: black;
+  padding: 3px;
+  border-radius: 50%;
+}
+
+.player-stats {
+  margin-top: 12px;
+  display: flex;
+  flex-direction: column; /* CS와 킬관여 스택 */
+  gap: 4px; /* CS와 킬관여 줄 간 간격 */
+  font-size: 14px;
+  color: #eee;
+  margin-left: 10px; /* 필요에 따라 조정 */
+  justify-content: center; /* 내용을 세로 중앙 정렬 */
+}
+
+.player-lists {
+  display: flex;
+  gap: 30px; /* 팀 목록 간 간격 */
+  margin-left: 50px; /* 다른 내용과 정렬되도록 조정 */
+  align-items: center; /* 플레이어 이름 세로 정렬 */
+  margin-top: -20px; /* 오버랩 방지를 위해 조정 */
+}
+
+.team-players,
+.enemy-players {
+  display: flex;
+  flex-direction: column;
+  max-width: 180px; /* 일관된 너비 보장 */
+  width: 180px;
+}
+
+.player-item {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  white-space: nowrap; /* 줄바꿈 방지 */
+  overflow: hidden; /* 넘치는 내용 숨기기 */
+  text-overflow: ellipsis; /* 넘치는 내용에 ... 표시 */
+}
+
+.player-item img {
+  width: 18px;
+  height: 18px; /* 일관성을 위해 높이 추가 */
+  flex-shrink: 0; /* 이미지가 줄어들지 않도록 */
+}
+
+.player-item span {
+  max-width: calc(100% - 22px); /* 이미지 크기를 고려하여 최대 너비 조정 */
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  display: inline-block; /* text-overflow가 작동하려면 필요 */
+}
+
+.item-list {
+  margin-top: 8px;
+  display: flex;
+  gap: 6px;
+  /* 메인 요약 아래 또는 옆에 위치하도록 (공간이 허락하는 경우) */
+  align-self: flex-start; /* 플렉스 컨테이너 시작점에 정렬 */
+  padding-top: 5px; /* 요약과의 약간의 간격 */
+}
+
+.item-list img {
+  width: 27px;
+  height: 27px;
+  border-radius: 4px;
+}
+
+.empty-item-slot {
+  width: 27px;
+  height: 27px;
+  border-radius: 4px;
+  background: rgba(66, 67, 65, 0.75);
+}
+
+/* 확장된 상세 정보 */
+.match-details-expanded {
+  margin-bottom: 16px;
+  padding: 12px;
+  background-color: rgba(0, 0, 0, 0.2);
+  border-radius: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  width: 860px; /* 카드보다 약간 넓게 설정하여 테두리와 정렬 */
+}
+
+.expanded-team-champions {
+  display: flex;
+  flex-wrap: wrap; /* 플레이어가 많을 경우 줄바꿈 허용 */
+  gap: 10px; /* 챔피언 이미지 간 간격 */
+  margin-bottom: 8px;
+  align-items: center;
+}
+
+.expanded-champion-item {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+  font-weight: bold;
+}
+
+.expanded-champion-item img {
+  width: 30px;
+  height: 30px; /* 높이 일관성 보장 */
+  border-radius: 50%; /* 원형으로 만들기 */
+}
+
+.detail-row {
+  display: flex;
+  justify-content: space-between;
+  padding: 4px 0;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1); /* 미묘한 구분선 */
+}
+
+.detail-row:last-child {
+  border-bottom: none; /* 마지막 항목은 구분선 없음 */
+}

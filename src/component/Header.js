@@ -14,7 +14,8 @@ export default function Headers({ text }) {
         <span className='navbutton' onClick={() => navigate("/Tournament")} >내전 관리</span>
         <span className='navbutton' onClick={() => navigate("/teamMatch")} >팀 자동 구성</span>
         <span className='navbutton' onClick={() => navigate("/MockDraft")}>모의 밴픽</span>
-</nav>
+        <span className='navbutton' onClick={() => navigate("/SearchPlayerInfo")}> 소환사 정보 및 전적 검색 </span>
+        </nav>
     </header>
   );
 }

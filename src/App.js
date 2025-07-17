@@ -10,6 +10,8 @@ import TournamentPage from './page/TournamentPage';
 import MockDraftSetup from './page/MockDraftSetUp'
 import MockDraftRoom from './page/MockDraftRoom'
 import BanPick from './page/BanPick'
+import SearchPlayerInfo from './page/SearchPlayerInfo';
+
 
 
 function App() {
@@ -27,6 +29,8 @@ function App() {
         <Route path="/MockDraft" element={<MockDraftSetup />} />
         <Route path="/MockDrafts/:roomId" element={<MockDraftRoom/>}/>
         <Route path="/BanPick/:roomId" element={<BanPick/> } />
+        <Route path="/SearchPlayerInfo" element={<SearchPlayerInfo />} />
+
         {/* 여기에 기존 홈, 기타 라우트도 같이 넣으면 돼 */}
       </Routes>
     </Router>
