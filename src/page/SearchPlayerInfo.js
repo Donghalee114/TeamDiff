@@ -151,6 +151,8 @@ const handleSearch = async () => {
  } catch (error) {
   console.error("검색 오류:", error);
   alert("소환사 정보를 불러오는 데 실패했습니다.");
+  setInputValue(''); // 입력 필드 초기화
+  return;
  }
 
  setIsSearch(true); // 검색 완료 상태로 변경
