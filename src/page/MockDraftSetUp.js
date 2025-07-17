@@ -9,7 +9,7 @@ import { useNavigate } from 'react-router-dom';
 const MockDraftSetup = () => {
   const [blueTeam, setBlueTeam] = useState('');
   const [redTeam, setRedTeam] = useState('');
-  const [bo, setBo] = useState(3);
+  const [bo, setBo] = useState(1);
   const [mode, setMode] = useState('standard'); // standard or fearless
   const [role, setRole] = useState('blue');
   const [anotherRole , setAnotherRole] = useState('')
@@ -66,7 +66,7 @@ const handleSubmit = async () => {
 
   return (
     <>
-      <Headers />
+      <Headers  text={""}/>
 
       <div className="setup-container">
         <h2>모의 밴픽 설정</h2>
@@ -116,7 +116,14 @@ const handleSubmit = async () => {
           </div>
         </div>
 
-        <button className="start-button" onClick={handleSubmit}>방 생성 및 입장</button>
+        <button className="start-button" disabled= {bo > 2} onClick={handleSubmit}>방 생성 및 입장</button>
+        {bo > 2 && 
+        <>
+        <p> 3판 2선제 , 5판 3선제 기능은 개발중에 있습니다.</p>
+        </> 
+        }
+           
+     
       </div>
     </>
   );

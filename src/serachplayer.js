@@ -28,7 +28,7 @@ const {
 
     <div className="main-layout" style={{  background: "linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%)" }}>
 
-      <Headers text="10명의 소환사 정보를 입력하고, 실력과 포지션을 고려해 자동으로 팀을 구성하세요!" />
+      <Headers />
       <main className="panel-div" >
         <div className= "scale">
         <div className="left-panel">

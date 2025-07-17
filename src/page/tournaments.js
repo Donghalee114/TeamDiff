@@ -204,7 +204,7 @@ const cardTitle = {
   return (
     <>
     {loading && <LoadingOverlay />}
-<Headers  text="내전 및 토너먼트를 만들고 관리하세요!"/>
+<Headers />
 <div style={{
   background: "linear-gradient(135deg,rgb(44, 44, 78) 0%,rgb(55, 58, 95) 100%)",
   minHeight: "100vh",
