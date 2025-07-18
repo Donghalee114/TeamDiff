@@ -19,10 +19,6 @@
 - **Backend**: Node.js (Express)
 - **API**: Riot Games Open API
 
-## 📦 설치 및 실행 방법
+## 사이트 주소
 
-```bash
-git clone https://github.com/your-username/TeamDiff.git
-cd TeamDiff
-npm install
-npm run start
+https://team-diff.vercel.app/

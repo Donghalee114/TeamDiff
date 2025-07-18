@@ -66,18 +66,20 @@ export default function SearchPlayerInfo() {
   const BASE_URL = process.env.REACT_APP_BASE_URL || "http://localhost:6900";
 
   const handleSearch = async () => {
-    setIsLoading(true); // 로딩 시작
+setIsLoading(true); // 로딩 시작
+    if (!inputValue || inputValue.trim() === "#") {
+      setErrorMessage("소환사 이름과 태그를 입력해주세요.");
+      setIsLoading(false);
+      return;
+    }
+
+    
     setErrorMessage(""); // 이전 에러 메시지 초기화
     setSummonerInfo(null); // 이전 소환사 정보 초기화
     setSoloRankInfo(null); // 이전 랭크 정보 초기화
     setMatchHistory([]); // 이전 매치 기록 초기화
     setShowDetails(false); // 상세 정보 숨김
 
-    if (!inputValue || inputValue.trim() === "#") {
-      setErrorMessage("소환사 이름과 태그를 입력해주세요.");
-      setIsLoading(false);
-      return;
-    }
 
     const [rawName, rawTag] = inputValue.split("#");
     const name = rawName.trim();
@@ -289,6 +291,8 @@ export default function SearchPlayerInfo() {
     mainContent = (
       <div style={{ color: "white", textAlign: "center", marginTop: "100px" }}>
         <h1 style={{ marginBottom: "10px" }}>오류 발생!</h1>
+        <p>소환사 정보가 없거나 불러오는 데 실패했습니다.</p>
+        <p>정보를 불러오시려면 다시한번 검색해주세요 </p>
         <p>{errorMessage}</p>
       </div>
     );
