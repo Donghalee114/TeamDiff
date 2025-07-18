@@ -168,5 +168,6 @@
   "Ziggs": ["BOTTOM", "MID"],
   "Zilean": ["SUPPORT"],
   "Zoe": ["MID"],
-  "Zyra": ["SUPPORT", "JUNGLE"]
+  "Zyra": ["SUPPORT", "JUNGLE"],
+  "Yunara" : ["BOTTOM"]
 }

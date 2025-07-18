@@ -11,10 +11,18 @@ import MidIcon from '../utils/Position_Plat-Mid.png';
 import BotIcon from '../utils/Position_Plat-Bot.png';
 import SupIcon from '../utils/Position_Plat-Support.png';
 
+export function getUserId() {
+  let userId = localStorage.getItem('userId');
+  if (!userId) {
+    userId = crypto.randomUUID();
+    localStorage.setItem('userId', userId);
+  }
+  return userId;
+}
+
 const SOCKET_URL    = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
 const PER_TURN_TIME = 30; // 초
 
-/* ───────────────────────────── 1. 드래프트 순서 헬퍼 ─────────────────────────── */
 function getBanPickOrder() {
   return [
     { type:'ban',  team:'blue' }, { type:'ban',  team:'red'  },
@@ -33,45 +41,69 @@ function getBanPickOrder() {
   ];
 }
 
-/* ───────────────────────────────── 컴포넌트 ─────────────────────────────────── */
 export default function BanPick() {
-  /* ---------- 0. 라우팅 & 공통 훅 ---------- */
+
+ const [lolVersion, setLolVersion] = useState('15.14.1'); // 초기 버전 설정
+
+async function getLatestDDragonVersion() {
+  try {
+    const response = await fetch('https://ddragon.leagueoflegends.com/api/versions.json');
+    if (!response.ok) {
+      throw new Error(`HTTP error! status: ${response.status}`);
+    }
+    const versions = await response.json();
+    if (versions && versions.length > 0) {
+      return versions[0];
+    } else {
+      throw new Error("DDragon 버전을 가져오지 못했습니다.");
+    }
+  } catch (error) {
+    console.error("DDragon 버전 API 호출 오류:", error);
+    return null;
+  }
+}
+
+useEffect(() => {
+  getLatestDDragonVersion().then(version => {
+    if (version) {
+      setLolVersion(version);
+    }
+  });
+}, []);
+
+  /* ───────────────────────────── 0. 공통 훅 ──────────────────────────────── */
   const { roomId }  = useParams();
   const { state }   = useLocation();
   const navigate    = useNavigate();
   const socketRef   = useRef(null);
+  // 새로운 ref 추가: 컴포넌트가 실제로 언마운트되는지 여부를 판단
+  const isUnmounting = useRef(false);
 
-  /* ---------- 1. 쿼리/초기 상태 ---------- */
   const query       = new URLSearchParams(window.location.search);
-  const myHostKey   = state?.hostKey || query.get('hostKey') || null; // 나의 hostKey (uuid)
+  const myHostKey   = state?.hostKey || query.get('hostKey') || null;
 
   const [roomData, setRoomData] = useState(state || null);
   const [myRole,   setMyRole]   = useState(state?.role || null);
 
-  /* ---------- 2. 드래프트 진행 상태 ---------- */
   const [turnOrder, setTurnOrder] = useState([]);
   const [turnIdx,   setTurnIdx]   = useState(0);
   const [finished,  setFinished]  = useState(false);
 
-  /* ---------- 3. 챔피언 / 선택 상태 ---------- */
   const [champions, setChampions] = useState([]);
   const [picked,    setPicked]    = useState([]);
   const [pending,   setPending]   = useState(null);
 
-  /* ---------- 4. 검색/타이머/필터 ---------- */
   const [search,  setSearch]  = useState('');
   const [timer,   setTimer]   = useState(PER_TURN_TIME);
   const [endTime, setEndTime] = useState(Date.now() + PER_TURN_TIME * 1000);
   const [selectedRole, setSelectedRole] = useState('ALL');
 
-  /* ---------- 5. 시리즈 / 모달 ---------- */
   const [series,      setSeries]      = useState({ blueWins:0, redWins:0, currentGame:1, seriesOver:false });
   const [sidePrompt,  setSidePrompt]  = useState(null);
   const [opponentLeft,setOpponentLeft]= useState(false);
 
-  /* ---------- 6. 기타 ---------- */
   const [myId, setMyId] = useState('');
-  const isHost = roomData?.hostKey && roomData.hostKey === myHostKey; // 호스트 판별
+  const isHost = roomData?.hostKey && roomData.hostKey === myHostKey;
 
   /* ───────────────────────────── 2. 새로고침/닫기 가드 ───────────────────────── */
   /* 브라우저 새로고침(F5)·닫기 시 확인 경고 */
@@ -84,19 +116,34 @@ export default function BanPick() {
     return () => window.removeEventListener('beforeunload', handleBeforeUnload);
   }, []);
 
-  /* 새로고침·닫기 직전 상대방에게 알림(emit) 
-  useEffect(() => {
-    const notifyLeave = () => {
-      if (socketRef.current) socketRef.current.emit('user-leave', { roomId, role: myRole });
-    };
-    window.addEventListener('pagehide',   notifyLeave); // iOS/Safari 대응
-    window.addEventListener('beforeunload', notifyLeave);
-    return () => {
-      window.removeEventListener('pagehide', notifyLeave);
-      window.removeEventListener('beforeunload', notifyLeave);
-    };
-  }, [roomId, myRole]);
-  */
+    // 뒤로가기 버튼 "막기"
+    useEffect(() => {
+        // 컴포넌트 마운트 시 현재 URL을 history state에 다시 push하여
+        // 브라우저의 뒤로가기 버튼을 눌러도 다시 현재 페이지로 돌아오게 함
+        window.history.pushState(null, document.title, window.location.href);
+
+        const handlePopState = (event) => {
+            if (!finished) { // 밴픽이 아직 끝나지 않았다면
+                window.history.pushState(null, document.title, window.location.href);
+                console.log("뒤로가기 시도 감지! 밴픽 페이지 유지.");
+            }
+            // 밴픽이 끝났다면, 이 로직은 작동하지 않아 사용자가 자유롭게 뒤로갈 수 있도록 허용합니다.
+        };
+
+        window.addEventListener('popstate', handlePopState);
+
+        return () => {
+            window.removeEventListener('popstate', handlePopState);
+        };
+    }, [finished]);
+
+    // 컴포넌트 언마운트 시 isUnmounting.current 값을 true로 설정
+    // 이 useEffect는 가장 마지막에 위치하는 것이 좋습니다.
+    useEffect(() => {
+        return () => {
+            isUnmounting.current = true;
+        };
+    }, []);
 
   /* ───────────────────────────── 3. 데이터 초기 로딩 ────────────────────────── */
   /* (1) 방 정보 */
@@ -107,7 +154,7 @@ export default function BanPick() {
       const data = await res.json();
       const role = new URLSearchParams(window.location.search).get('role');
       setRoomData({ ...data, role, roomId });
-      setTurnOrder(getBanPickOrder()); // ← 이 시점에서 바로 넣는 게 좋음
+      setTurnOrder(getBanPickOrder());
       setMyRole(role);
     })();
   }, [roomData, roomId]);
@@ -120,36 +167,39 @@ export default function BanPick() {
 
   /* (2) 챔피언 목록 */
   useEffect(() => {
-    fetch('https://ddragon.leagueoflegends.com/cdn/15.13.1/data/ko_KR/champion.json')
+    fetch(`https://ddragon.leagueoflegends.com/cdn/${lolVersion}/data/ko_KR/champion.json`)
       .then(r => r.json())
       .then(d =>
         setChampions(
           Object.values(d.data).map(c => ({
             id    : c.id,
             name  : c.name,
-            icon  : `https://ddragon.leagueoflegends.com/cdn/15.13.1/img/champion/${c.image.full}`,
+            icon  : `https://ddragon.leagueoflegends.com/cdn/${lolVersion}/img/champion/${c.image.full}`,
             splash: `https://ddragon.leagueoflegends.com/cdn/img/champion/splash/${c.id}_0.jpg`,
           }))
         )
       );
-  }, []);
+  }, [lolVersion]);
 
   /* ───────────────────────────── 4. 소켓 세팅 ──────────────────────────────── */
-  useEffect(() => {
-    if (!roomData) return;
-    const s = io(SOCKET_URL, { transports:['websocket'] });
-    socketRef.current = s;
+useEffect(() => {
+  if (!roomData) return;
+  const s = io(SOCKET_URL, { transports: ['websocket'] });
+  socketRef.current = s;
 
-    /* ① 방 입장 */
-    s.emit('join-room', {
-      roomId,
-      role    : myRole,
-      blueTeam: roomData.blueTeam,
-      redTeam : roomData.redTeam,
-      bo      : roomData.bo,
-      mode    : roomData.mode,
-      hostKey : myHostKey
-    });
+  const userId = getUserId();
+
+  s.emit('join-room', {
+    roomId,
+    role: myRole,
+    blueTeam: roomData.blueTeam,
+    redTeam: roomData.redTeam,
+    bo: roomData.bo,
+    mode: roomData.mode,
+    hostKey: myHostKey,
+    userId, // 여기 추가
+  });
+
     /* ② 준비 완료 */
     s.emit('ready');
 
@@ -182,14 +232,21 @@ export default function BanPick() {
     /* ④ 상대방 퇴장 */
     s.on('user-left', ({ role }) => {
       console.log(`[알림] ${role} 유저 방 ${roomId}에서 나감`);
-      setOpponentLeft(true);            // 모달 ON
+      setOpponentLeft(true);
     });
 
     return () => {
-      s.emit('user-leave', { roomId, role: myRole }); 
+    if (isUnmounting.current) {
+      s.emit('user-leave', { roomId, role: myRole, userId });
       s.disconnect();
-    };
-  }, [roomData, myRole, roomId, navigate, myHostKey]);
+    } else {
+      // 리렌더링 시 연결 유지
+    }
+  };
+}, [roomData, myRole, roomId, navigate, myHostKey]);
+
+
+  
   /* ───────────────────────────── 5. 타이머 & 자동선택 ──────────────────────── */
   useEffect(() => {
     if (finished) return;
@@ -265,13 +322,10 @@ export default function BanPick() {
     </div>
   );
 
-
   /* ───────────────────────────── 8. 렌더 ───────────────────────────────────── */
 
   return (
     <>
-
-
       {/* 상대방 퇴장 모달 (확인 눌러야만 닫힘) */}
       {opponentLeft && (
         <div className="modal-backdrop">
