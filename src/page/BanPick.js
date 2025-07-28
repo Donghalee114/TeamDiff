@@ -20,6 +20,7 @@ export function getUserId() {
   return userId;
 }
 
+
 const SOCKET_URL    = process.env.REACT_APP_BASE_URL || 'http://localhost:6900';
 const PER_TURN_TIME = 30; // 초
 
@@ -321,6 +322,7 @@ useEffect(() => {
       })}
     </div>
   );
+
 
   /* ───────────────────────────── 8. 렌더 ───────────────────────────────────── */
 

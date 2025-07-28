@@ -26,7 +26,7 @@ const {
 
   return (
 
-    <div className="main-layout" style={{  background: "linear-gradient(135deg, #e0e7ff 0%, #f9fafb 100%)" }}>
+    <div className="main-layout" >
 
       <Headers />
       <main className="panel-div" >

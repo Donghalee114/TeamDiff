@@ -18,6 +18,16 @@ export default function MatchCard({ match }) {
     (match.kda.deaths === 0 ? 1 : match.kda.deaths)
   ).toFixed(2);
 
+  // arenaPlayers 정렬 후 2명씩 묶기
+let groupedArenaPlayers = [];
+
+if (isArena && Array.isArray(match.arenaPlayers)) {
+  const sortedArena = [...match.arenaPlayers].sort((a, b) => a.place - b.place);
+  for (let i = 0; i < sortedArena.length; i += 2) {
+    groupedArenaPlayers.push(sortedArena.slice(i, i + 2));
+  }
+}
+
   const isBlueTeam = match.teamId === 100;
 
   return (
@@ -50,13 +60,14 @@ export default function MatchCard({ match }) {
               color: "#ddd",
               display: "flex",
               flexDirection: "column",
-              marginRight: 0,
+              marginRight: 14,
               width: 125,
               height: "100px",
             }}
           >
             <h3 style={{ margin: 0, color: "#fbbf24" }}>{match.winText}</h3>
             {match.gameMode} | {match.duration}
+            {match.timestamp}
           </div>
           <span>
             {/* 챔피언 + 스펠 + 룬 */}
@@ -125,6 +136,7 @@ export default function MatchCard({ match }) {
                     gap: 12,
                     fontSize: 14,
                     color: "#eee",
+
                   }}
                 >
                   <div
@@ -132,9 +144,16 @@ export default function MatchCard({ match }) {
                       display: "flex",
                       gap: 1,
                       flexDirection: "column",
-                      marginLeft: 10,
+                      marginLeft: "10px",
+                      marginBottom: "-10px",
+                      width : "150px",
+                      marginTop: "-20px",
+          
                     }}
                   >
+                    <span style={{display : "flex"}}>
+                      <strong style={{marginRight : "3px"}}>KDA: </strong> {`${match.kda.kills} / ${match.kda.deaths} / ${match.kda.assists}`}
+                    </span>
                     <span>
                       <strong>CS:</strong> {match.cs} ({match.csPerMin})
                     </span>
@@ -255,7 +274,7 @@ export default function MatchCard({ match }) {
                                     display: "inline-block",
                                   }}
                                 >
-                                  {p.summonerName}#{p.tagLine}
+                                  {p.summonerName}
                                 </span>
                               </span>
                             ))}
@@ -264,38 +283,41 @@ export default function MatchCard({ match }) {
                       )}
                     </div>
                   ) : (
-                    <div
-                      className="arena"
-                      style={{
-                        marginTop: "-20px",
-                        display: "flex",
-                        flexWrap: "wrap",
-                        gap: 12,
-                      }}
-                    >
-                      {match.arenaPlayers
-                        .sort((a, b) => a.place - b.place)
-                        .map((p, i) => (
-                          <div
-                            key={i}
-                            style={{ display: "flex", alignItems: "center", gap: 4 }}
-                          >
+                  <div
+                    className="arena"
+                    style={{
+                      marginTop: "-20px",
+                      display: "flex",
+                      flexDirection: "column",
+                      gap: 8,
+                      width: "100%",
+                      marginLeft: "50px",
+                    }}
+                  >
+                    {groupedArenaPlayers.map((team, idx) => (
+                      <div key={idx} style={{ display: "flex", alignItems: "center", gap: 12 }}>
+                        <strong style={{ minWidth: "40px" }}>{team[0].place}위</strong>
+                        {team.map((p, i) => (
+                          <div key={i} style={{ display: "flex", gap: 4, alignItems: "center" }}>
                             <img src={p.championImg} style={{ width: "18px" }} />
                             <span
                               title={`${p.summonerName}#${p.tagLine}`}
                               style={{
-                                maxWidth: "100px",
+                                maxWidth: "120px",
+                                minWidth: "120px",
                                 overflow: "hidden",
                                 whiteSpace: "nowrap",
                                 textOverflow: "ellipsis",
                                 display: "inline-block",
                               }}
                             >
-                              {p.place}위 {p.summonerName}
+                              {p.summonerName}
                             </span>
                           </div>
                         ))}
-                    </div>
+                      </div>
+                    ))}
+                  </div>
                   )}
                 </div>
               </div>

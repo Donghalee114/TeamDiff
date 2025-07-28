@@ -83,15 +83,13 @@ margin-top: 0px;
 /* 콘텐츠 영역 */
 .panel-div {
   width: 100%;
-  padding: 20px 16px 40px;
+
   display: flex;
   justify-content: center;
   gap: 40px;
   align-items: flex-start;
-  height: 100vh;
   flex-wrap: wrap;
-  background: linear-gradient(135deg, rgb(44, 44, 78) 0%, rgb(55, 58, 95) 100%);
-  overflow: scroll;
+
   margin-top: -20px;
 }
 
